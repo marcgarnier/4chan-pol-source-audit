@@ -1,6 +1,5 @@
 import json
 import random
-import html as html_mod
 
 random.seed(42)
 

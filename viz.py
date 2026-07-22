@@ -1,14 +1,10 @@
 import json
-import csv
-import sys
-from collections import Counter, defaultdict
 from pathlib import Path
 
 import numpy as np
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
-import matplotlib.ticker as mticker
 
 plt.rcParams.update({
     "figure.facecolor": "white",
@@ -46,16 +42,6 @@ CATEGORY_LABELS = {
 def load_stats(stats_path: str) -> dict:
     with open(stats_path) as f:
         return json.load(f)
-
-
-def load_csv_post_data(csv_path: str) -> list[dict]:
-    rows = []
-    with open(csv_path, newline="") as f:
-        reader = csv.DictReader(f)
-        for row in reader:
-            row["compound"] = float(row["compound"]) if row["compound"] else 0.0
-            rows.append(row)
-    return rows
 
 
 def fig1_top_domains_bar(stats: dict, top_n: int = 20, save_path: str = "fig1_top_domains.png"):
@@ -260,8 +246,7 @@ def fig3_table(comparison_path: str, save_path: str = "fig3_table.png"):
     print(f"Saved {save_path}")
 
 
-def generate_all(stats_path: str, csv_path: str | None = None,
-                 comparison_path: str | None = None, output_dir: str = "."):
+def generate_all(stats_path: str, comparison_path: str | None = None, output_dir: str = "."):
     stats = load_stats(stats_path)
     out = Path(output_dir)
     out.mkdir(parents=True, exist_ok=True)
@@ -280,8 +265,7 @@ if __name__ == "__main__":
     import argparse
     parser = argparse.ArgumentParser(description="Generate infographics from pipeline stats")
     parser.add_argument("stats", help="Path to stats JSON (from pipeline)")
-    parser.add_argument("--csv", help="Path to posts CSV (for per-post plots)")
     parser.add_argument("--compare", help="Path to comparison JSON")
     parser.add_argument("--outdir", default="figures", help="Output directory")
     args = parser.parse_args()
-    generate_all(args.stats, args.csv, args.compare, args.outdir)
+    generate_all(args.stats, args.compare, args.outdir)

@@ -3,6 +3,8 @@ import csv
 import sys
 from pathlib import Path
 
+from source_classifier import classify_source
+
 CATEGORY_LABELS = {
     "mainstream": "Mainstream Legacy Media",
     "alternative": "Alternative / Right-wing Media",
@@ -18,7 +20,7 @@ def stats_to_rows(stats: dict) -> list[list]:
                             key=lambda x: -x[1]["count"]):
         rows.append([
             domain,
-            "",  # category not stored per-domain in stats
+            CATEGORY_LABELS.get(classify_source(domain), "Other"),
             s["count"],
             round(s["mean_sentiment"], 4),
             round(s["std_sentiment"], 4),
@@ -45,11 +47,7 @@ def write_xlsx(rows: list[list], posts_rows: list[list], path: str):
         import openpyxl
         from openpyxl.styles import Font, PatternFill
     except ImportError:
-        print("openpyxl pas installé. Installation...")
-        import subprocess
-        subprocess.check_call([sys.executable, "-m", "pip", "install", "openpyxl"])
-        import openpyxl
-        from openpyxl.styles import Font, PatternFill
+        sys.exit("openpyxl n'est pas installé : pip install openpyxl")
 
     wb = openpyxl.Workbook()
 
@@ -58,10 +56,12 @@ def write_xlsx(rows: list[list], posts_rows: list[list], path: str):
     ws1.title = "Stats consolidées"
     header_font = Font(bold=True, color="FFFFFF")
     header_fill = PatternFill(start_color="333333", end_color="333333", fill_type="solid")
+    # Lignes d'en-tête : la première, et celle qui ouvre le bloc catégories
+    header_rows = {0} | {i for i, row in enumerate(rows) if row and row[0] == "Catégorie"}
     for r_idx, row in enumerate(rows):
         for c_idx, val in enumerate(row):
             cell = ws1.cell(row=r_idx + 1, column=c_idx + 1, value=val)
-            if r_idx == 0 or (len(row) > 1 and row[0] in CATEGORY_LABELS.values() and r_idx > len(stats_json.get("top_domains", {})) + 1):
+            if r_idx in header_rows:
                 cell.font = header_font
                 cell.fill = header_fill
     ws1.column_dimensions["A"].width = 35

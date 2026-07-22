@@ -8,7 +8,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
 
-from source_classifier import classify_source, extract_domains
+from source_classifier import classify_source, extract_domains, CATEGORY_LABELS
 
 CATEGORY_COLORS = {
     "mainstream": "#4C72B0",
@@ -17,15 +17,6 @@ CATEGORY_COLORS = {
     "state_funded": "#C44E52",
     "institutional": "#8172B2",
     "other": "#8C8C8C",
-}
-
-CATEGORY_LABELS = {
-    "mainstream": "Mainstream",
-    "alternative": "Alternative",
-    "social_media": "Social Media",
-    "state_funded": "State-funded",
-    "institutional": "Institutional",
-    "other": "Other",
 }
 
 

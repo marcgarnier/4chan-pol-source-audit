@@ -3,7 +3,6 @@ import csv
 import html
 import re
 import sys
-from pathlib import Path
 from collections import Counter, defaultdict
 
 from bs4 import BeautifulSoup
@@ -12,7 +11,7 @@ import torch
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 import numpy as np
 
-from source_classifier import normalize_domain, classify_source, extract_domains, CATEGORY_KEYS
+from source_classifier import classify_source, extract_domains, CATEGORY_KEYS
 
 
 def extract_domains_from_post(post: dict) -> list[dict]:

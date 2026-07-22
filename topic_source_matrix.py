@@ -1,10 +1,8 @@
 import json
-import re
 import sys
 from collections import defaultdict
 from pathlib import Path
 
-from bs4 import BeautifulSoup
 from tqdm import tqdm
 
 from source_classifier import classify_source, extract_domains, CATEGORY_KEYS, CATEGORY_LABELS
