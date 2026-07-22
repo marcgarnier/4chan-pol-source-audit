@@ -1,0 +1,12 @@
+.DS_Store
+4TCT/data/
+4TCT/log/
+__pycache__/
+*.pyc
+.env
+figures/
+figures_test/
+test_*.json
+test_*.csv
+synthetic_*.jsonl
+canada_results_*
