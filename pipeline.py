@@ -95,17 +95,22 @@ def classify_source(domain: str) -> str:
     return "other"
 
 
+URL_REGEX = re.compile(
+    r"https?://(?:[a-zA-Z0-9.-]+)(?:/[^\s<>\"']*)?"
+)
+
 def extract_domains_from_post(post: dict) -> list[dict]:
     html_content = post.get("com", "")
     if not html_content:
         return []
+    html_content = re.sub(r"<wbr>", "", html_content)
     entries = []
-    soup = BeautifulSoup(html_content, "html.parser")
-    for link in soup.find_all("a"):
-        href = link.get("href")
-        if not href:
-            continue
-        parsed = urlparse(href)
+
+    seen_domains = set()
+
+    for match in URL_REGEX.finditer(html_content):
+        url = match.group(0)
+        parsed = urlparse(url)
         domain = parsed.netloc.lower()
         if domain.startswith("www."):
             domain = domain[4:]
@@ -113,12 +118,15 @@ def extract_domains_from_post(post: dict) -> list[dict]:
             continue
         if "4chan.org" in domain or "boards.4chan" in domain:
             continue
+        if domain in seen_domains:
+            continue
+        seen_domains.add(domain)
         normalized = normalize_domain(domain)
         entries.append({
             "raw_domain": domain,
             "domain": normalized,
             "category": classify_source(normalized),
-            "url": href,
+            "url": url,
         })
     return entries
 

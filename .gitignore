@@ -6,7 +6,11 @@ __pycache__/
 .env
 figures/
 figures_test/
+figures_real/
 test_*.json
 test_*.csv
 synthetic_*.jsonl
 canada_results_*
+data/
+results/
+scraper.log
