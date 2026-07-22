@@ -8,6 +8,8 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
 
+from source_classifier import classify_source, extract_domains
+
 CATEGORY_COLORS = {
     "mainstream": "#4C72B0",
     "alternative": "#DD8452",
@@ -40,7 +42,7 @@ def run_all(data_dir: str = "data", results_dir: str = "results/longitudinal"):
     dates = []
     domain_counts = []
     category_counts = []
-    sentiment_means = []
+    post_counts = []
 
     for f in jsonl_files:
         date_str = f.stem.replace("pol_", "")
@@ -48,67 +50,25 @@ def run_all(data_dir: str = "data", results_dir: str = "results/longitudinal"):
 
         dom_counter = defaultdict(int)
         cat_counter = defaultdict(int)
-        cat_sentiments = defaultdict(list)
+        n_posts = 0
 
         with open(f) as fh:
             for line in fh:
                 post = json.loads(line)
-                com = post.get("com", "")
-                if not com:
-                    continue
-                import re
-                from urllib.parse import urlparse
-                for match in re.finditer(r"https?://(?:[a-zA-Z0-9.-]+)(?:/[^\s<>\"']*)?", com):
-                    url = match.group(0)
-                    domain = urlparse(url).netloc.lower().replace("www.", "")
-                    if domain and "4chan" not in domain:
-                        dom_counter[domain] += 1
-                        # rough classification
-                        cat = classify_domain(domain)
-                        cat_counter[cat] += 1
+                n_posts += 1
+                for domain in extract_domains(post.get("com", "")):
+                    dom_counter[domain] += 1
+                    cat_counter[classify_source(domain)] += 1
 
         total = sum(cat_counter.values()) or 1
         category_counts.append({k: v / total for k, v in cat_counter.items()})
         domain_counts.append(dom_counter)
+        post_counts.append(n_posts)
 
     _plot_category_timeline(dates, category_counts, res_path)
-    _export_table(dates, category_counts, res_path)
+    _export_table(dates, category_counts, post_counts, res_path)
     _save_aggregated_stats(dates, category_counts, domain_counts, res_path)
     print(f"Longitudinal analysis saved to {res_path}")
-
-
-def classify_domain(domain: str) -> str:
-    mainstream = {
-        "cnn.com", "nytimes.com", "bbc.com", "bbc.co.uk", "theguardian.com",
-        "reuters.com", "apnews.com", "npr.org", "washingtonpost.com",
-        "cbc.ca", "bloomberg.com", "wsj.com", "economist.com",
-    }
-    alternative = {
-        "breitbart.com", "foxnews.com", "epochtimes.com", "rebelnews.com",
-        "zerohedge.com", "dailywire.com", "newsmax.com", "truthsocial.com",
-        "bitchute.com", "rumble.com", "odysee.com",
-    }
-    state_funded = {
-        "rt.com", "tass.com", "xinhuanet.com", "cgtn.com",
-    }
-    social = {
-        "twitter.com", "x.com", "youtube.com", "youtu.be", "reddit.com",
-        "t.me", "tiktok.com", "instagram.com", "facebook.com",
-        "gab.com", "parler.com",
-    }
-    inst = {"wikipedia.org", "wikidata.org"}
-    tld = domain.rsplit(".", 1)[-1] if "." in domain else ""
-    if domain in mainstream:
-        return "mainstream"
-    if domain in alternative:
-        return "alternative"
-    if domain in state_funded:
-        return "state_funded"
-    if domain in social:
-        return "social_media"
-    if domain in inst or tld in ("gov", "mil", "edu"):
-        return "institutional"
-    return "other"
 
 
 def _plot_category_timeline(dates, category_counts, out_dir):
@@ -138,14 +98,14 @@ def _plot_category_timeline(dates, category_counts, out_dir):
     print(f"Saved {out_dir / 'category_timeline.png'}")
 
 
-def _export_table(dates, category_counts, out_dir):
+def _export_table(dates, category_counts, post_counts, out_dir):
     cats = ["mainstream", "alternative", "social_media", "state_funded", "institutional", "other"]
     path = out_dir / "daily_categories.csv"
     with open(path, "w", newline="") as f:
         w = csv.writer(f)
         w.writerow(["date"] + [CATEGORY_LABELS.get(c, c) for c in cats] + ["total_posts"])
         for i, date in enumerate(dates):
-            row = [date] + [f"{category_counts[i].get(c, 0) * 100:.1f}%" for c in cats] + [""]
+            row = [date] + [f"{category_counts[i].get(c, 0) * 100:.1f}%" for c in cats] + [post_counts[i]]
             w.writerow(row)
     print(f"Saved {path}")
 

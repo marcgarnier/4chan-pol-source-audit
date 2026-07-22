@@ -7,7 +7,7 @@ from pathlib import Path
 from bs4 import BeautifulSoup
 from tqdm import tqdm
 
-from source_classifier import normalize_domain, classify_source, CATEGORY_NAMES
+from source_classifier import classify_source, extract_domains, CATEGORY_KEYS, CATEGORY_LABELS
 
 
 TOPIC_KEYWORDS = {
@@ -31,7 +31,7 @@ TOPIC_KEYWORDS = {
 
 DEFAULT_TOPIC = "Other / Misc"
 
-SOURCE_CATEGORIES = ["Mainstream", "Alternative", "State-funded", "Social Media", "Institutional", "Other"]
+SOURCE_CATEGORIES = CATEGORY_KEYS
 
 
 def classify_topic(text: str) -> str:
@@ -42,31 +42,7 @@ def classify_topic(text: str) -> str:
     return DEFAULT_TOPIC
 
 
-URL_REGEX = re.compile(
-    r"https?://(?:[a-zA-Z0-9.-]+)(?:/[^\s<>\"']*)?"
-)
-
-
-def parse_external_urls(html_content: str) -> list[str]:
-    if not html_content:
-        return []
-    html_content = re.sub(r"<wbr>", "", html_content)
-    domains = []
-    seen = set()
-
-    for match in URL_REGEX.finditer(html_content):
-        url = match.group(0)
-        domain = normalize_domain(url)
-        if not domain:
-            continue
-        if "4chan.org" in domain or "boards.4chan" in domain:
-            continue
-        if domain in seen:
-            continue
-        seen.add(domain)
-        domains.append(domain)
-
-    return domains
+parse_external_urls = extract_domains
 
 
 def process(jsonl_path: str):
@@ -126,7 +102,7 @@ def process(jsonl_path: str):
     print("=" * 90)
     print(f"{'Sujet':<25} {'Posts':>8} {'Avec lien':>10} {'Taux src.':>9}", end="")
     for cat in SOURCE_CATEGORIES:
-        print(f" {cat:>14}", end="")
+        print(f" {CATEGORY_LABELS[cat]:>14}", end="")
     print()
     print("=" * 90)
 
@@ -161,16 +137,16 @@ def plot_topic_source_matrix(matrix: dict, output_dir: str = "outputs"):
     Path(output_dir).mkdir(parents=True, exist_ok=True)
 
     colors = {
-        "Mainstream": "#4C72B0",
-        "Alternative": "#DD8452",
-        "State-funded": "#C44E52",
-        "Social Media": "#55A868",
-        "Institutional": "#8172B2",
-        "Other": "#8C8C8C",
+        "mainstream": "#4C72B0",
+        "alternative": "#DD8452",
+        "state_funded": "#C44E52",
+        "social_media": "#55A868",
+        "institutional": "#8172B2",
+        "other": "#8C8C8C",
     }
 
     topic_order = list(TOPIC_KEYWORDS.keys()) + [DEFAULT_TOPIC]
-    cats = ["Mainstream", "Alternative", "State-funded", "Social Media", "Institutional", "Other"]
+    cats = CATEGORY_KEYS
 
     labels = []
     percentages = []
@@ -192,7 +168,7 @@ def plot_topic_source_matrix(matrix: dict, output_dir: str = "outputs"):
 
     for i, cat in enumerate(cats):
         vals = [p[i] for p in percentages]
-        ax.bar(x, vals, bottom=bottom, label=cat,
+        ax.bar(x, vals, bottom=bottom, label=CATEGORY_LABELS[cat],
                color=colors.get(cat, "#8C8C8C"), width=0.6, edgecolor="white")
         bottom += np.array(vals)
 

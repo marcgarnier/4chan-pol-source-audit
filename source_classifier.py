@@ -1,20 +1,21 @@
+import re
 from urllib.parse import urlparse
 
-DOMAIN_MAPPING = {
-    "twitter.com": "x_twitter",
-    "x.com": "x_twitter",
-    "bbc.com": "bbc",
-    "bbc.co.uk": "bbc",
-    "theguardian.com": "guardian",
-    "youtu.be": "youtube",
-    "reddit.com": "reddit",
-    "redd.it": "reddit",
-    "nytimes.com": "nytimes",
-    "nyti.ms": "nytimes",
+# Alias → domaine canonique (un seul domaine par entité pour éviter le double comptage)
+DOMAIN_ALIASES = {
+    "x.com": "twitter.com",
+    "youtu.be": "youtube.com",
+    "redd.it": "reddit.com",
+    "nyti.ms": "nytimes.com",
+    "bbc.co.uk": "bbc.com",
+    "fb.com": "facebook.com",
+    "gab.ai": "gab.com",
+    "telegram.org": "t.me",
+    "discord.gg": "discord.com",
 }
 
 LEGACY_MAINSTREAM = {
-    "cnn.com", "nytimes.com", "bbc.com", "bbc.co.uk", "theguardian.com",
+    "cnn.com", "nytimes.com", "bbc.com", "theguardian.com",
     "washingtonpost.com", "reuters.com", "apnews.com", "npr.org",
     "cbc.ca", "lemonde.fr", "lefigaro.fr", "elmundo.es", "elpais.com",
     "spiegel.de", "zeit.de", "corriere.it", "repubblica.it",
@@ -26,12 +27,11 @@ LEGACY_MAINSTREAM = {
 
 ALTERNATIVE_MEDIA = {
     "breitbart.com", "epochtimes.com", "rebelnews.com", "foxnews.com",
-    "dailywire.com", "zerohedge.com", "infowars.com", "truthsocial.com",
+    "dailywire.com", "zerohedge.com", "infowars.com",
     "thepostmillennial.com", "lifezette.com", "westernjournal.com",
     "americanthinker.com", "frontpagemag.com", "newsmax.com",
     "oann.com", "theblaze.com", "townhall.com", "nationalreview.com",
     "washingtontimes.com", "dailymail.co.uk", "express.co.uk",
-    "rt.com", "sputniknews.com", "tass.com",
     "unherd.com", "quillette.com", "spiked-online.com",
 }
 
@@ -43,49 +43,97 @@ STATE_FUNDED = {
 }
 
 SOCIAL_PLATFORMS = {
-    "twitter.com", "x.com", "reddit.com", "redd.it", "youtube.com",
-    "youtu.be", "tiktok.com", "instagram.com", "facebook.com",
-    "fb.com", "linkedin.com", "t.me", "telegram.org", "discord.com",
-    "discord.gg", "twitch.tv", "rumble.com", "odysee.com",
-    "bitchute.com", "gab.com", "gab.ai", "parler.com",
+    "twitter.com", "reddit.com", "youtube.com",
+    "tiktok.com", "instagram.com", "facebook.com",
+    "linkedin.com", "t.me", "discord.com",
+    "twitch.tv", "rumble.com", "odysee.com",
+    "bitchute.com", "gab.com", "parler.com",
     "mewe.com", "vk.com", "truthsocial.com",
 }
 
 INSTITUTIONAL = {
     "wikipedia.org", "wikidata.org", "wikimedia.org",
-    "gov", "mil", "edu",
 }
 
-CATEGORY_NAMES = [
-    "Mainstream",
-    "Alternative",
-    "State-funded",
-    "Social Media",
-    "Institutional",
+# Clés canoniques (snake_case) utilisées partout : stats JSON, CSV, viz
+CATEGORY_KEYS = [
+    "mainstream",
+    "alternative",
+    "state_funded",
+    "social_media",
+    "institutional",
+    "other",
 ]
 
+CATEGORY_LABELS = {
+    "mainstream": "Mainstream",
+    "alternative": "Alternative",
+    "state_funded": "State-funded",
+    "social_media": "Social Media",
+    "institutional": "Institutional",
+    "other": "Other",
+}
 
-def normalize_domain(url: str) -> str:
-    parsed = urlparse(url)
-    domain = parsed.netloc.lower().strip()
+# Regex partagée d'extraction d'URLs dans le HTML des posts
+URL_REGEX = re.compile(r"https?://(?:[a-zA-Z0-9.-]+)(?:/[^\s<>\"']*)?")
+
+
+def normalize_domain(url_or_domain: str) -> str:
+    """Accepte une URL complète OU un domaine nu, retourne le domaine canonique."""
+    value = url_or_domain.strip()
+    if "://" in value:
+        domain = urlparse(value).netloc
+    else:
+        # urlparse("youtube.com").netloc == "" — traiter le domaine nu directement
+        domain = value.split("/", 1)[0]
+    domain = domain.lower().strip()
     if domain.startswith("www."):
         domain = domain[4:]
-    domain = DOMAIN_MAPPING.get(domain, domain)
-    return domain
+    return DOMAIN_ALIASES.get(domain, domain)
+
+
+def _in_set(domain: str, domain_set: set[str]) -> bool:
+    """Match exact ou par suffixe de sous-domaine (en.wikipedia.org → wikipedia.org)."""
+    if domain in domain_set:
+        return True
+    parts = domain.split(".")
+    for i in range(1, len(parts) - 1):
+        if ".".join(parts[i:]) in domain_set:
+            return True
+    return False
 
 
 def classify_source(domain: str) -> str:
-    if domain in LEGACY_MAINSTREAM:
-        return "Mainstream"
-    if domain in STATE_FUNDED:
-        return "State-funded"
-    if domain in ALTERNATIVE_MEDIA:
-        return "Alternative"
-    if domain in SOCIAL_PLATFORMS:
-        return "Social Media"
+    """Retourne une clé de CATEGORY_KEYS. State-funded testé avant Alternative (RT, TASS…)."""
+    if _in_set(domain, STATE_FUNDED):
+        return "state_funded"
+    if _in_set(domain, LEGACY_MAINSTREAM):
+        return "mainstream"
+    if _in_set(domain, ALTERNATIVE_MEDIA):
+        return "alternative"
+    if _in_set(domain, SOCIAL_PLATFORMS):
+        return "social_media"
     tld = domain.rsplit(".", 1)[-1] if "." in domain else ""
     if tld in ("gov", "mil", "edu"):
-        return "Institutional"
-    if domain in INSTITUTIONAL:
-        return "Institutional"
-    return "Other"
+        return "institutional"
+    if _in_set(domain, INSTITUTIONAL):
+        return "institutional"
+    return "other"
+
+
+def extract_domains(html_content: str) -> list[str]:
+    """Extrait les domaines externes normalisés (dédupliqués) du HTML d'un post."""
+    if not html_content:
+        return []
+    html_content = html_content.replace("<wbr>", "")
+    domains = []
+    seen = set()
+    for match in URL_REGEX.finditer(html_content):
+        domain = normalize_domain(match.group(0))
+        if not domain or "4chan" in domain:
+            continue
+        if domain in seen:
+            continue
+        seen.add(domain)
+        domains.append(domain)
+    return domains

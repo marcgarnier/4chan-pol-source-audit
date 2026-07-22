@@ -2,9 +2,9 @@ import json
 import csv
 import html
 import re
+import sys
 from pathlib import Path
 from collections import Counter, defaultdict
-from urllib.parse import urlparse
 
 from bs4 import BeautifulSoup
 from tqdm import tqdm
@@ -12,43 +12,14 @@ import torch
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 import numpy as np
 
-from source_classifier import normalize_domain, classify_source
+from source_classifier import normalize_domain, classify_source, extract_domains, CATEGORY_KEYS
 
-
-URL_REGEX = re.compile(
-    r"https?://(?:[a-zA-Z0-9.-]+)(?:/[^\s<>\"']*)?"
-)
 
 def extract_domains_from_post(post: dict) -> list[dict]:
-    html_content = post.get("com", "")
-    if not html_content:
-        return []
-    html_content = re.sub(r"<wbr>", "", html_content)
-    entries = []
-
-    seen_domains = set()
-
-    for match in URL_REGEX.finditer(html_content):
-        url = match.group(0)
-        parsed = urlparse(url)
-        domain = parsed.netloc.lower()
-        if domain.startswith("www."):
-            domain = domain[4:]
-        if not domain:
-            continue
-        if "4chan.org" in domain or "boards.4chan" in domain:
-            continue
-        if domain in seen_domains:
-            continue
-        seen_domains.add(domain)
-        normalized = normalize_domain(domain)
-        entries.append({
-            "raw_domain": domain,
-            "domain": normalized,
-            "category": classify_source(normalized),
-            "url": url,
-        })
-    return entries
+    return [
+        {"domain": d, "category": classify_source(d)}
+        for d in extract_domains(post.get("com", ""))
+    ]
 
 
 def clean_text(raw_html: str) -> str:
@@ -157,7 +128,7 @@ class ResearchPipeline:
                 domain_stats[d] = summarize(scores)
 
         category_stats = {}
-        for cat in ("mainstream", "alternative", "social_media", "state_funded", "institutional", "other"):
+        for cat in CATEGORY_KEYS:
             scores = self.category_sentiments.get(cat, [])
             if scores:
                 category_stats[cat] = summarize(scores)

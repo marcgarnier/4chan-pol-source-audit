@@ -65,7 +65,6 @@ def fig1_top_domains_bar(stats: dict, top_n: int = 20, save_path: str = "fig1_to
         return
     domains = [d for d, _ in top]
     counts = [s["count"] for _, s in top]
-    colors = [CATEGORY_COLORS.get(stats.get("categories", {}).get(d, {}).get("count") and "other", "other") for d, _ in top]
 
     fig, ax = plt.subplots(figsize=(10, 6))
     bars = ax.barh(range(len(domains)), counts, color="#4C72B0", edgecolor="white", height=0.7)
@@ -121,20 +120,11 @@ def fig2_sentiment_scatter(stats: dict, save_path: str = "fig2_sentiment_scatter
     means = []
     stds = []
     counts = []
-    colors = []
     for d, s in top:
         domains.append(d)
         means.append(s["mean_sentiment"])
         stds.append(s["std_sentiment"])
         counts.append(s["count"])
-        cat = None
-        for c_key, c_data in stats.get("categories", {}).items():
-            if c_data.get("count") and c_key in CATEGORY_COLORS:
-                pass
-        if d in CATEGORY_COLORS:
-            colors.append(CATEGORY_COLORS[d])
-        else:
-            colors.append("#8C8C8C")
 
     fig, ax = plt.subplots(figsize=(12, 7))
     sizes = [max(c / max(counts) * 800, 30) for c in counts]
