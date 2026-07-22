@@ -4,7 +4,9 @@ from urllib.parse import urlparse
 # Alias → domaine canonique (un seul domaine par entité pour éviter le double comptage)
 DOMAIN_ALIASES = {
     "x.com": "twitter.com",
+    "mobile.twitter.com": "twitter.com",
     "youtu.be": "youtube.com",
+    "m.youtube.com": "youtube.com",
     "redd.it": "reddit.com",
     "nyti.ms": "nytimes.com",
     "bbc.co.uk": "bbc.com",
