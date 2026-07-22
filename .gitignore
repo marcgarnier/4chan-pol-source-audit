@@ -14,3 +14,11 @@ canada_results_*
 data/
 results/
 scraper.log
+pol_data*.jsonl
+pol_results_*.csv
+pol_results_*.json
+consolidated_stats.xlsx
+outputs/
+__pycache__/
+.DS_Store
+*.pyc
