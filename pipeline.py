@@ -307,16 +307,33 @@ def compare_corpora(pol_stats: dict, canadian_stats: dict) -> dict:
 
 if __name__ == "__main__":
     import argparse
+    from glob import glob
 
     parser = argparse.ArgumentParser(description="4chan /pol/ source audit pipeline")
-    parser.add_argument("input", help="Path to 4TCT JSONL file")
+    parser.add_argument("input", nargs="+", help="Path(s) to JSONL file(s) — accepts glob patterns")
     parser.add_argument("--output", default="results", help="Output prefix")
     parser.add_argument("--sample", type=int, help="Sample N posts (for testing)")
     parser.add_argument("--compare", help="Path to Canadian corpus JSONL for comparison")
     args = parser.parse_args()
 
+    files = []
+    for pattern in args.input:
+        files.extend(glob(pattern))
+    files = sorted(set(files))
+    if not files:
+        print("No input files found.")
+        sys.exit(1)
+    print(f"Processing {len(files)} file(s): {files}")
+
     pipe = ResearchPipeline()
-    stats = pipe.run(args.input, args.output, sample=args.sample)
+    all_posts = []
+    for f in files:
+        all_posts.extend(pipe.load_and_parse(f, sample=args.sample))
+    records = pipe.extract_urls_batch(all_posts)
+    pipe.compute_sentiment(records)
+    pipe.export_csv(f"{args.output}_posts.csv")
+    pipe.export_stats_json(f"{args.output}_stats.json")
+    stats = pipe.summary_stats()
     print(json.dumps(stats, indent=2))
 
     if args.compare:
