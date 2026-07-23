@@ -216,9 +216,18 @@ if __name__ == "__main__":
     print(f"Processing {len(files)} file(s): {files}")
 
     pipe = ResearchPipeline()
+    seen_ids = set()
     all_posts = []
     for f in files:
-        all_posts.extend(pipe.load_and_parse(f, sample=args.sample))
+        for post in pipe.load_and_parse(f, sample=args.sample):
+            pid = post.get("no")
+            if pid and pid in seen_ids:
+                continue
+            if pid:
+                seen_ids.add(pid)
+            all_posts.append(post)
+    print(f"Posts loaded: {len(all_posts)} (deduplicated by post_id)")
+
     records = pipe.extract_urls_batch(all_posts)
     pipe.compute_sentiment(records)
     pipe.export_csv(f"{args.output}_posts.csv")

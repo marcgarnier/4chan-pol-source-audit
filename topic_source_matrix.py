@@ -47,6 +47,7 @@ def process(jsonl_path: str):
     print(f"Lecture de : {jsonl_path}")
     op_topics = {}
     all_posts = []
+    seen_ids = set()
 
     # Passe 1 : identifier les OPs et leur sujet
     with open(jsonl_path, "r") as f:
@@ -58,6 +59,11 @@ def process(jsonl_path: str):
                 post = json.loads(line)
             except json.JSONDecodeError:
                 continue
+            pid = post.get("no")
+            if pid and pid in seen_ids:
+                continue
+            if pid:
+                seen_ids.add(pid)
             all_posts.append(post)
             if post.get("resto") == 0:
                 semantic_url = post.get("semantic_url", "") or ""
