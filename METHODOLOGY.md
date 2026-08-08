@@ -178,12 +178,55 @@ sub-analysis.
 
 ## 5. Threats to validity
 
+### 5.1 Survivorship / deletion bias — the primary threat
+
+**This is the study's most serious limitation and must be stated prominently, not
+buried in a table.** The corpus is built by polling *live* threads through the
+4chan JSON API (via 4TCT) on a fixed cadence. Two mechanisms remove content
+before it can be captured, and both are **non-random in the direction of the
+phenomenon under study**:
+
+1. **Moderator deletion.** /pol/'s most extreme content is disproportionately
+   removed by moderation. What survives long enough to be scraped is a *filtered*
+   view — systematically less extreme than what was actually posted. An audit of
+   the board's information diet therefore **undercounts precisely the behavior it
+   claims to measure.**
+2. **Capture-cadence gaps.** Threads that are born *and* die between two polling
+   cycles are never seen at all. This is a stronger problem than archive
+   incompleteness (e.g. 4plebs): we do not even rely on an archive — fast-moving
+   threads simply never enter the frame.
+
+**Scope of the damage differs by estimand — this bounds, but does not excuse, the
+problem:**
+
+- **Source-distribution estimates** (e.g. "54% of citations are social
+  platforms") are *relatively* robust: deletion would have to be **correlated
+  with the category of the cited source** to bias these proportions, which is
+  plausibly a weak effect.
+- **Sentiment / tone estimates** are *directly* exposed: deletion correlates
+  strongly with the extremity of discourse, which is exactly what the sentiment
+  score captures. Any sentiment claim inherits this bias at full strength.
+
+**Mitigations (partial — this cannot be fully corrected):**
+
+- **Quantify the loss.** Compare consecutive scrapes of the same threads to
+  measure the rate at which posts/threads disappear, and report it as a figure.
+  This converts a qualitative caveat into a measured quantity.
+- **Reframe every claim.** The corpus represents the **surviving, publicly
+  visible discourse** of /pol/ over the collection window — not "/pol/ discourse"
+  in general. All conclusions are scoped accordingly.
+- **Acknowledge the irreducible residual.** No sampling design over live 4chan
+  data eliminates this; it is a structural feature of the medium.
+
+### 5.2 Threats summary
+
 | Threat | Nature | Mitigation |
 |---|---|---|
+| **Survivorship / deletion bias** | **Sampling bias (non-random, aligned with the phenomenon)** | **See §5.1 — quantify loss rate, reframe as "surviving discourse", scope all claims; hits sentiment far harder than source distribution** |
 | Sentiment ≠ stance toward source | Construct validity | Reframe as ambient tone, or do stance detection (§4.2) |
 | Model domain shift (Twitter → /pol/) | Measurement error | Human-annotated validation sample (§4.3) |
-| Non-random missingness | Sampling bias | Live-thread capture misses short-lived/deleted threads and mod-removed posts; document capture cadence and coverage |
-| Temporal representativeness | External validity | 3 days of July 2026 ≠ /pol/ in general; scope all claims to the window |
+| Subjective category coding | Construct validity | Anchor to external typologies (§2.2); double-code residual domains, report Krippendorff's α / Cohen's κ ≥ 0.80 (§2.4) |
+| Temporal representativeness | External validity | Collection window ≠ /pol/ in general; scope all claims to the window |
 | Rating-database bias | Instrument validity | AllSides/MBFC labels are themselves contested (Bozarth et al. 2020); report which database, use ≥2 as cross-check, publish disagreements |
 | Small cells | Statistical power | No inference on categories with insufficient n; report as descriptive only |
 | Bot / spam / raids | Data quality | 4chan has no accounts; flag coordinated link-spam bursts before aggregating |
