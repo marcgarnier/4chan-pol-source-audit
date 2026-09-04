@@ -50,7 +50,7 @@ def process(jsonl_path: str):
     seen_ids = set()
 
     # Passe 1 : identifier les OPs et leur sujet
-    with open(jsonl_path, "r") as f:
+    with open(jsonl_path, "r", encoding="utf-8") as f:
         for line in tqdm(f, desc="Passe 1 — OPs", unit=" posts"):
             line = line.strip()
             if not line:

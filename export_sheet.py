@@ -93,12 +93,12 @@ def write_xlsx(rows: list[list], posts_rows: list[list], path: str):
 def write_csv(rows: list[list], posts_rows: list[list], path: str):
     base = Path(path).with_suffix("")
     # Stats CSV
-    with open(f"{base}_stats.csv", "w", newline="") as f:
+    with open(f"{base}_stats.csv", "w", newline="", encoding="utf-8") as f:
         w = csv.writer(f)
         for row in rows:
             w.writerow(row)
     # Posts CSV
-    with open(f"{base}_posts.csv", "w", newline="") as f:
+    with open(f"{base}_posts.csv", "w", newline="", encoding="utf-8") as f:
         w = csv.writer(f)
         for row in posts_rows:
             w.writerow(row)
@@ -113,14 +113,14 @@ if __name__ == "__main__":
     parser.add_argument("--output", "-o", default="consolidated_stats.xlsx", help="Output file")
     args = parser.parse_args()
 
-    with open(args.stats_json) as f:
+    with open(args.stats_json, encoding="utf-8") as f:
         stats_json = json.load(f)
 
     rows = stats_to_rows(stats_json)
 
     posts_rows = []
     if args.posts_csv:
-        with open(args.posts_csv, newline="") as f:
+        with open(args.posts_csv, newline="", encoding="utf-8") as f:
             reader = csv.reader(f)
             posts_rows = list(reader)
     else:

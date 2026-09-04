@@ -89,7 +89,7 @@ def iter_threads(saves_dir: Path):
             continue
         for jf in sorted(pol.glob("*.json")):
             try:
-                data = json.load(open(jf))
+                data = json.load(open(jf, encoding="utf-8"))
             except Exception:
                 continue
             posts = data if isinstance(data, list) else data.get("posts", [])

@@ -163,7 +163,7 @@ def generate_post(post_num: int) -> dict:
 
 NUM_POSTS = 5000
 
-with open("synthetic_4tct.jsonl", "w") as f:
+with open("synthetic_4tct.jsonl", "w", encoding="utf-8") as f:
     for i in range(NUM_POSTS):
         post = generate_post(i + 1)
         f.write(json.dumps(post) + "\n")

@@ -43,7 +43,7 @@ def run_all(data_dir: str = "data", results_dir: str = "results/longitudinal"):
         cat_counter = defaultdict(int)
         n_posts = 0
 
-        with open(f) as fh:
+        with open(f, encoding="utf-8") as fh:
             for line in fh:
                 post = json.loads(line)
                 n_posts += 1
@@ -92,7 +92,7 @@ def _plot_category_timeline(dates, category_counts, out_dir):
 def _export_table(dates, category_counts, post_counts, out_dir):
     cats = ["mainstream", "alternative", "social_media", "state_funded", "institutional", "other"]
     path = out_dir / "daily_categories.csv"
-    with open(path, "w", newline="") as f:
+    with open(path, "w", newline="", encoding="utf-8") as f:
         w = csv.writer(f)
         w.writerow(["date"] + [CATEGORY_LABELS.get(c, c) for c in cats] + ["total_posts"])
         for i, date in enumerate(dates):
@@ -119,7 +119,7 @@ def _save_aggregated_stats(dates, category_counts, domain_counts, out_dir):
     aggregated["top_domains_overall"] = [{"domain": d, "count": c} for d, c in top_domains]
     aggregated["dates"] = dates
 
-    with open(out_dir / "aggregated_stats.json", "w") as f:
+    with open(out_dir / "aggregated_stats.json", "w", encoding="utf-8") as f:
         json.dump(aggregated, f, indent=2)
     print(f"Saved {out_dir / 'aggregated_stats.json'}")
 

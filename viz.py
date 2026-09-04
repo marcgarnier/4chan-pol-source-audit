@@ -40,7 +40,7 @@ CATEGORY_LABELS = {
 
 
 def load_stats(stats_path: str) -> dict:
-    with open(stats_path) as f:
+    with open(stats_path, encoding="utf-8") as f:
         return json.load(f)
 
 
@@ -169,7 +169,7 @@ def fig2b_category_sentiment_bars(stats: dict, save_path: str = "fig2b_category_
 
 
 def fig3_comparison_bars(comparison_path: str, save_path: str = "fig3_comparison.png"):
-    with open(comparison_path) as f:
+    with open(comparison_path, encoding="utf-8") as f:
         comp = json.load(f)
     ordered_keys = ["mainstream", "alternative", "social_media", "state_funded", "institutional", "other"]
     labels = []
@@ -211,7 +211,7 @@ def fig3_comparison_bars(comparison_path: str, save_path: str = "fig3_comparison
 
 
 def fig3_table(comparison_path: str, save_path: str = "fig3_table.png"):
-    with open(comparison_path) as f:
+    with open(comparison_path, encoding="utf-8") as f:
         comp = json.load(f)
     ordered_keys = ["mainstream", "alternative", "social_media", "state_funded", "institutional", "other"]
     rows = []

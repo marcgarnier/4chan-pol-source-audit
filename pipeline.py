@@ -68,7 +68,7 @@ class ResearchPipeline:
 
     def load_and_parse(self, jsonl_path: str, sample: int | None = None):
         posts = []
-        with open(jsonl_path, "r") as f:
+        with open(jsonl_path, "r", encoding="utf-8") as f:
             for line in f:
                 line = line.strip()
                 if not line:
@@ -145,7 +145,7 @@ class ResearchPipeline:
             "compound", "neg_score", "neu_score", "pos_score",
             "text_preview",
         ]
-        with open(path, "w", newline="") as f:
+        with open(path, "w", newline="", encoding="utf-8") as f:
             writer = csv.DictWriter(f, fieldnames=fieldnames)
             writer.writeheader()
             for rec in self.post_records:
@@ -162,7 +162,7 @@ class ResearchPipeline:
                 })
 
     def export_stats_json(self, path: str):
-        with open(path, "w") as f:
+        with open(path, "w", encoding="utf-8") as f:
             json.dump(self.summary_stats(), f, indent=2)
 
     def run(self, jsonl_path: str, output_prefix: str = "results", sample: int | None = None):
@@ -241,5 +241,5 @@ if __name__ == "__main__":
         comparison = compare_corpora(stats, can_stats)
         print("\n=== COMPARISON TABLE ===")
         print(json.dumps(comparison, indent=2))
-        with open(f"{args.output}_comparison.json", "w") as f:
+        with open(f"{args.output}_comparison.json", "w", encoding="utf-8") as f:
             json.dump(comparison, f, indent=2)

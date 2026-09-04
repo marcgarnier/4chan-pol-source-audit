@@ -15,10 +15,10 @@ for day_dir in sorted(DATA_DIR.iterdir()):
 
     out_path = OUT_DIR / f"pol_{date_str}.jsonl"
     count = 0
-    with open(out_path, "w") as out:
+    with open(out_path, "w", encoding="utf-8") as out:
         for json_file in sorted(thread_dir.glob("*.json")):
             try:
-                with open(json_file) as f:
+                with open(json_file, encoding="utf-8") as f:
                     thread = json.load(f)
             except Exception:
                 continue
