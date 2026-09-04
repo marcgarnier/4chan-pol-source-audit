@@ -184,3 +184,23 @@ Inchangés : **n° 1** (sentiment ≠ stance), **n° 2** (troncature à 128 toke
 Nouveau, **résolu le jour même** : `pipeline.py` ne comptait qu'un domaine par post (voir plus haut). Les deux voies donnent désormais des chiffres identiques.
 
 Nouveau : **`pipeline.py` et `pol.db` restent deux voies parallèles.** `sentiment_db.py` raccorde le sentiment et les compteurs concordent, mais le pipeline continue de lire les JSONL et de recalculer ce que la base contient déjà. Rien ne garantit que les deux resteront alignés après une prochaine modification. À terme, faire de SQLite la source unique et ne garder les JSONL que comme format d'échange.
+
+## Article arXiv et `analysis.py` (même session)
+
+`analysis.py` exécute enfin le plan d'analyse de METHODOLOGY §3 : parts avec IC de Wilson, concentration (Gini, HHI, Lorenz), Kruskal-Wallis + Dunn/Holm avec ties, Cliff's delta, modèle OLS à erreurs groupées par thread, décomposition du bucket « Other », réseau de co-citation (Louvain), et **mesure** du taux de disparition des posts. Sorties : `results/analysis.json` + `figures_real/fig_main.png` et `fig3_lorenz.png`.
+
+Note d'environnement : scipy 1.18 est bloqué par la stratégie de contrôle d'application Windows de cette machine (DLL `_traversal`). scipy 1.15.3 passe — d'où la borne haute dans `requirements.txt`.
+
+### Ce que les tests disent
+
+L'hypothèse centrale **n'est pas soutenue**. Mainstream vs Alternative : z = −1,09, p(Holm) = 0,83, Cliff's δ = −0,121 (négligeable). L'écart de moyennes va dans le sens attendu, mais avec n = 69 il n'y a aucune puissance. Le modèle ajusté confirme : Alternative est indistinguable de la référence plateforme (β = −0,008, p = 0,86), là où Mainstream sort à β = −0,094 (p = 1,6e−5).
+
+Ce qui **tient** : Mainstream est significativement plus négatif que plateforme, non classé et institutionnel (δ entre 0,21 et 0,26, small). Et surtout, le résultat descriptif écrase le reste — les médias d'information, toutes catégories confondues, ne pèsent que **4,6 %** des citations. Gini = 0,821, YouTube seul = 28,9 %, 12 domaines = la moitié des citations.
+
+L'article prend acte : le cadrage « mainstream contre alternatif » porte sur 4,6 % de l'objet. L'unité défendable est l'infrastructure de plateforme et d'archive (9,2 % des citations à elle seule, deux fois le mainstream).
+
+### Article
+
+`paper/main.tex` — compile en 9 pages avec `pdflatex` (deux passes, pas de BibTeX, bibliographie en dur pour arXiv). Voir `paper/README.md` pour la soumission. **Deux choses restent à faire avant d'envoyer** : renseigner l'affiliation, et vérifier chaque référence contre sa source primaire — la liste vient de METHODOLOGY.md, qui porte lui-même l'avertissement de ne pas s'y fier en aveugle, et elle n'a pas été vérifiée bibliographiquement.
+
+Les limites sont énoncées sans ménagement dans l'article, dont deux que le lecteur doit connaître : la mesure de sentiment n'est **pas validée** sur ce domaine (§4.3 de METHODOLOGY exige un échantillon annoté à la main, jamais fait), et le codage des sources est **mono-axe** alors que la méthodologie en spécifie trois ancrés sur AllSides/MBFC/RSF. Les résultats descriptifs et de concentration, eux, ne dépendent ni du modèle de sentiment ni de la sous-division des médias d'information.

@@ -26,3 +26,9 @@ __pycache__/
 
 # Les résultats publiés sont versionnés, eux : figures_real/, outputs/,
 # results/, pol_results_*, consolidated_stats.xlsx
+
+# Artefacts de compilation LaTeX (main.pdf est versionné, lui)
+paper/*.aux
+paper/*.log
+paper/*.out
+paper/*.toc

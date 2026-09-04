@@ -1,0 +1,543 @@
+{
+  "corpus": {
+    "threads": 6532,
+    "posts": 278706,
+    "posts_with_links": 7107,
+    "citations": 10078,
+    "domains": 1408,
+    "days": 24,
+    "window": [
+      "2026_07_22",
+      "2026_09_04"
+    ]
+  },
+  "shares": {
+    "total_citations": 10078,
+    "categories": [
+      {
+        "category": "other",
+        "label": "Unclassified",
+        "n": 4753,
+        "share": 0.4716213534431435,
+        "ci_low": 0.46188775207745303,
+        "ci_high": 0.48137658169267894,
+        "mean_sentiment": -0.20874280791221017,
+        "sd_sentiment": 0.35956535811069146,
+        "negativity_ratio": 0.4647590995160951
+      },
+      {
+        "category": "social_media",
+        "label": "Social platform",
+        "n": 4066,
+        "share": 0.40345306608454057,
+        "ci_low": 0.3939133247686254,
+        "ci_high": 0.41306638417661345,
+        "mean_sentiment": -0.1791163346195567,
+        "sd_sentiment": 0.4315017777080491,
+        "negativity_ratio": 0.39449090014756516
+      },
+      {
+        "category": "institutional",
+        "label": "Institutional",
+        "n": 789,
+        "share": 0.07828934312363564,
+        "ci_low": 0.07320390792878793,
+        "ci_high": 0.08369615683715721,
+        "mean_sentiment": -0.22459877087853858,
+        "sd_sentiment": 0.3778620385428255,
+        "negativity_ratio": 0.4524714828897338
+      },
+      {
+        "category": "mainstream",
+        "label": "Mainstream",
+        "n": 386,
+        "share": 0.03830125024806509,
+        "ci_low": 0.03472666555671779,
+        "ci_high": 0.04222768770350405,
+        "mean_sentiment": -0.3457419838022846,
+        "sd_sentiment": 0.3551971715869303,
+        "negativity_ratio": 0.6606217616580311
+      },
+      {
+        "category": "alternative",
+        "label": "Alternative",
+        "n": 69,
+        "share": 0.006846596546933916,
+        "ci_low": 0.0054139262730227514,
+        "ci_high": 0.008655090641506042,
+        "mean_sentiment": -0.2752243344658527,
+        "sd_sentiment": 0.3443139895760727,
+        "negativity_ratio": 0.6231884057971014
+      },
+      {
+        "category": "state_funded",
+        "label": "State-controlled",
+        "n": 15,
+        "share": 0.001488390553681286,
+        "ci_low": 0.0009022147842415863,
+        "ci_high": 0.0024544735414309773,
+        "mean_sentiment": -0.42966650625069935,
+        "sd_sentiment": 0.33993586623418165,
+        "negativity_ratio": 0.8666666666666667
+      }
+    ]
+  },
+  "concentration": {
+    "unique_domains": 1408,
+    "gini": 0.8213636758285374,
+    "hhi_normalized": 0.0912796978410842,
+    "top1_domain": "youtube.com",
+    "top1_share": 0.28874776741416947,
+    "top10_share": 0.49067275253026393,
+    "top50_share": 0.6901170867235563,
+    "domains_for_half": 12,
+    "singleton_domains": 989,
+    "top_domains": [
+      {
+        "domain": "youtube.com",
+        "n": 2910
+      },
+      {
+        "domain": "twitter.com",
+        "n": 614
+      },
+      {
+        "domain": "en.wikipedia.org",
+        "n": 438
+      },
+      {
+        "domain": "files.catbox.moe",
+        "n": 253
+      },
+      {
+        "domain": "rentry.org",
+        "n": 168
+      },
+      {
+        "domain": "bbc.com",
+        "n": 135
+      },
+      {
+        "domain": "t.me",
+        "n": 132
+      },
+      {
+        "domain": "archive.4plebs.org",
+        "n": 117
+      },
+      {
+        "domain": "theguardian.com",
+        "n": 90
+      },
+      {
+        "domain": "rumble.com",
+        "n": 88
+      },
+      {
+        "domain": "archive.today",
+        "n": 83
+      },
+      {
+        "domain": "marinetraffic.com",
+        "n": 81
+      },
+      {
+        "domain": "dailymail.com",
+        "n": 70
+      },
+      {
+        "domain": "google.com",
+        "n": 70
+      },
+      {
+        "domain": "xcancel.com",
+        "n": 69
+      },
+      {
+        "domain": "archive.ph",
+        "n": 66
+      },
+      {
+        "domain": "truthsocial.com",
+        "n": 65
+      },
+      {
+        "domain": "archive.is",
+        "n": 63
+      },
+      {
+        "domain": "tiktok.com",
+        "n": 62
+      },
+      {
+        "domain": "archive.org",
+        "n": 61
+      }
+    ]
+  },
+  "sentiment": {
+    "kruskal_h": 110.02886250174541,
+    "kruskal_p": 4.0401862076788757e-22,
+    "epsilon_squared": 0.010918811402376244,
+    "n": 10078,
+    "k_groups": 6,
+    "posthoc": [
+      {
+        "a": "social_media",
+        "b": "mainstream",
+        "z": 9.236379391898122,
+        "p_raw": 0.0,
+        "delta": 0.2549054588920123,
+        "p_holm": 0.0,
+        "significant": true,
+        "magnitude": "small"
+      },
+      {
+        "a": "other",
+        "b": "mainstream",
+        "z": 7.098717552170978,
+        "p_raw": 1.2592149545298525e-12,
+        "delta": 0.24231110103354414,
+        "p_holm": 1.7629009363417936e-11,
+        "significant": true,
+        "magnitude": "small"
+      },
+      {
+        "a": "mainstream",
+        "b": "institutional",
+        "z": -5.983106732452184,
+        "p_raw": 2.1892121448985336e-09,
+        "delta": -0.20831116977613162,
+        "p_holm": 2.8459757883680936e-08,
+        "significant": true,
+        "magnitude": "small"
+      },
+      {
+        "a": "social_media",
+        "b": "other",
+        "z": 5.440880326587011,
+        "p_raw": 5.301792227463409e-08,
+        "delta": 0.07036035645387817,
+        "p_holm": 6.362150672956091e-07,
+        "significant": true,
+        "magnitude": "negligible"
+      },
+      {
+        "a": "social_media",
+        "b": "institutional",
+        "z": 3.0922835960488504,
+        "p_raw": 0.0019862299441066877,
+        "delta": 0.06688093853196664,
+        "p_holm": 0.021848529385173565,
+        "significant": true,
+        "magnitude": "negligible"
+      },
+      {
+        "a": "social_media",
+        "b": "alternative",
+        "z": 2.878088852464681,
+        "p_raw": 0.004000924327596245,
+        "delta": 0.18121645030903144,
+        "p_holm": 0.04000924327596245,
+        "significant": true,
+        "magnitude": "small"
+      },
+      {
+        "a": "social_media",
+        "b": "state_funded",
+        "z": 2.8372373541734643,
+        "p_raw": 0.004550576921138472,
+        "delta": 0.36809313002131505,
+        "p_holm": 0.040955192290246245,
+        "significant": true,
+        "magnitude": "medium"
+      },
+      {
+        "a": "other",
+        "b": "state_funded",
+        "z": 2.388550346277238,
+        "p_raw": 0.016914990553329234,
+        "delta": 0.40273511466442247,
+        "p_holm": 0.13531992442663388,
+        "significant": false,
+        "magnitude": "medium"
+      },
+      {
+        "a": "institutional",
+        "b": "state_funded",
+        "z": 2.3542872102461305,
+        "p_raw": 0.018558265717329547,
+        "delta": 0.34643008027038436,
+        "p_holm": 0.13531992442663388,
+        "significant": false,
+        "magnitude": "medium"
+      },
+      {
+        "a": "other",
+        "b": "alternative",
+        "z": 1.92303513939899,
+        "p_raw": 0.054475636952427076,
+        "delta": 0.15659674896404097,
+        "p_holm": 0.32685382171456245,
+        "significant": false,
+        "magnitude": "small"
+      },
+      {
+        "a": "institutional",
+        "b": "alternative",
+        "z": 1.825022758486946,
+        "p_raw": 0.06799759503831138,
+        "delta": 0.12591612938777752,
+        "p_holm": 0.3399879751915569,
+        "significant": false,
+        "magnitude": "negligible"
+      },
+      {
+        "a": "alternative",
+        "b": "state_funded",
+        "z": 1.3497129092577904,
+        "p_raw": 0.17710808985842252,
+        "delta": 0.29855072463768106,
+        "p_holm": 0.7084323594336901,
+        "significant": false,
+        "magnitude": "small"
+      },
+      {
+        "a": "mainstream",
+        "b": "alternative",
+        "z": -1.0904047797834238,
+        "p_raw": 0.27553487728309767,
+        "delta": -0.12104828414808144,
+        "p_holm": 0.826604631849293,
+        "significant": false,
+        "magnitude": "negligible"
+      },
+      {
+        "a": "mainstream",
+        "b": "state_funded",
+        "z": 0.9195386375014526,
+        "p_raw": 0.35781390579588246,
+        "delta": 0.15958549222797935,
+        "p_holm": 0.826604631849293,
+        "significant": false,
+        "magnitude": "small"
+      },
+      {
+        "a": "other",
+        "b": "institutional",
+        "z": 0.10582120876567562,
+        "p_raw": 0.9157242091086852,
+        "delta": 0.003920944333203558,
+        "p_holm": 0.9157242091086852,
+        "significant": false,
+        "magnitude": "negligible"
+      }
+    ]
+  },
+  "adjusted_model": {
+    "r_squared": 0.06701711221194717,
+    "n_obs": 10078,
+    "n_clusters": 2642,
+    "coefficients": {
+      "Intercept": {
+        "beta": 0.03280393410546642,
+        "se": 0.08607340219154547,
+        "p": 0.7031173189776594
+      },
+      "C(category)[T.other]": {
+        "beta": 0.00602072217880589,
+        "se": 0.010480774587549016,
+        "p": 0.5656606657401645
+      },
+      "C(category)[T.mainstream]": {
+        "beta": -0.09358612440876013,
+        "se": 0.021708002111836572,
+        "p": 1.6241881306289956e-05
+      },
+      "C(category)[T.institutional]": {
+        "beta": -0.020217867578106584,
+        "se": 0.015051717646670685,
+        "p": 0.17919860967024392
+      },
+      "C(category)[T.alternative]": {
+        "beta": -0.008130117172104942,
+        "se": 0.04465724611548937,
+        "p": 0.855538821155557
+      },
+      "C(category)[T.state_funded]": {
+        "beta": -0.21779276564499825,
+        "se": 0.09809211675558137,
+        "p": 0.026399212975073815
+      },
+      "C(topic)[T.Elections / Politics]": {
+        "beta": 0.2393710399059576,
+        "se": 0.08355164385038348,
+        "p": 0.004170789080440668
+      },
+      "C(topic)[T.Geopolitics / War]": {
+        "beta": 0.0758846366728626,
+        "se": 0.08269734337328971,
+        "p": 0.3588184739334578
+      },
+      "C(topic)[T.Identity / Society]": {
+        "beta": -0.08358460605837321,
+        "se": 0.08998869591968874,
+        "p": 0.35297485816487395
+      },
+      "C(topic)[T.Other / Misc]": {
+        "beta": -0.058006432222365165,
+        "se": 0.08167450986792807,
+        "p": 0.47757104668505324
+      },
+      "log_len": {
+        "beta": -0.04199173462203192,
+        "se": 0.005439055905977105,
+        "p": 1.1595727249045067e-14
+      }
+    }
+  },
+  "other_breakdown": {
+    "other_total": 4753,
+    "archive_citations": 928,
+    "archive_share_of_other": 0.1952451083526194,
+    "archive_share_of_all": 0.09208176225441556,
+    "archive_unique_domains": 14,
+    "archive_mean_sentiment": -0.16126727415770614,
+    "residual_other": 3825,
+    "top_archives": [
+      {
+        "domain": "files.catbox.moe",
+        "n": 253
+      },
+      {
+        "domain": "rentry.org",
+        "n": 168
+      },
+      {
+        "domain": "archive.4plebs.org",
+        "n": 117
+      },
+      {
+        "domain": "archive.today",
+        "n": 83
+      },
+      {
+        "domain": "archive.ph",
+        "n": 66
+      },
+      {
+        "domain": "archive.is",
+        "n": 63
+      },
+      {
+        "domain": "archive.org",
+        "n": 61
+      },
+      {
+        "domain": "pastebin.com",
+        "n": 55
+      },
+      {
+        "domain": "web.archive.org",
+        "n": 33
+      },
+      {
+        "domain": "litter.catbox.moe",
+        "n": 24
+      }
+    ]
+  },
+  "cocitation": {
+    "nodes": 286,
+    "edges": 1846,
+    "density": 0.04529505582137161,
+    "modularity": 0.429320085577353,
+    "n_communities": 6,
+    "communities": [
+      {
+        "size": 198,
+        "members": [
+          "youtube.com",
+          "en.wikipedia.org",
+          "bbc.com",
+          "theguardian.com",
+          "archive.ph",
+          "dailymail.com",
+          "express.co.uk",
+          "itv.com"
+        ]
+      },
+      {
+        "size": 30,
+        "members": [
+          "files.catbox.moe",
+          "t.me",
+          "google.com",
+          "archive.today",
+          "lostarmour.info",
+          "scribblemaps.com",
+          "browser.dataspace.copernicus.eu",
+          "liveuamap.com"
+        ]
+      },
+      {
+        "size": 29,
+        "members": [
+          "twitter.com",
+          "pastebin.com",
+          "rumble.com",
+          "truthsocial.com",
+          "tiktok.com",
+          "whitehouse.gov",
+          "thetrumparchive.com",
+          "trumplibrary.gov"
+        ]
+      },
+      {
+        "size": 16,
+        "members": [
+          "rentry.org",
+          "marinetraffic.com",
+          "oilprice.com",
+          "globe.adsbexchange.com",
+          "flightaware.com",
+          "tzevaadom.co.il",
+          "vesselfinder.com",
+          "flightradar24.com"
+        ]
+      },
+      {
+        "size": 11,
+        "members": [
+          "odysee.com",
+          "schiebt-sie-ab.de",
+          "solifonds.me",
+          "wahlrecht.de",
+          "kvltgames.com",
+          "einprozent.de",
+          "protestkarte.de",
+          "linke-gewalt.info"
+        ]
+      },
+      {
+        "size": 2,
+        "members": [
+          "energy.gov",
+          "eia.gov"
+        ]
+      }
+    ]
+  },
+  "deletion": {
+    "thread_pairs": 62,
+    "posts_observed": 2776,
+    "posts_disappeared": 19,
+    "pooled_rate": 0.006844380403458214,
+    "pooled_ci": [
+      0.004386101498051449,
+      0.010665691381082386
+    ],
+    "mean_per_thread_rate": 0.0031182881798334536,
+    "threads_with_any_loss": 7
+  }
+}
