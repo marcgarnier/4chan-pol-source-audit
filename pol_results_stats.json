@@ -1,0 +1,345 @@
+{
+  "total_posts_with_links": 7107,
+  "total_citations": 10078,
+  "total_domains_seen": 1408,
+  "top_domains": {
+    "youtube.com": {
+      "count": 2910,
+      "mean_sentiment": -0.18460793190818164,
+      "std_sentiment": 0.43754795590410706,
+      "negativity_ratio": 0.4020618556701031
+    },
+    "twitter.com": {
+      "count": 614,
+      "mean_sentiment": -0.2531891543666926,
+      "std_sentiment": 0.4338860431772687,
+      "negativity_ratio": 0.4755700325732899
+    },
+    "en.wikipedia.org": {
+      "count": 438,
+      "mean_sentiment": -0.31239926772506815,
+      "std_sentiment": 0.37533939812799705,
+      "negativity_ratio": 0.5639269406392694
+    },
+    "files.catbox.moe": {
+      "count": 253,
+      "mean_sentiment": -0.11437088370382079,
+      "std_sentiment": 0.3970388133082481,
+      "negativity_ratio": 0.37549407114624506
+    },
+    "rentry.org": {
+      "count": 168,
+      "mean_sentiment": -0.14446146987999478,
+      "std_sentiment": 0.21342055111191666,
+      "negativity_ratio": 0.47023809523809523
+    },
+    "bbc.com": {
+      "count": 135,
+      "mean_sentiment": -0.32784791221773185,
+      "std_sentiment": 0.3577719535454019,
+      "negativity_ratio": 0.6962962962962963
+    },
+    "t.me": {
+      "count": 132,
+      "mean_sentiment": -0.11217876247158556,
+      "std_sentiment": 0.291226390953822,
+      "negativity_ratio": 0.23484848484848486
+    },
+    "archive.4plebs.org": {
+      "count": 117,
+      "mean_sentiment": -0.29785014010774785,
+      "std_sentiment": 0.4622181477888154,
+      "negativity_ratio": 0.5641025641025641
+    },
+    "theguardian.com": {
+      "count": 90,
+      "mean_sentiment": -0.3143459559728702,
+      "std_sentiment": 0.3285254882407685,
+      "negativity_ratio": 0.6555555555555556
+    },
+    "rumble.com": {
+      "count": 88,
+      "mean_sentiment": 0.08981292091564021,
+      "std_sentiment": 0.2840523519747842,
+      "negativity_ratio": 0.14772727272727273
+    },
+    "archive.today": {
+      "count": 83,
+      "mean_sentiment": -0.06894138823431659,
+      "std_sentiment": 0.18590560043350077,
+      "negativity_ratio": 0.4578313253012048
+    },
+    "marinetraffic.com": {
+      "count": 81,
+      "mean_sentiment": -0.1809453750834053,
+      "std_sentiment": 0.19300020478986837,
+      "negativity_ratio": 0.3950617283950617
+    },
+    "dailymail.com": {
+      "count": 70,
+      "mean_sentiment": -0.36216694095305035,
+      "std_sentiment": 0.272252145375815,
+      "negativity_ratio": 0.7571428571428571
+    },
+    "google.com": {
+      "count": 70,
+      "mean_sentiment": -0.13972519870315278,
+      "std_sentiment": 0.21645371755525666,
+      "negativity_ratio": 0.2857142857142857
+    },
+    "xcancel.com": {
+      "count": 69,
+      "mean_sentiment": -0.3512147674202055,
+      "std_sentiment": 0.378989825907104,
+      "negativity_ratio": 0.6376811594202898
+    },
+    "archive.ph": {
+      "count": 66,
+      "mean_sentiment": -0.26079176134909643,
+      "std_sentiment": 0.29521612769127487,
+      "negativity_ratio": 0.5757575757575758
+    },
+    "truthsocial.com": {
+      "count": 65,
+      "mean_sentiment": 0.11457935210603934,
+      "std_sentiment": 0.2400436545799257,
+      "negativity_ratio": 0.09230769230769231
+    },
+    "archive.is": {
+      "count": 63,
+      "mean_sentiment": -0.2695147651765082,
+      "std_sentiment": 0.4686524993268297,
+      "negativity_ratio": 0.5238095238095238
+    },
+    "tiktok.com": {
+      "count": 62,
+      "mean_sentiment": 0.13189759495998582,
+      "std_sentiment": 0.30539706753923973,
+      "negativity_ratio": 0.11290322580645161
+    },
+    "archive.org": {
+      "count": 61,
+      "mean_sentiment": -0.27349266522854077,
+      "std_sentiment": 0.3833601479630142,
+      "negativity_ratio": 0.6065573770491803
+    },
+    "abc.net.au": {
+      "count": 61,
+      "mean_sentiment": -0.38943251484974484,
+      "std_sentiment": 0.39682601116253147,
+      "negativity_ratio": 0.7213114754098361
+    },
+    "whitehouse.gov": {
+      "count": 59,
+      "mean_sentiment": 0.16661697070477371,
+      "std_sentiment": 0.17512366813552505,
+      "negativity_ratio": 0.03389830508474576
+    },
+    "pastebin.com": {
+      "count": 55,
+      "mean_sentiment": 0.19162902825257994,
+      "std_sentiment": 0.10142617765455456,
+      "negativity_ratio": 0.0
+    },
+    "bitchute.com": {
+      "count": 53,
+      "mean_sentiment": -0.21876738786275657,
+      "std_sentiment": 0.4027840926889191,
+      "negativity_ratio": 0.49056603773584906
+    },
+    "oilprice.com": {
+      "count": 49,
+      "mean_sentiment": -0.3133629048053099,
+      "std_sentiment": 0.17876375446553805,
+      "negativity_ratio": 0.6938775510204082
+    },
+    "donaldjtrump.com": {
+      "count": 49,
+      "mean_sentiment": 0.21078430116176605,
+      "std_sentiment": 0.0,
+      "negativity_ratio": 0.0
+    },
+    "thetrumparchive.com": {
+      "count": 49,
+      "mean_sentiment": 0.21078430116176605,
+      "std_sentiment": 0.0,
+      "negativity_ratio": 0.0
+    },
+    "flickr.com": {
+      "count": 49,
+      "mean_sentiment": 0.21078430116176605,
+      "std_sentiment": 0.0,
+      "negativity_ratio": 0.0
+    },
+    "trumplibrary.gov": {
+      "count": 49,
+      "mean_sentiment": 0.21078430116176605,
+      "std_sentiment": 0.0,
+      "negativity_ratio": 0.0
+    },
+    "tzevaadom.co.il": {
+      "count": 44,
+      "mean_sentiment": -0.3167905228381807,
+      "std_sentiment": 0.16782678641016988,
+      "negativity_ratio": 0.7272727272727273
+    },
+    "lebanon.liveuamap.com": {
+      "count": 44,
+      "mean_sentiment": -0.3167905228381807,
+      "std_sentiment": 0.16782678641016988,
+      "negativity_ratio": 0.7272727272727273
+    },
+    "flightradar24.com": {
+      "count": 44,
+      "mean_sentiment": -0.3167905228381807,
+      "std_sentiment": 0.16782678641016988,
+      "negativity_ratio": 0.7272727272727273
+    },
+    "flightaware.com": {
+      "count": 44,
+      "mean_sentiment": -0.3167905228381807,
+      "std_sentiment": 0.16782678641016988,
+      "negativity_ratio": 0.7272727272727273
+    },
+    "globe.adsbexchange.com": {
+      "count": 44,
+      "mean_sentiment": -0.3167905228381807,
+      "std_sentiment": 0.16782678641016988,
+      "negativity_ratio": 0.7272727272727273
+    },
+    "vesselfinder.com": {
+      "count": 44,
+      "mean_sentiment": -0.3167905228381807,
+      "std_sentiment": 0.16782678641016988,
+      "negativity_ratio": 0.7272727272727273
+    },
+    "independent.co.uk": {
+      "count": 44,
+      "mean_sentiment": -0.3060171068222685,
+      "std_sentiment": 0.25139763320913966,
+      "negativity_ratio": 0.7045454545454546
+    },
+    "music.youtube.com": {
+      "count": 42,
+      "mean_sentiment": -0.06301124278633367,
+      "std_sentiment": 0.37479139803101014,
+      "negativity_ratio": 0.19047619047619047
+    },
+    "reuters.com": {
+      "count": 40,
+      "mean_sentiment": -0.37238527145236733,
+      "std_sentiment": 0.3600098780370848,
+      "negativity_ratio": 0.675
+    },
+    "express.co.uk": {
+      "count": 40,
+      "mean_sentiment": -0.31242813281714915,
+      "std_sentiment": 0.24802757195475778,
+      "negativity_ratio": 0.725
+    },
+    "standard.co.uk": {
+      "count": 40,
+      "mean_sentiment": -0.3042400598526001,
+      "std_sentiment": 0.2401202542905982,
+      "negativity_ratio": 0.725
+    },
+    "itv.com": {
+      "count": 40,
+      "mean_sentiment": -0.29051456041634083,
+      "std_sentiment": 0.25254261749739065,
+      "negativity_ratio": 0.7
+    },
+    "i.4cdn.org": {
+      "count": 40,
+      "mean_sentiment": -0.06074337549507618,
+      "std_sentiment": 0.2874666641870076,
+      "negativity_ratio": 0.225
+    },
+    "lostarmour.info": {
+      "count": 38,
+      "mean_sentiment": -0.021861137724236437,
+      "std_sentiment": 0.015249564235179272,
+      "negativity_ratio": 0.0
+    },
+    "divgen.ru": {
+      "count": 37,
+      "mean_sentiment": -0.019399793969618308,
+      "std_sentiment": 0.002936362741609219,
+      "negativity_ratio": 0.0
+    },
+    "alertmap.ru": {
+      "count": 37,
+      "mean_sentiment": -0.019399793969618308,
+      "std_sentiment": 0.002936362741609219,
+      "negativity_ratio": 0.0
+    },
+    "alerts.in.ua": {
+      "count": 37,
+      "mean_sentiment": -0.019399793969618308,
+      "std_sentiment": 0.002936362741609219,
+      "negativity_ratio": 0.0
+    },
+    "scribblemaps.com": {
+      "count": 37,
+      "mean_sentiment": -0.019399793969618308,
+      "std_sentiment": 0.002936362741609219,
+      "negativity_ratio": 0.0
+    },
+    "liveuamap.com": {
+      "count": 37,
+      "mean_sentiment": -0.019399793969618308,
+      "std_sentiment": 0.002936362741609219,
+      "negativity_ratio": 0.0
+    },
+    "deepstatemap.live": {
+      "count": 37,
+      "mean_sentiment": -0.019399793969618308,
+      "std_sentiment": 0.002936362741609219,
+      "negativity_ratio": 0.0
+    },
+    "arcg.is": {
+      "count": 37,
+      "mean_sentiment": -0.019399793969618308,
+      "std_sentiment": 0.002936362741609219,
+      "negativity_ratio": 0.0
+    }
+  },
+  "categories": {
+    "mainstream": {
+      "count": 386,
+      "mean_sentiment": -0.3457419838022846,
+      "std_sentiment": 0.35473677324490427,
+      "negativity_ratio": 0.6606217616580311
+    },
+    "alternative": {
+      "count": 69,
+      "mean_sentiment": -0.2752243344658527,
+      "std_sentiment": 0.3418098545998813,
+      "negativity_ratio": 0.6231884057971014
+    },
+    "state_funded": {
+      "count": 15,
+      "mean_sentiment": -0.42966650625069935,
+      "std_sentiment": 0.3284092471427856,
+      "negativity_ratio": 0.8666666666666667
+    },
+    "social_media": {
+      "count": 4066,
+      "mean_sentiment": -0.1791163346195567,
+      "std_sentiment": 0.4314487122491129,
+      "negativity_ratio": 0.39449090014756516
+    },
+    "institutional": {
+      "count": 789,
+      "mean_sentiment": -0.22459877087853858,
+      "std_sentiment": 0.3776225063231643,
+      "negativity_ratio": 0.4524714828897338
+    },
+    "other": {
+      "count": 4753,
+      "mean_sentiment": -0.20874280791221017,
+      "std_sentiment": 0.35952753102541396,
+      "negativity_ratio": 0.4647590995160951
+    }
+  }
+}

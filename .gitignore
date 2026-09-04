@@ -1,26 +1,28 @@
-.DS_Store
+# Données brutes et intermédiaires — trop volumineuses pour git (~600 Mo).
+# Régénérables : scrape 4TCT -> convert_4tct_to_jsonl.py -> build_db.py
 4TCT/
+data/
 *.db
-__pycache__/
-*.pyc
-.env
+pol_data*.jsonl
+scraper.log
+
+# Sorties de test et données synthétiques (ne jamais confondre avec les vraies)
 figures/
 figures_test/
-figures_real/
 test_*.json
 test_*.csv
 synthetic_*.jsonl
 canada_results_*
-data/
-results/
-scraper.log
-pol_data*.jsonl
-pol_results_*.csv
-pol_results_*.json
-consolidated_stats.xlsx
-outputs/
-__pycache__/
-.DS_Store
-*.pyc
+
+# Environnement local
 .venv/
+.env
+__pycache__/
+*.pyc
+
+# Métadonnées de plateforme (la copie de travail est synchronisée depuis macOS)
+.DS_Store
 ._*
+
+# Les résultats publiés sont versionnés, eux : figures_real/, outputs/,
+# results/, pol_results_*, consolidated_stats.xlsx

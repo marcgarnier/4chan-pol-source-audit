@@ -1,0 +1,180 @@
+{
+  "mainstream": {
+    "mean_share": 0.03768746548546728,
+    "max_share": 0.059850374064837904,
+    "min_share": 0.01762114537444934
+  },
+  "alternative": {
+    "mean_share": 0.0069962643973928,
+    "max_share": 0.015060240963855422,
+    "min_share": 0.0
+  },
+  "social_media": {
+    "mean_share": 0.4079264417690729,
+    "max_share": 0.5154185022026432,
+    "min_share": 0.3346055979643766
+  },
+  "state_funded": {
+    "mean_share": 0.0013248042784154898,
+    "max_share": 0.008426966292134831,
+    "min_share": 0.0
+  },
+  "institutional": {
+    "mean_share": 0.07946326481253242,
+    "max_share": 0.11221122112211221,
+    "min_share": 0.05378151260504202
+  },
+  "other": {
+    "mean_share": 0.46660175925711905,
+    "max_share": 0.5419847328244275,
+    "min_share": 0.37623762376237624
+  },
+  "top_domains_overall": [
+    {
+      "domain": "youtube.com",
+      "count": 2938
+    },
+    {
+      "domain": "twitter.com",
+      "count": 621
+    },
+    {
+      "domain": "en.wikipedia.org",
+      "count": 443
+    },
+    {
+      "domain": "files.catbox.moe",
+      "count": 254
+    },
+    {
+      "domain": "rentry.org",
+      "count": 168
+    },
+    {
+      "domain": "bbc.com",
+      "count": 136
+    },
+    {
+      "domain": "t.me",
+      "count": 134
+    },
+    {
+      "domain": "archive.4plebs.org",
+      "count": 118
+    },
+    {
+      "domain": "theguardian.com",
+      "count": 90
+    },
+    {
+      "domain": "rumble.com",
+      "count": 88
+    },
+    {
+      "domain": "archive.today",
+      "count": 84
+    },
+    {
+      "domain": "marinetraffic.com",
+      "count": 81
+    },
+    {
+      "domain": "google.com",
+      "count": 72
+    },
+    {
+      "domain": "dailymail.com",
+      "count": 71
+    },
+    {
+      "domain": "xcancel.com",
+      "count": 69
+    },
+    {
+      "domain": "archive.ph",
+      "count": 66
+    },
+    {
+      "domain": "truthsocial.com",
+      "count": 65
+    },
+    {
+      "domain": "archive.is",
+      "count": 64
+    },
+    {
+      "domain": "tiktok.com",
+      "count": 63
+    },
+    {
+      "domain": "archive.org",
+      "count": 62
+    },
+    {
+      "domain": "abc.net.au",
+      "count": 61
+    },
+    {
+      "domain": "whitehouse.gov",
+      "count": 59
+    },
+    {
+      "domain": "pastebin.com",
+      "count": 57
+    },
+    {
+      "domain": "bitchute.com",
+      "count": 53
+    },
+    {
+      "domain": "oilprice.com",
+      "count": 49
+    },
+    {
+      "domain": "donaldjtrump.com",
+      "count": 49
+    },
+    {
+      "domain": "thetrumparchive.com",
+      "count": 49
+    },
+    {
+      "domain": "flickr.com",
+      "count": 49
+    },
+    {
+      "domain": "trumplibrary.gov",
+      "count": 49
+    },
+    {
+      "domain": "tzevaadom.co.il",
+      "count": 44
+    }
+  ],
+  "dates": [
+    "2026_07_22",
+    "2026_07_23",
+    "2026_07_24",
+    "2026_07_25",
+    "2026_07_26",
+    "2026_07_27",
+    "2026_07_29",
+    "2026_07_31",
+    "2026_08_04",
+    "2026_08_05",
+    "2026_08_06",
+    "2026_08_07",
+    "2026_08_08",
+    "2026_08_11",
+    "2026_08_13",
+    "2026_08_14",
+    "2026_08_15",
+    "2026_08_16",
+    "2026_08_17",
+    "2026_08_18",
+    "2026_08_31",
+    "2026_09_02",
+    "2026_09_03",
+    "2026_09_04"
+  ]
+}
