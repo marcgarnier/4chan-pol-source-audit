@@ -88,25 +88,31 @@ class ResearchPipeline:
             domains = extract_domains_from_post(post)
             if not domains:
                 continue
-            main_domain = domains[0]
             records.append({
                 "post_id": post.get("no"),
                 "text": text,
                 "domains": domains,
-                "primary_domain": main_domain["domain"],
-                "primary_category": main_domain["category"],
             })
         return records
 
     def compute_sentiment(self, records: list[dict]):
+        """Score chaque post une fois, puis attribue ce score à chacune de ses citations.
+
+        Un post citant plusieurs domaines compte une fois par domaine : garder le
+        seul premier domaine sous-estimait les catégories qui apparaissent en
+        second lien (typiquement les sources alternatives, citées après une vidéo
+        ou un tweet). `extract_domains()` déduplique déjà par post, donc un même
+        domaine cité deux fois dans un message ne compte qu'une fois.
+        """
         texts = [r["text"] for r in records]
         sentiments = self.sentiment.predict(texts)
         for rec, sent in zip(records, sentiments):
             rec["sentiment"] = sent
-            self.domain_counter[rec["primary_domain"]] += 1
-            self.category_counter[rec["primary_category"]] += 1
-            self.domain_sentiments[rec["primary_domain"]].append(sent["compound"])
-            self.category_sentiments[rec["primary_category"]].append(sent["compound"])
+            for d in rec["domains"]:
+                self.domain_counter[d["domain"]] += 1
+                self.category_counter[d["category"]] += 1
+                self.domain_sentiments[d["domain"]].append(sent["compound"])
+                self.category_sentiments[d["category"]].append(sent["compound"])
         self.post_records = records
 
     def summary_stats(self) -> dict:
@@ -134,14 +140,20 @@ class ResearchPipeline:
 
         return {
             "total_posts_with_links": len(self.post_records),
+            "total_citations": sum(self.domain_counter.values()),
             "total_domains_seen": len(self.domain_counter),
             "top_domains": domain_stats,
             "categories": category_stats,
         }
 
     def export_csv(self, path: str):
+        """Une ligne par citation, c.-à-d. par couple (post, domaine).
+
+        `post_id` se répète donc pour un post citant plusieurs domaines — même
+        granularité que la table `citations` de pol.db.
+        """
         fieldnames = [
-            "post_id", "primary_domain", "primary_category",
+            "post_id", "domain", "category",
             "compound", "neg_score", "neu_score", "pos_score",
             "text_preview",
         ]
@@ -150,16 +162,17 @@ class ResearchPipeline:
             writer.writeheader()
             for rec in self.post_records:
                 sent = rec.get("sentiment", {})
-                writer.writerow({
-                    "post_id": rec["post_id"],
-                    "primary_domain": rec["primary_domain"],
-                    "primary_category": rec["primary_category"],
-                    "compound": sent.get("compound"),
-                    "neg_score": sent.get("neg_score"),
-                    "neu_score": sent.get("neu_score"),
-                    "pos_score": sent.get("pos_score"),
-                    "text_preview": rec["text"][:200],
-                })
+                for d in rec["domains"]:
+                    writer.writerow({
+                        "post_id": rec["post_id"],
+                        "domain": d["domain"],
+                        "category": d["category"],
+                        "compound": sent.get("compound"),
+                        "neg_score": sent.get("neg_score"),
+                        "neu_score": sent.get("neu_score"),
+                        "pos_score": sent.get("pos_score"),
+                        "text_preview": rec["text"][:200],
+                    })
 
     def export_stats_json(self, path: str):
         with open(path, "w", encoding="utf-8") as f:
@@ -182,8 +195,10 @@ def compare_corpora(pol_stats: dict, canadian_stats: dict) -> dict:
     for cat in sorted(all_cats):
         p = pol_cats.get(cat, {})
         c = can_cats.get(cat, {})
-        p_total = pol_stats.get("total_posts_with_links", 1)
-        c_total = canadian_stats.get("total_posts_with_links", 1)
+        # Les compteurs de catégorie sont désormais des citations, pas des posts :
+        # le dénominateur des pourcentages doit l'être aussi.
+        p_total = pol_stats.get("total_citations") or 1
+        c_total = canadian_stats.get("total_citations") or 1
         comparison[cat] = {
             "pol_count": p.get("count", 0),
             "pol_pct": round(p.get("count", 0) / p_total * 100, 1),

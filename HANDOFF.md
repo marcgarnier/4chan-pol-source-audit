@@ -155,7 +155,21 @@ Chiffres corrigés, calculés sur la base (n = 10 078) :
 | Other | 4 753 | −0,209 | 47 % |
 | Social Media | 4 066 | −0,179 | 39 % |
 
-La direction de l'hypothèse tient toujours, mais **l'écart mainstream/alternative se réduit de 0,114 à 0,071** et Alternative passe de la 5ᵉ à la 3ᵉ place du classement. **Ce sont ces chiffres-là qu'il faut citer, pas ceux du pipeline.** Corriger `pipeline.py` pour émettre une ligne par couple (post, domaine) — ou, mieux, faire de `pol.db` la source unique des statistiques.
+La direction de l'hypothèse tient toujours, mais **l'écart mainstream/alternative se réduit de 0,114 à 0,071** et Alternative passe de la 5ᵉ à la 3ᵉ place du classement.
+
+### Corrigé le même jour
+
+`compute_sentiment()` parcourt désormais tous les domaines de chaque post au lieu du seul `domains[0]`. Le score reste calculé une fois par post — le coût en temps de calcul est inchangé — puis il est attribué à chacune de ses citations.
+
+Conséquences sur les formats de sortie :
+
+- `pol_results_posts.csv` passe à **une ligne par citation** (couple post × domaine), donc `post_id` s'y répète. Les colonnes `primary_domain` / `primary_category` deviennent `domain` / `category` : il n'y a plus de domaine privilégié. C'est la granularité de la table `citations`.
+- Les stats gagnent `total_citations` (10 078) à côté de `total_posts_with_links` (7 107).
+- `compare_corpora()` divisait ses pourcentages par le nombre de posts ; les compteurs étant devenus des citations, elle aurait produit des pourcentages > 100 %. Elle divise maintenant par `total_citations`.
+
+`longitudinal.py` et `topic_source_matrix.py` n'étaient pas touchés : ils itéraient déjà sur tous les domaines. Le défaut était isolé dans `pipeline.py`.
+
+**Vérification** : les six catégories du pipeline concordent maintenant exactement avec `pol.db` (10 078 citations, 1 408 domaines de part et d'autre). `pol_results_*`, `figures_real/` et `consolidated_stats.xlsx` ont été régénérés sur ces chiffres.
 
 ## Points restants — mise à jour de la liste du 22/07
 
@@ -167,6 +181,6 @@ Aggravé : **n° 3** (classification thématique) — « Other / Misc » passe d
 
 Inchangés : **n° 1** (sentiment ≠ stance), **n° 2** (troncature à 128 tokens), **n° 4** (choix éditoriaux à justifier : Fox News en Alternative, France 24 en State-funded mais pas BBC/CBC), **n° 5** (corpus canadien absent), **n° 6** (données synthétiques).
 
-Nouveau : **`pipeline.py` ne compte qu'un domaine par post** (voir plus haut). C'est le point le plus urgent — il fausse la catégorie Alternative d'un facteur 3,6 et affaiblit la mesure centrale du projet.
+Nouveau, **résolu le jour même** : `pipeline.py` ne comptait qu'un domaine par post (voir plus haut). Les deux voies donnent désormais des chiffres identiques.
 
-Nouveau : **`pipeline.py` et `pol.db` restent deux voies parallèles.** `sentiment_db.py` raccorde le sentiment, mais le pipeline continue de lire les JSONL et d'écrire ses propres CSV/JSON sans jamais consulter la base. À terme, faire de SQLite la source unique et ne garder les JSONL que comme format d'échange — ce qui règlerait le point précédent par construction.
+Nouveau : **`pipeline.py` et `pol.db` restent deux voies parallèles.** `sentiment_db.py` raccorde le sentiment et les compteurs concordent, mais le pipeline continue de lire les JSONL et de recalculer ce que la base contient déjà. Rien ne garantit que les deux resteront alignés après une prochaine modification. À terme, faire de SQLite la source unique et ne garder les JSONL que comme format d'échange.

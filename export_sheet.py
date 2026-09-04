@@ -38,6 +38,7 @@ def stats_to_rows(stats: dict) -> list[list]:
         ])
     rows.append([])
     rows.append(["Total posts avec liens", stats.get("total_posts_with_links", 0)])
+    rows.append(["Total citations (post x domaine)", stats.get("total_citations", 0)])
     rows.append(["Domaines uniques", stats.get("total_domains_seen", 0)])
     return rows
 
@@ -124,7 +125,7 @@ if __name__ == "__main__":
             reader = csv.reader(f)
             posts_rows = list(reader)
     else:
-        posts_rows = [["post_id", "primary_domain", "primary_category",
+        posts_rows = [["post_id", "domain", "category",
                        "compound", "neg_score", "neu_score", "pos_score", "text_preview"]]
 
     if args.output.endswith(".xlsx"):
