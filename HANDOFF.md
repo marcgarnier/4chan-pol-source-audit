@@ -204,3 +204,39 @@ L'article prend acte : le cadrage « mainstream contre alternatif » porte sur 4
 `paper/main.tex` — compile en 9 pages avec `pdflatex` (deux passes, pas de BibTeX, bibliographie en dur pour arXiv). Voir `paper/README.md` pour la soumission. **Deux choses restent à faire avant d'envoyer** : renseigner l'affiliation, et vérifier chaque référence contre sa source primaire — la liste vient de METHODOLOGY.md, qui porte lui-même l'avertissement de ne pas s'y fier en aveugle, et elle n'a pas été vérifiée bibliographiquement.
 
 Les limites sont énoncées sans ménagement dans l'article, dont deux que le lecteur doit connaître : la mesure de sentiment n'est **pas validée** sur ce domaine (§4.3 de METHODOLOGY exige un échantillon annoté à la main, jamais fait), et le codage des sources est **mono-axe** alors que la méthodologie en spécifie trois ancrés sur AllSides/MBFC/RSF. Les résultats descriptifs et de concentration, eux, ne dépendent ni du modèle de sentiment ni de la sous-division des médias d'information.
+
+## Codage manuel des domaines et réécriture de l'article (5 septembre 2026)
+
+Le chiffre phare de la première version de l'article — « les médias d'information ne pèsent que 4,6 % des citations » — était **faux**. Le classificateur reposait sur des listes bâties autour du marché médiatique américain et ne reconnaissait pas la presse britannique, australienne, israélienne ni ukrainienne, très présente dans un corpus dominé par les fils sur les guerres en cours. `dailymail.com`, `abc.net.au`, `independent.co.uk`, `itv.com`, `standard.co.uk`, `telegraph.co.uk`, `aljazeera.com`, `pravda.com.ua` tombaient tous en « other ».
+
+### Le codebook
+
+`make_annotation_sheet.py` a produit un classeur des 200 domaines non classés les plus cités (74,9 % du bucket), annoté à la main. Résultat versionné dans `domain_codebook.csv` (203 domaines), consulté en priorité par `classify_source()`. Quatre règles fixées d'avance et appliquées uniformément :
+
+1. **Agrégateurs** codés d'après ce qu'ils redistribuent ; moteurs de recherche et raccourcisseurs ne sont pas des médias.
+2. **State-controlled = propriété/financement**, pas indépendance éditoriale. Met ensemble Al Jazeera, BBC, ABC (Australie), PBS, NHK, DW, Anadolu, CNA, MPR — et sort la BBC (135 citations) de mainstream.
+3. **Substack et blogs d'opinion** = alternative.
+4. **Sites de campagne** = other ; les médias d'État restent state_funded.
+
+Nouvelle catégorie `archive` (11,0 % des citations), et sous-type `osint` pour les cartes de guerre et traceurs AIS/ADS-B (571 citations, 14 domaines).
+
+**Effet : les médias passent de 4,6 % à 12,8 %**, le bucket non classé de 47,2 % à 23,6 %, Alternative de 69 à 185 citations, State de 15 à 271.
+
+### Ce que ça change au résultat
+
+L'hypothèse de départ est **définitivement infirmée**, et bien plus solidement qu'avant : avec 2,7 fois plus de puissance, l'écart mainstream/alternatif *rétrécit* (Cliff's δ de −0,121 à −0,045, p(Holm) = 1,0). Un effet qui diminue quand n augmente n'est pas un effet sous-détecté.
+
+Ce qui apparaît à la place et porte l'article : les trois catégories de médias sont **statistiquement homogènes** (H = 2,97, p = 0,23) et toutes distinctes du reste. Médias (n = 1 290) : −0,345, médiane −0,374, 66,1 % négatif. Non-médias (n = 8 788) : −0,183, médiane −0,054, 41,3 % négatif. p = 3,6e−54, δ = −0,267 — le contraste le plus fort de l'étude.
+
+L'hostilité de /pol/ vise le journalisme comme activité, pas un axe partisan qui le traverserait. Le contre-canon alternatif reçoit le même accueil que la BBC.
+
+Bonus : la règle de financement (le choix le plus contestable du codage) **ne peut pas faire tomber ce résultat**, puisque toute réallocation *entre* catégories de médias laisse la partition médias/non-médias inchangée. L'article y consacre une section de robustesse.
+
+### Bugs corrigés au passage
+
+- `longitudinal.py` redéclarait la liste des catégories en dur à trois endroits : la catégorie `archive` était silencieusement absente et les parts journalières ne sommaient qu'à 88,8 %. Remplacé par `CATEGORY_KEYS`, plus une couleur pour `archive` dans le graphe.
+- `pipeline.py` et `pol.db` reconciliés après recodage : les sept catégories concordent exactement (10 078 citations de part et d'autre).
+
+### Limites déclarées dans l'article
+
+Le codage est **mono-codeur** (un seul annotateur contre des règles écrites, 12 cas marqués incertains, aucun κ de Cohen calculé). Les catégories structurelles — plateforme, archive, institutionnel — reposent sur des règles déterministes et sont robustes ; les subdivisions médias reposent sur ce jugement unique, mais le résultat central les agrège et y est donc peu exposé. Il reste 23,6 % de citations non classées, dont 904 domaines cités une seule fois.

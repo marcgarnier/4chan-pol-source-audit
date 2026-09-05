@@ -29,17 +29,14 @@ CATEGORY_LABELS = {
     "state_funded": "State-controlled",
     "social_media": "Social platform",
     "institutional": "Institutional",
+    "archive": "Archive / file host",
     "other": "Unclassified",
 }
 
-# §4.4 : les hébergeurs de fichiers et archives ne sont pas du bruit, ce sont
-# des comportements de sourçage (contournement de modération, préservation de
-# contenu supprimé). Matché par suffixe de domaine.
-ARCHIVE_HOSTS = (
-    "catbox.moe", "rentry.org", "archive.today", "archive.ph", "archive.is",
-    "archive.org", "4plebs.org", "desuarchive.org", "warosu.org",
-    "pastebin.com", "ghostarchive.org", "yandex.com", "files.catbox.moe",
-)
+# Les archives ont désormais leur propre catégorie dans le codebook. La
+# sous-analyse porte sur le cluster OSINT (cartes de guerre, traceurs AIS/ADS-B),
+# annoté en sous-type lors du codage manuel : ~700 citations que la catégorie
+# "other" masquait.
 
 
 # --------------------------------------------------------------------------
@@ -227,6 +224,39 @@ def sentiment_tests(rows):
     }
 
 
+NEWS_CATEGORIES = ("mainstream", "alternative", "state_funded")
+
+
+def news_block_test(rows):
+    """Médias (toutes catégories) contre non-médias, et homogénéité interne du bloc.
+
+    Le codage manuel fait apparaître que les trois catégories de médias ne se
+    distinguent pas entre elles, mais se distinguent nettement du reste. C'est
+    ce contraste-là, et non mainstream/alternatif, qui porte le signal.
+    """
+    news = np.array([r[2] for r in rows if r[1] in NEWS_CATEGORIES])
+    rest = np.array([r[2] for r in rows if r[1] not in NEWS_CATEGORIES])
+    u = stats.mannwhitneyu(news, rest, alternative="two-sided")
+
+    within = [np.array([r[2] for r in rows if r[1] == cat]) for cat in NEWS_CATEGORIES]
+    h, p_within = stats.kruskal(*within)
+
+    return {
+        "news_n": int(len(news)), "news_mean": float(news.mean()),
+        "news_median": float(np.median(news)),
+        "news_negativity": float((news < -0.2).mean()),
+        "rest_n": int(len(rest)), "rest_mean": float(rest.mean()),
+        "rest_median": float(np.median(rest)),
+        "rest_negativity": float((rest < -0.2).mean()),
+        "mannwhitney_p": float(u.pvalue),
+        "cliffs_delta": cliffs_delta(news, rest),
+        "mean_gap": float(news.mean() - rest.mean()),
+        "within_news_kruskal_h": float(h),
+        "within_news_p": float(p_within),
+        "within_news_homogeneous": bool(p_within > 0.05),
+    }
+
+
 def adjusted_model(rows):
     """sentiment ~ catégorie + thème + log(longueur du post) — §3.2."""
     import pandas as pd
@@ -256,23 +286,27 @@ def adjusted_model(rows):
 
 
 def other_breakdown(rows):
-    """§4.4 : sortir hébergeurs de fichiers et archives du bucket 'Other'."""
+    """Sous-analyse du cluster OSINT à l'intérieur du bucket 'other'.
+
+    Cartes de guerre en direct, traceurs AIS et ADS-B : un comportement de
+    sourçage distinct, identifié lors du codage manuel (colonne subtype du
+    codebook), que la catégorie fourre-tout masquait entièrement.
+    """
+    from source_classifier import source_subtype
+
     other = [r for r in rows if r[1] == "other"]
-    counts = Counter(r[0] for r in other)
-    is_archive = lambda d: any(d == h or d.endswith("." + h) for h in ARCHIVE_HOSTS)
-    arch = {d: c for d, c in counts.items() if is_archive(d)}
-    n_arch = sum(arch.values())
-    arch_vals = np.array([r[2] for r in other if is_archive(r[0])])
+    osint = [r for r in other if source_subtype(r[0]) == "osint"]
+    counts = Counter(r[0] for r in osint)
+    vals = np.array([r[2] for r in osint]) if osint else np.array([])
     return {
         "other_total": len(other),
-        "archive_citations": n_arch,
-        "archive_share_of_other": n_arch / len(other) if other else 0.0,
-        "archive_share_of_all": n_arch / len(rows),
-        "archive_unique_domains": len(arch),
-        "archive_mean_sentiment": float(arch_vals.mean()) if len(arch_vals) else float("nan"),
-        "residual_other": len(other) - n_arch,
-        "top_archives": [{"domain": d, "n": c}
-                         for d, c in sorted(arch.items(), key=lambda x: -x[1])[:10]],
+        "osint_citations": len(osint),
+        "osint_share_of_other": len(osint) / len(other) if other else 0.0,
+        "osint_share_of_all": len(osint) / len(rows),
+        "osint_unique_domains": len(counts),
+        "osint_mean_sentiment": float(vals.mean()) if len(vals) else float("nan"),
+        "residual_other": len(other) - len(osint),
+        "top_osint": [{"domain": d, "n": c} for d, c in counts.most_common(10)],
     }
 
 
@@ -445,6 +479,7 @@ def main(db, out_json, make_figures):
         "shares": category_shares(rows, meta),
         "concentration": concentration(rows),
         "sentiment": sentiment_tests(rows),
+        "news_block": news_block_test(rows),
         "adjusted_model": adjusted_model(rows),
         "other_breakdown": other_breakdown(rows),
         "cocitation": cocitation(rows),
@@ -475,10 +510,20 @@ def main(db, out_json, make_figures):
         pair = f"{CATEGORY_LABELS.get(r['a'],r['a'])} vs {CATEGORY_LABELS.get(r['b'],r['b'])}"
         print(f"{pair:34}{r['z']:>8.2f}{r['p_holm']:>12.3g}{r['delta']:>9.3f}  {r['magnitude']}")
 
+    nb = res["news_block"]
+    print(f"\nMédias ({nb['news_n']:,}) vs non-médias ({nb['rest_n']:,}) : "
+          f"{nb['news_mean']:+.3f} contre {nb['rest_mean']:+.3f}, "
+          f"p={nb['mannwhitney_p']:.3g}, delta={nb['cliffs_delta']:+.3f} "
+          f"({interpret_delta(nb['cliffs_delta'])})")
+    print(f"  homogénéité interne du bloc médias : H={nb['within_news_kruskal_h']:.2f}, "
+          f"p={nb['within_news_p']:.3f} -> "
+          f"{'homogène' if nb['within_news_homogeneous'] else 'hétérogène'}")
+
     ob, dl = res["other_breakdown"], res["deletion"]
-    print(f"\nArchives/hébergeurs : {ob['archive_citations']:,} citations "
-          f"({ob['archive_share_of_all']*100:.1f}% du total, "
-          f"{ob['archive_share_of_other']*100:.1f}% du bucket 'Other')")
+    print(f"\nCluster OSINT : {ob['osint_citations']:,} citations "
+          f"({ob['osint_share_of_all']*100:.1f}% du total, "
+          f"{ob['osint_share_of_other']*100:.1f}% du bucket 'other', "
+          f"{ob['osint_unique_domains']} domaines)")
     print(f"Co-citation : {res['cocitation']['nodes']} noeuds, "
           f"{res['cocitation']['edges']} arêtes, "
           f"modularité={res['cocitation']['modularity']:.3f}, "

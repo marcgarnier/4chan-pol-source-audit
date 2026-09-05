@@ -1,0 +1,204 @@
+domain,category,subtype,source,uncertain,citations,note
+files.catbox.moe,archive,,manual_2026-09-05,,253,
+rentry.org,archive,,manual_2026-09-05,,168,
+archive.4plebs.org,archive,,manual_2026-09-05,,117,
+archive.today,archive,,manual_2026-09-05,,83,
+marinetraffic.com,other,osint,manual_2026-09-05,,81,Traceur AIS commercial (cluster OSINT).
+google.com,other,,manual_2026-09-05,,70,"Moteur de recherche : page de resultats, pas une source."
+dailymail.com,mainstream,,manual_2026-09-05,,70,
+xcancel.com,social_media,,manual_2026-09-05,,69,
+archive.ph,archive,,manual_2026-09-05,,66,
+archive.is,archive,,manual_2026-09-05,,63,
+archive.org,archive,,manual_2026-09-05,,61,
+abc.net.au,state_funded,,manual_2026-09-05,,61,"Diffuseur public australien (regle de financement, cf. BBC/PBS)."
+pastebin.com,archive,,manual_2026-09-05,,55,
+thetrumparchive.com,social_media,,manual_2026-09-05,,49,"Miroir/base de tweets : un lien = un tweet, comme nitter."
+oilprice.com,mainstream,,manual_2026-09-05,,49,"Media specialise energie, commercial."
+flickr.com,social_media,,manual_2026-09-05,,49,
+donaldjtrump.com,other,,manual_2026-09-05,,49,Site de campagne politique (pas de categorie dediee).
+vesselfinder.com,other,osint,manual_2026-09-05,,44,Traceur AIS (cluster OSINT).
+tzevaadom.co.il,other,osint,manual_2026-09-05,,44,"Carte/alertes roquettes, operateur tiers (cluster OSINT)."
+lebanon.liveuamap.com,other,osint,manual_2026-09-05,,44,Carte de guerre en direct (cluster OSINT).
+independent.co.uk,mainstream,,manual_2026-09-05,,44,
+globe.adsbexchange.com,other,osint,manual_2026-09-05,,44,Traceur ADS-B (cluster OSINT).
+flightradar24.com,other,osint,manual_2026-09-05,,44,Traceur ADS-B (cluster OSINT).
+flightaware.com,other,osint,manual_2026-09-05,,44,Traceur ADS-B (cluster OSINT).
+standard.co.uk,mainstream,,manual_2026-09-05,,40,
+itv.com,mainstream,,manual_2026-09-05,,40,"Diffuseur commercial britannique (licence Ofcom), pas public."
+i.4cdn.org,social_media,,manual_2026-09-05,,40,CDN d'images de 4chan.
+lostarmour.info,other,osint,manual_2026-09-05,,38,"Traceur de pertes materielles, orientation pro-russe (cluster OSINT)."
+ukraineviews.org,other,,manual_2026-09-05,yes,37,"INCERTAIN : ressource du cluster cartes/cameras Ukraine, operateur non identifie."
+scribblemaps.com,other,,manual_2026-09-05,,37,Outil de cartographie.
+opermap.mash.ru,other,,manual_2026-09-05,,37,Carte d'incidents editee par Mash (media Telegram russe) ; fonction = carte.
+liveuamap.com,other,osint,manual_2026-09-05,,37,Carte de guerre en direct (cluster OSINT).
+greasyfork.org,other,,manual_2026-09-05,,37,Depot de userscripts.
+en-gb.topographic-map.com,other,,manual_2026-09-05,,37,Outil cartographique.
+divgen.ru,other,,manual_2026-09-05,yes,37,"INCERTAIN : site russe du cluster ressources, non identifie."
+deepstatemap.live,other,osint,manual_2026-09-05,,37,Carte de guerre en direct (cluster OSINT).
+browser.dataspace.copernicus.eu,other,osint,manual_2026-09-05,,37,Visualiseur satellite de l'UE : operateur institutionnel mais usage = outil OSINT. Reclassable en institutional.
+archive.md,archive,,manual_2026-09-05,,37,
+arcg.is,other,,manual_2026-09-05,,37,Raccourcisseur ArcGIS (cartes).
+alerts.in.ua,other,osint,manual_2026-09-05,,37,Carte d'alertes aeriennes (cluster OSINT).
+alertmap.ru,other,osint,manual_2026-09-05,,37,Carte d'alertes (cluster OSINT).
+tampermonkey.net,other,,manual_2026-09-05,,36,Outil / extension navigateur.
+russiafossiltracker.com,other,,manual_2026-09-05,,36,"Traceur du CREA (ONG de recherche) ; classe en other par fonction, reclassable en institutional."
+rz-life.ru,other,,manual_2026-09-05,yes,35,"INCERTAIN : site russe du cluster ressources, non identifie."
+web.archive.org,archive,,manual_2026-09-05,,33,
+nitter.net,social_media,,manual_2026-09-05,,32,
+imgur.com,social_media,,manual_2026-09-05,,30,
+write.as,archive,,manual_2026-09-05,,28,
+nypost.com,mainstream,,manual_2026-09-05,,28,
+executiveconcern.substack.com,alternative,,manual_2026-09-05,,26,Substack d'opinion (regle Substack = alternative).
+litter.catbox.moe,archive,,manual_2026-09-05,,24,
+pastes.io,archive,,manual_2026-09-05,,22,
+nitter.poast.org,social_media,,manual_2026-09-05,,22,
+pastejustit.com,archive,,manual_2026-09-05,,21,
+streamable.com,social_media,,manual_2026-09-05,,19,
+telegraph.co.uk,mainstream,,manual_2026-09-05,,18,
+rutracker.org,archive,,manual_2026-09-05,,18,Tracker torrent = partage de fichiers.
+mega.nz,archive,,manual_2026-09-05,,18,
+amazon.in,other,,manual_2026-09-05,,17,Boutique en ligne.
+w7tpbzncbcocrqtwwm3nezhnnsw4ozadvi2hmvzdhrqzfxfum7wa.b32.i2p,other,,manual_2026-09-05,yes,16,"INCERTAIN : service cache I2P, nature du contenu inconnue."
+msn.com,mainstream,,manual_2026-09-05,,15,Agregateur : code selon ce qu'il redistribue (presse etablie).
+finance.yahoo.com,mainstream,,manual_2026-09-05,,15,Agregateur : code selon ce qu'il redistribue.
+holocaustsummit.com,other,,manual_2026-09-05,yes,14,INCERTAIN : site d'evenement/campagne ; verifier l'orientation avant publication.
+timesofisrael.com,mainstream,,manual_2026-09-05,,13,
+pbs.org,state_funded,,manual_2026-09-05,,13,
+yahoo.com,mainstream,,manual_2026-09-05,,12,Agregateur : code selon ce qu'il redistribue.
+ndtv.com,mainstream,,manual_2026-09-05,,12,
+vocaroo.com,social_media,,manual_2026-09-05,,11,
+pravda.com.ua,mainstream,,manual_2026-09-05,,11,Presse privee ukrainienne (aucun lien avec pravda.ru).
+kyivpost.com,mainstream,,manual_2026-09-05,,10,
+jpost.com,mainstream,,manual_2026-09-05,,10,
+forbes.com,mainstream,,manual_2026-09-05,,10,
+cloakbin.com,archive,,manual_2026-09-05,,10,
+politico.com,mainstream,,manual_2026-09-05,,9,
+nature.com,institutional,,manual_2026-09-05,,9,
+india.com,mainstream,,manual_2026-09-05,,9,
+voca.ro,social_media,,manual_2026-09-05,,8,
+statista.com,institutional,,manual_2026-09-05,,8,Base de donnees de reference (commerciale).
+noticer.news,alternative,,manual_2026-09-05,,8,
+news.com.au,mainstream,,manual_2026-09-05,,8,
+abcnews.com,mainstream,,manual_2026-09-05,,8,"ABC News (US, Disney) - a ne pas confondre avec abc.net.au."
+unz.com,alternative,,manual_2026-09-05,,7,
+thehiddenbay.com,archive,,manual_2026-09-05,,7,Miroir de The Pirate Bay.
+sterke-erven.nl,alternative,,manual_2026-09-05,yes,7,INCERTAIN : site militant agricole NL publiant des liveblogs.
+share.google,other,,manual_2026-09-05,,7,Raccourcisseur de liens.
+sciencedirect.com,institutional,,manual_2026-09-05,,7,
+icrc.org,institutional,,manual_2026-09-05,,7,
+hochuvernut.com,state_funded,,manual_2026-09-05,yes,7,"INCERTAIN : projet lie au conflit RU/UA, vraisemblablement etatique - a verifier."
+github.com,other,,manual_2026-09-05,,7,Depot de code.
+drive.google.com,archive,,manual_2026-09-05,,7,Hebergement de fichiers.
+businessinsider.com,mainstream,,manual_2026-09-05,,7,
+arxiv.org,institutional,,manual_2026-09-05,,7,
+aljazeera.com,state_funded,,manual_2026-09-05,,7,"Regle de financement : finance par le Qatar, comme BBC/ABC/PBS."
+ynetnews.com,mainstream,,manual_2026-09-05,,6,
+united24media.com,state_funded,,manual_2026-09-05,,6,Bras mediatique de la plateforme d'Etat ukrainienne United24.
+tmz.com,mainstream,,manual_2026-09-05,,6,
+thehill.com,mainstream,,manual_2026-09-05,,6,
+strawpoll.com,other,,manual_2026-09-05,,6,Outil de sondage.
+propublica.org,mainstream,,manual_2026-09-05,,6,Redaction d'investigation a but non lucratif = presse etablie.
+pewresearch.org,institutional,,manual_2026-09-05,,6,
+militarnyi.com,mainstream,,manual_2026-09-05,,6,Media prive specialise defense (UA).
+civitasoutlook.com,alternative,,manual_2026-09-05,,6,Revue d'opinion adossee au Civitas Institute (UT Austin) ; limite avec institutional.
+amren.com,alternative,,manual_2026-09-05,,6,
+americanstasi.com,alternative,,manual_2026-09-05,,6,Blog d'opinion.
+themoscowtimes.com,mainstream,,manual_2026-09-05,,5,"Redaction independante en exil, non etatique."
+politico.eu,mainstream,,manual_2026-09-05,,5,
+pluto.tv,other,,manual_2026-09-05,,5,Service de streaming.
+ncofnas.com,alternative,,manual_2026-09-05,,5,Blog d'opinion (regle Substack/blogs).
+navytimes.com,mainstream,,manual_2026-09-05,,5,
+militarywatchmagazine.com,alternative,,manual_2026-09-05,,5,"Publication non etablie, ligne pro-Russie/Chine."
+kyivindependent.com,mainstream,,manual_2026-09-05,,5,
+incels.is,social_media,,manual_2026-09-05,,5,Forum communautaire.
+horoscope.com,other,,manual_2026-09-05,,5,
+gematriaeffect.news,alternative,,manual_2026-09-05,,5,Blog conspirationniste.
+gbnews.com,mainstream,,manual_2026-09-05,,5,Chaine commerciale sous licence Ofcom ; ligne editoriale tres partisane.
+fortune.com,mainstream,,manual_2026-09-05,,5,
+busification.org,other,,manual_2026-09-05,yes,5,"INCERTAIN : site de campagne militante, non identifie."
+biblegateway.com,institutional,,manual_2026-09-05,,5,Corpus de reference (texte religieux).
+wikileaks.org,alternative,,manual_2026-09-05,,4,"Editeur de documents divulgues, hors presse etablie ; limite avec archive."
+wahlrecht.de,institutional,,manual_2026-09-05,,4,Reference des sondages electoraux allemands (edite a titre prive).
+thehotstar.net,other,,manual_2026-09-05,yes,4,"INCERTAIN : site personnel, contenu non identifie."
+thegatewaypundit.com,alternative,,manual_2026-09-05,,4,
+solifonds.me,other,,manual_2026-09-05,yes,4,"INCERTAIN : fonds de solidarite / collecte, a verifier."
+scribd.com,archive,,manual_2026-09-05,,4,Hebergement de documents.
+scmp.com,mainstream,,manual_2026-09-05,,4,
+schiebt-sie-ab.de,other,,manual_2026-09-05,,4,Site de campagne militante (pas de production d'information).
+researchgate.net,institutional,,manual_2026-09-05,,4,
+protestkarte.de,other,,manual_2026-09-05,,4,Carte de manifestations.
+program.dsausa.org,other,,manual_2026-09-05,,4,"Document d'organisation politique (DSA), meme traitement que donaldjtrump.com."
+podcast.einprozent.de,alternative,,manual_2026-09-05,,4,Podcast de l'organisation militante Ein Prozent.
+news.ycombinator.com,social_media,,manual_2026-09-05,,4,Agregateur communautaire de liens.
+newrepublic.com,mainstream,,manual_2026-09-05,,4,
+mea.gov.in,institutional,,manual_2026-09-05,,4,Ministere indien des Affaires etrangeres (.gov.in non capte par la regle auto).
+linke-gewalt.info,other,,manual_2026-09-05,,4,Base de donnees militante.
+link.springer.com,institutional,,manual_2026-09-05,,4,
+kvltgames.com,other,,manual_2026-09-05,,4,Editeur / boutique de jeux.
+interestingengineering.com,mainstream,,manual_2026-09-05,,4,"Site d'info tech commercial, qualite editoriale faible ; limite avec alternative."
+history.com,mainstream,,manual_2026-09-05,,4,"Site d'une chaine de TV (A+E), vulgarisation."
+gutenberg.org,institutional,,manual_2026-09-05,,4,Bibliotheque numerique.
+gofile.io,archive,,manual_2026-09-05,,4,
+euronews.com,mainstream,,manual_2026-09-05,,4,Propriete privee (Alpac Capital) malgre un financement partiel de l'UE ; reclassable en state_funded si le critere est le financement seul.
+english.nv.ua,mainstream,,manual_2026-09-05,,4,
+einprozent.de,alternative,,manual_2026-09-05,,4,Organisation militante identitaire produisant du contenu editorial.
+educate-yourself.org,alternative,,manual_2026-09-05,,4,Site conspirationniste.
+cnbc.com,mainstream,,manual_2026-09-05,,4,
+assets.publishing.service.gov.uk,institutional,,manual_2026-09-05,,4,Publications du gouvernement britannique.
+arstechnica.com,mainstream,,manual_2026-09-05,,4,
+aa.com.tr,state_funded,,manual_2026-09-05,,4,"Agence Anadolu, agence d'Etat turque."
+7news.com.au,mainstream,,manual_2026-09-05,,4,
+zillow.com,other,,manual_2026-09-05,,3,Annonces immobilieres.
+www3.nhk.or.jp,state_funded,,manual_2026-09-05,,3,"NHK, diffuseur public japonais."
+washingtonexaminer.com,mainstream,,manual_2026-09-05,,3,Presse etablie a ligne conservatrice (meme traitement que nypost).
+variety.com,mainstream,,manual_2026-09-05,,3,
+usatoday.com,mainstream,,manual_2026-09-05,,3,
+thesun.co.uk,mainstream,,manual_2026-09-05,,3,
+theconversation.com,mainstream,,manual_2026-09-05,,3,Media a but non lucratif finance par des universites ; limite avec institutional.
+theargus.co.uk,mainstream,,manual_2026-09-05,,3,Presse locale britannique.
+texastribune.org,mainstream,,manual_2026-09-05,,3,Redaction locale a but non lucratif.
+surveys.ecb.europa.eu,institutional,,manual_2026-09-05,,3,BCE.
+suetterlinschrift.de,other,,manual_2026-09-05,,3,Site pedagogique personnel.
+substack.com,alternative,,manual_2026-09-05,,3,Racine de la plateforme (page de profil) ; meme traitement que les Substack individuels.
+store.steampowered.com,other,,manual_2026-09-05,,3,Boutique.
+sciencedaily.com,institutional,,manual_2026-09-05,,3,"Rediffuse des communiques de recherche : code selon le contenu redistribue, comme les agregateurs."
+sacred-texts.com,institutional,,manual_2026-09-05,,3,Bibliotheque de textes du domaine public.
+realtor.com,other,,manual_2026-09-05,,3,Annonces immobilieres.
+pol.foundation,other,,manual_2026-09-05,yes,3,"INCERTAIN : site lie a la culture /pol/, nature non identifiee."
+nottinghampost.com,mainstream,,manual_2026-09-05,,3,Presse locale britannique.
+nine.com.au,mainstream,,manual_2026-09-05,,3,
+news.yahoo.co.jp,mainstream,,manual_2026-09-05,,3,Agregateur : code selon ce qu'il redistribue.
+mprnews.org,state_funded,,manual_2026-09-05,,3,Minnesota Public Radio.
+militarytimes.com,mainstream,,manual_2026-09-05,,3,"Sightline Media, editeur commercial (non militaire)."
+midwesterndoctor.com,alternative,,manual_2026-09-05,,3,Substack d'opinion medicale heterodoxe.
+michaelpeinovich.substack.com,alternative,,manual_2026-09-05,,3,Substack d'opinion.
+metro.co.uk,mainstream,,manual_2026-09-05,,3,
+maps.app.goo.gl,other,,manual_2026-09-05,,3,Lien Google Maps.
+kurrent-lernen-muecke.de,other,,manual_2026-09-05,,3,Site pedagogique personnel.
+kttc.com,mainstream,,manual_2026-09-05,,3,Station de TV locale (US).
+knowyourmeme.com,institutional,,manual_2026-09-05,,3,Wiki de reference sur la culture internet ; limite avec other.
+iltalehti.fi,mainstream,,manual_2026-09-05,,3,
+idrama.science,institutional,,manual_2026-09-05,,3,Collectif de recherche sur les communautes en ligne (page publications).
+home.cern,institutional,,manual_2026-09-05,,3,
+goodreads.com,social_media,,manual_2026-09-05,,3,Plateforme communautaire (Amazon) ; utilisee ici comme source de citation.
+futurism.com,mainstream,,manual_2026-09-05,,3,Media tech commercial.
+filebin.net,archive,,manual_2026-09-05,,3,
+factually.co,alternative,,manual_2026-09-05,yes,3,"INCERTAIN : site de fact-checking peu etabli, a verifier."
+en.wikisource.org,institutional,,manual_2026-09-05,,3,Bibliotheque de reference.
+ecb.europa.eu,institutional,,manual_2026-09-05,,3,BCE.
+dw.com,state_funded,,manual_2026-09-05,,3,"Deutsche Welle, diffuseur public allemand."
+docs.google.com,archive,,manual_2026-09-05,,3,Document heberge.
+deflock.org,other,osint,manual_2026-09-05,,3,Carte militante des lecteurs de plaques (cluster OSINT).
+deadline.com,mainstream,,manual_2026-09-05,,3,
+dailyo.in,mainstream,,manual_2026-09-05,,3,Groupe India Today.
+corbettreport.com,alternative,,manual_2026-09-05,,3,Media conspirationniste independant.
+channelnewsasia.com,state_funded,,manual_2026-09-05,,3,"Mediacorp, propriete de l'Etat singapourien."
+cato.org,institutional,,manual_2026-09-05,,3,Think tank de recherche.
+bostonglobe.com,mainstream,,manual_2026-09-05,,3,
+balkangreenenergynews.com,mainstream,,manual_2026-09-05,,3,Media specialise energie.
+axios.com,mainstream,,manual_2026-09-05,,3,
+app.filen.io,archive,,manual_2026-09-05,,3,Hebergement de fichiers.
+annas-archive.gl,archive,,manual_2026-09-05,,3,Bibliotheque fantome / hebergement de fichiers.
+bbc.com,state_funded,,rule_financement_2026-09-05,,,"Redevance publique britannique (regle de financement, cf. Guide)."
+cbc.ca,state_funded,,rule_financement_2026-09-05,,,"Diffuseur public canadien (regle de financement, cf. Guide)."
+npr.org,state_funded,,rule_financement_2026-09-05,,,"Radio publique americaine, meme famille que PBS/MPR (regle de financement)."

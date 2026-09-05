@@ -1,5 +1,31 @@
+import csv
 import re
+from pathlib import Path
 from urllib.parse import urlparse
+
+# Codebook manuel (METHODOLOGY §2.4) : mapping versionné domaine -> catégorie,
+# issu de l'annotation à la main du 2026-09-05. Il a priorité sur les listes
+# ci-dessous, qui restent la règle par défaut pour les domaines non annotés.
+CODEBOOK_PATH = Path(__file__).with_name("domain_codebook.csv")
+
+
+def _load_codebook(path: Path = CODEBOOK_PATH) -> tuple[dict, dict]:
+    """Retourne (domaine -> catégorie, domaine -> sous-type)."""
+    cats, subs = {}, {}
+    if not path.exists():
+        return cats, subs
+    with open(path, newline="", encoding="utf-8") as f:
+        for row in csv.DictReader(f):
+            domain = (row.get("domain") or "").strip().lower()
+            category = (row.get("category") or "").strip()
+            if domain and category:
+                cats[domain] = category
+                if row.get("subtype"):
+                    subs[domain] = row["subtype"].strip()
+    return cats, subs
+
+
+CODEBOOK, CODEBOOK_SUBTYPES = _load_codebook()
 
 # Alias → domaine canonique (un seul domaine par entité pour éviter le double comptage)
 DOMAIN_ALIASES = {
@@ -64,16 +90,18 @@ CATEGORY_KEYS = [
     "state_funded",
     "social_media",
     "institutional",
+    "archive",
     "other",
 ]
 
 CATEGORY_LABELS = {
     "mainstream": "Mainstream",
     "alternative": "Alternative",
-    "state_funded": "State-funded",
-    "social_media": "Social Media",
+    "state_funded": "State-controlled",
+    "social_media": "Social platform",
     "institutional": "Institutional",
-    "other": "Other",
+    "archive": "Archive / file host",
+    "other": "Unclassified",
 }
 
 # Regex partagée d'extraction d'URLs dans le HTML des posts
@@ -105,8 +133,21 @@ def _in_set(domain: str, domain_set: set[str]) -> bool:
     return False
 
 
+def source_subtype(domain: str) -> str:
+    """Sous-type annoté (ex. 'osint') ou chaîne vide. Sert aux sous-analyses."""
+    return CODEBOOK_SUBTYPES.get(domain, "")
+
+
 def classify_source(domain: str) -> str:
-    """Retourne une clé de CATEGORY_KEYS. State-funded testé avant Alternative (RT, TASS…)."""
+    """Retourne une clé de CATEGORY_KEYS.
+
+    Le codebook manuel est consulté en premier : il corrige les domaines que les
+    listes par défaut ne connaissent pas (presse britannique, australienne,
+    israélienne, ukrainienne) et applique la règle de financement retenue lors de
+    l'annotation. State-funded reste testé avant Alternative (RT, TASS…).
+    """
+    if domain in CODEBOOK:
+        return CODEBOOK[domain]
     if _in_set(domain, STATE_FUNDED):
         return "state_funded"
     if _in_set(domain, LEGACY_MAINSTREAM):

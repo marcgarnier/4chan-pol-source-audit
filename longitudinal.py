@@ -8,7 +8,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
 
-from source_classifier import classify_source, extract_domains, CATEGORY_LABELS
+from source_classifier import classify_source, extract_domains, CATEGORY_KEYS, CATEGORY_LABELS
 
 CATEGORY_COLORS = {
     "mainstream": "#4C72B0",
@@ -16,6 +16,7 @@ CATEGORY_COLORS = {
     "social_media": "#55A868",
     "state_funded": "#C44E52",
     "institutional": "#8172B2",
+    "archive": "#937860",
     "other": "#8C8C8C",
 }
 
@@ -64,7 +65,7 @@ def run_all(data_dir: str = "data", results_dir: str = "results/longitudinal"):
 
 def _plot_category_timeline(dates, category_counts, out_dir):
     fig, ax = plt.subplots(figsize=(12, 6))
-    cats = ["mainstream", "alternative", "social_media", "state_funded", "institutional", "other"]
+    cats = list(CATEGORY_KEYS)  # source unique : ne pas redéclarer la liste ici
     x = np.arange(len(dates))
 
     bottom = np.zeros(len(dates))
@@ -90,7 +91,7 @@ def _plot_category_timeline(dates, category_counts, out_dir):
 
 
 def _export_table(dates, category_counts, post_counts, out_dir):
-    cats = ["mainstream", "alternative", "social_media", "state_funded", "institutional", "other"]
+    cats = list(CATEGORY_KEYS)  # source unique : ne pas redéclarer la liste ici
     path = out_dir / "daily_categories.csv"
     with open(path, "w", newline="", encoding="utf-8") as f:
         w = csv.writer(f)
@@ -102,7 +103,7 @@ def _export_table(dates, category_counts, post_counts, out_dir):
 
 
 def _save_aggregated_stats(dates, category_counts, domain_counts, out_dir):
-    cats = ["mainstream", "alternative", "social_media", "state_funded", "institutional", "other"]
+    cats = list(CATEGORY_KEYS)  # source unique : ne pas redéclarer la liste ici
     aggregated = {}
     for cat in cats:
         vals = [d.get(cat, 0) for d in category_counts]
