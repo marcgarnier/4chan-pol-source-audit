@@ -14,7 +14,7 @@
 
 \captionsetup{font=small,labelfont=bf}
 
-\title{\textbf{Hostility to Journalism, Not to the Mainstream}\\[0.3em]
+\title{\textbf{What /pol/ Actually Cites}\\[0.3em]
 \large A citation-level audit of 278{,}706 posts on 4chan's\\
 Politically Incorrect board}
 
@@ -22,44 +22,45 @@ Politically Incorrect board}
 Code, codebook and derived data:
 \url{https://github.com/marcgarnier/4chan-pol-source-audit}.}}
 
-\date{September 5, 2026}
+\date{September 6, 2026}
 
 \begin{document}
 \maketitle
 
 \begin{abstract}
 \noindent
-Research on 4chan's /pol/ board routinely frames its information environment as
-a contest between mainstream and alternative news media: legacy outlets are
-rejected, a partisan counter-canon takes their place. We test that framing on
-24 daily captures spanning 45 days (2026-07-22 to 2026-09-04): 6{,}532 threads,
-278{,}706 posts, 10{,}078 citation events over 1{,}408 unique domains, each
-carrying a transformer sentiment score for the surrounding discussion, and each
-domain coded against a manually built, published codebook.
+4chan's /pol/ is routinely described as an \emph{alternative media ecosystem}:
+a space where legacy outlets are rejected and a partisan counter-canon takes
+their place. The claim is widely repeated and rarely measured. We measure it
+over 24 daily captures spanning 45 days (2026-07-22 to 2026-09-04): 6{,}532
+threads, 278{,}706 posts, and 10{,}078 citation events across 1{,}408 unique
+domains, each domain coded against a published codebook.
 
-The framing fails, but not in the way a null result usually fails. The
-mainstream--alternative contrast is flat: $p_{\text{Holm}}=1.0$, Cliff's
-$\delta=-0.045$. Crucially, the effect \emph{shrank} as statistical power
-grew---manual recoding raised the alternative category from 69 to 185 citations
-and moved $\delta$ from $-0.121$ to $-0.045$---which is the signature of a real
-null rather than an underpowered test. The three news categories
-(mainstream, alternative, state-controlled) are statistically indistinguishable
-from one another ($H=2.97$, $p=0.23$).
+Three findings work against the framing. First, news outlets of any kind
+occupy \textbf{12.8\%} of citation events; social platforms take 43.7\% and
+archives and file hosts 11.0\%---the latter cited more often than any single
+news category. Second, sourcing is extremely concentrated: Gini $0.821$,
+YouTube alone supplying 28.9\% of citations, twelve domains supplying half, and
+70.2\% of domains appearing exactly once. Third, and most directly, there is no
+alternative-media cluster in the co-citation structure. Within the news
+subgraph, assortativity by orientation is $-0.042$; alternative outlets show no
+tendency to co-occur with one another (1 observed edge against 0.81 expected
+under a degree-preserving null, $p=0.62$) and are peripheral (mean degree $0.9$
+against $2.2$ for mainstream). Communities partition by topic and platform
+affordance, not by editorial orientation.
 
-What separates cleanly is journalism from everything else. Citations to news
-outlets of any kind sit in markedly more negative discussion than citations to
-platforms, archives, institutional references, or the unclassified remainder:
-$-0.345$ against $-0.183$, $p=3.6\times10^{-54}$, $\delta=-0.267$, with 66.1\%
-against 41.3\% of citations in negative-scoring posts. /pol/'s hostility is
-organised around journalism as an activity, not around a political axis running
-through it. The alternative outlets supposed to constitute a counter-canon are
-received exactly as coldly as the BBC.
+We report two methodological results alongside. Curated source lists derived
+from US-centric rating databases undercounted news on this corpus by a factor
+of 2.8, systematically dropping British, Australian, Israeli and Ukrainian
+outlets from a corpus dominated by threads about wars outside the United
+States. And repeated captures of the same threads put a measured floor on
+survivorship bias: 0.68\% of posts (95\% CI [0.44, 1.07]) disappear between
+observations.
 
-We also report that news media occupy 12.8\% of citations---platforms take
-43.7\%, archives and file hosts 11.0\%---that sourcing is extremely concentrated
-(Gini $0.821$; YouTube alone 28.9\%), and that 0.68\% of posts (95\% CI
-[0.44, 1.07]) disappear between repeated captures of the same thread, a measured
-floor on the survivorship bias that conditions all such corpora.
+We deliberately exclude sentiment analysis. A transformer scored every cited
+post, but the measure could not be validated on this domain and we judged it
+unfit to carry a conclusion; Section~\ref{sec:nosentiment} states the reasoning
+in full.
 \end{abstract}
 
 \section{Introduction}
@@ -67,51 +68,40 @@ floor on the survivorship bias that conditions all such corpora.
 4chan's /pol/ (``Politically Incorrect'') board occupies an outsized place in
 accounts of online radicalisation and information disorder. Measurement work has
 characterised its language, its raiding behaviour, and its position in the wider
-web ecosystem \citep{hine2017,papasavva2020}. A recurring assumption in this
+web ecosystem \citep{hine2017,papasavva2020}. A recurring assumption in that
 literature, and in journalism drawing on it, is that /pol/ constitutes an
-\emph{alternative media ecosystem}: a space where legacy outlets are rejected and
-replaced by a counter-canon of partisan publishers.
+alternative media ecosystem, with a counter-canon of partisan publishers
+displacing the legacy press.
 
-The assumption is rarely measured directly. Doing so requires knowing what /pol/
-cites, in what proportion, and how the surrounding discussion treats each kind of
-source. This paper supplies that measurement for a bounded collection window, and
-reports that the assumption is wrong in a specific and informative way: the axis
-along which /pol/ sorts sources is not partisan, it is occupational.
-
-Our contributions:
+Testing the claim requires knowing what /pol/ cites, in what proportion, and
+whether its sources organise along a partisan axis. This paper supplies that
+measurement for a bounded window. Our contributions:
 
 \begin{enumerate}
-\item \textbf{A well-powered null} on the mainstream--alternative contrast,
-strengthened rather than weakened by added statistical power.
-\item \textbf{A positive finding that replaces it}: news citations of every
-political stripe attract more hostile discussion than non-news citations, with
-the three news categories statistically homogeneous.
+\item \textbf{A citation-level audit} of 10{,}078 citation events with
+proportions as Wilson score intervals, showing news of any kind at 12.8\%.
+\item \textbf{A concentration analysis} quantifying how narrow the diet is.
+\item \textbf{A structural test} of the counter-canon claim: co-citation
+assortativity by editorial orientation, which finds none.
 \item \textbf{A published codebook} of 203 manually coded domains, and evidence
-that automated domain lists built from US-centric rating databases undercount
-news on an internationally-sourced corpus by a factor of 2.8.
-\item \textbf{A measured bound on survivorship bias}, from repeated captures of
-the same threads, in place of the usual qualitative caveat.
+that US-centric source taxonomies undercount news 2.8-fold here.
+\item \textbf{A measured floor on survivorship bias} from repeated captures.
 \end{enumerate}
 
 \section{Related work}
 
 \citet{hine2017} gave the first large-scale measurement of /pol/, characterising
 posting dynamics, hate-speech prevalence, and raids on other platforms.
-\citet{papasavva2020} released a 3.5-year corpus of augmented /pol/ posts,
-establishing dataset conventions much subsequent work relies on. Both establish
-/pol/ as an object of quantitative study; neither takes the citation event as
-the unit of analysis.
+\citet{papasavva2020} released a 3.5-year corpus establishing dataset
+conventions much subsequent work relies on. Both establish /pol/ as an object of
+quantitative study; neither takes the citation event as the unit of analysis.
 
 Source-classification work in computational social science generally anchors
 labels to third-party rating databases rather than author judgment---AllSides,
-Media Bias/Fact Check, and Ad Fontes are common choices
+Media Bias/Fact Check and Ad Fontes are common choices
 \citep{bozarth2020,robertson2018}. Section~\ref{sec:coding} reports what happens
 when that approach meets a corpus whose news citations are substantially
 non-American.
-
-For sentiment we use the TweetEval RoBERTa model
-\citep{barbieri2020,loureiro2022}, whose limitations on this domain we treat as
-a first-order threat (Section~\ref{sec:limits}).
 
 \section{Data and methods}
 
@@ -119,8 +109,8 @@ a first-order threat (Section~\ref{sec:limits}).
 
 Threads were captured from the live /pol/ JSON API via the 4TCT collector on a
 daily cadence, giving 24 daily captures between 2026-07-22 and 2026-09-04. This
-is a \emph{snapshot} design: conclusions are scoped to the collection window,
-not to /pol/ in general or across time.
+is a snapshot design: conclusions are scoped to the collection window, not to
+/pol/ in general or across time.
 
 \begin{table}[t]
 \centering
@@ -142,86 +132,97 @@ Window & 2026-07-22 -- 2026-09-04 \\
 
 \subsection{Citation extraction}
 
-The unit of analysis is the \textbf{citation event}: one external domain
-appearing in one post, deduplicated within the post. Links internal to 4chan are
-excluded. Mobile and shortened hosts are normalised to a canonical domain
+The unit of analysis is the \textbf{citation event}: one external domain in one
+post, deduplicated within the post. Links internal to 4chan are excluded.
+Mobile and shortened hosts normalise to a canonical domain
 (\texttt{youtu.be}, \texttt{m.youtube.com} $\rightarrow$ \texttt{youtube.com}),
 and subdomain matching resolves cases such as \texttt{en.wikipedia.org}.
 
 We flag one failure mode because it is a plausible silent defect in any such
-pipeline. An earlier version of ours retained only the first domain per post and
-discarded the rest. Because /pol/ posts characteristically lead with a video or
-tweet and append a source, this systematically discarded the appended source:
-alternative-media citations were undercounted 3.6-fold. All figures here use
-per-citation counting.
+pipeline. An earlier version of ours retained only the first domain per post.
+Because /pol/ posts characteristically lead with a video or tweet and append a
+source, this systematically discarded the appended source: alternative-media
+citations were undercounted 3.6-fold. All figures here use per-citation counting.
 
 \subsection{Source coding and the undercount it corrected}
 \label{sec:coding}
 
 Domains are coded on a medium-type axis into seven categories: mainstream,
-alternative, and state-controlled news; social platform; institutional
-reference; archive/file host; and unclassified. Deterministic structural rules
-handle platforms, \texttt{.gov}/\texttt{.mil}/\texttt{.edu} suffixes, and the
-Wikimedia family.
+alternative and state-controlled news; social platform; institutional reference;
+archive/file host; and unclassified. Deterministic structural rules handle
+platforms, \texttt{.gov}/\texttt{.mil}/\texttt{.edu} suffixes and the Wikimedia
+family.
 
 An initial pass using curated news lists derived from US-centric rating
-databases left 47.2\% of citations unclassified and put news outlets at 4.6\% of
-citations. Inspection showed that figure was an artefact. The unclassified
-bucket contained \texttt{dailymail.com}, \texttt{abc.net.au},
-\texttt{independent.co.uk}, \texttt{itv.com}, \texttt{standard.co.uk},
-\texttt{telegraph.co.uk}, \texttt{timesofisrael.com}, \texttt{aljazeera.com},
-\texttt{pravda.com.ua} and many others---British, Australian, Israeli and
-Ukrainian outlets absent from lists built around the American media market,
-on a corpus dominated by threads about ongoing wars.
+databases left 47.2\% of citations unclassified and put news outlets at 4.6\%.
+That figure was an artefact. The unclassified bucket contained
+\texttt{dailymail.com}, \texttt{abc.net.au}, \texttt{independent.co.uk},
+\texttt{itv.com}, \texttt{standard.co.uk}, \texttt{telegraph.co.uk},
+\texttt{timesofisrael.com}, \texttt{aljazeera.com} and \texttt{pravda.com.ua}:
+British, Australian, Israeli and Ukrainian outlets absent from lists built
+around the American media market, on a corpus dominated by threads about
+ongoing wars.
 
 We therefore hand-coded the 200 most-cited unclassified domains, covering 74.9\%
-of that bucket, and published the result as a versioned codebook of 203 domains.
-Four coding rules were fixed in advance and applied uniformly:
+of that bucket, and publish the result as a versioned codebook of 203 domains.
+Four rules were fixed in advance and applied uniformly:
 
 \begin{enumerate}
 \item \textbf{Aggregators} (\texttt{msn.com}, \texttt{yahoo.com}) are coded by
 what they redistribute; search engines and link shorteners are not news.
 \item \textbf{State-controlled} is defined by ownership and funding, not
-editorial independence. This places Al Jazeera, the BBC, ABC (Australia), PBS,
-NHK, Deutsche Welle, Anadolu, Channel News Asia and Minnesota Public Radio
-together, and moved the BBC (135 citations) out of mainstream.
-\item \textbf{Opinion Substacks and blogs} count as alternative media: they
-produce editorial content.
-\item \textbf{Campaign sites} are unclassified rather than a new category; state
-media outlets remain state-controlled.
+editorial independence. This groups Al Jazeera with the BBC, ABC (Australia),
+PBS, NHK, Deutsche Welle, Anadolu, Channel News Asia and Minnesota Public Radio,
+and moves the BBC (135 citations) out of mainstream.
+\item \textbf{Opinion Substacks and blogs} count as alternative media.
+\item \textbf{Campaign sites} stay unclassified; state media outlets remain
+state-controlled.
 \end{enumerate}
 
 Manual coding raised news media from 4.6\% to \textbf{12.8\%} of citations---a
 2.8-fold undercount by the automated pass---and cut the unclassified bucket from
-47.2\% to 23.6\%. Section~\ref{sec:limits} states what this coding does and does
-not license, and Section~\ref{sec:robust} shows why the paper's central finding
-does not depend on its most contestable choice.
+47.2\% to 23.6\%.
 
-\subsection{Sentiment measurement}
+\subsection{Why this paper contains no sentiment analysis}
+\label{sec:nosentiment}
 
-Each post carrying a citation is scored with
+We scored every cited post with
 \texttt{cardiffnlp/twitter-roberta-base-sentiment-latest}
-\citep{barbieri2020,loureiro2022}; the three-way softmax collapses to a compound
-score $s = p_{\text{pos}} - p_{\text{neg}}$ in $[-1,+1]$. A post is scored once
-and the score attached to each of its citations.
+\citep{barbieri2020,loureiro2022} and then excluded the results. The reasoning
+is worth stating, because the measure is a standard one and its omission is
+deliberate.
 
-The score is computed over the \emph{entire post}. It measures the
-\textbf{ambient tone of discussion surrounding a citation}, not the author's
-stance toward the cited source. ``CNN is garbage, here's proof'' scores negative
-and attaches to CNN even though the poster endorses the link's content. Every
-tone result below must be read under that construct definition.
+Three problems compound. \textbf{Construct}: the score is computed over the whole
+post, so it captures the ambient tone of a message, not the author's stance
+toward the source cited in it. Inspection of scored posts finds hostility
+directed at reported events, at ethnic groups, and at other posters, all of it
+attributed to whichever domain the post happened to link---including cases where
+the source is cited approvingly as supporting evidence. \textbf{Domain shift}:
+the model was trained on Twitter. /pol/'s irony reads literally (the most
+positively-scored news post in the corpus is a sarcastic caption on a census
+map, scored $+0.90$), and the slurs the board uses as ordinary register are read
+as hostility regardless of the poster's actual attitude. \textbf{Truncation}:
+scoring caps at 128 tokens, and 42.3\% of cited posts exceed it.
+
+Any of these could be quantified with a hand-annotated validation sample, which
+we have not produced. Publishing a headline conclusion on an uncalibrated
+instrument seemed worse than publishing a narrower paper without one. The
+scoring code remains in the repository behind a flag so the analysis can be
+revisited after validation.
+
+Everything reported below is derived from citation structure alone.
 
 \subsection{Statistical analysis}
 
 Proportions carry 95\% Wilson score intervals \citep{wilson1927}. Concentration
-is measured by Gini and a normalised Herfindahl--Hirschman index over per-domain
-citation counts. Tone uses Kruskal--Wallis \citep{kruskal1952} as omnibus with
-$\varepsilon^2$, then Dunn post-hoc tests with tie correction and Holm step-down
-adjustment \citep{holm1979}; pairwise effect sizes are Cliff's $\delta$
-\citep{cliff1993} at the thresholds of \citet{romano2006}. The adjusted model
-regresses compound sentiment on category, thread topic, and
-$\log(1+\text{post length})$, with standard errors clustered by thread. We
-report effect sizes throughout: at $n=10{,}078$, significance is cheap.
+uses the Gini coefficient and a normalised Herfindahl--Hirschman index over
+per-domain citation counts. The co-citation graph links domains appearing in the
+same thread, keeping edges of weight $\geq 2$; communities come from Louvain,
+and orientation sorting is measured by attribute assortativity
+\citep{newman2003}. Because alternative domains are rarely cited and therefore
+sparsely connected, the clustering test permutes labels only among nodes of
+comparable degree---a naive label permutation would credit them with
+connectivity they do not have.
 
 \section{Results}
 
@@ -230,42 +231,43 @@ report effect sizes throughout: at $n=10{,}078$, significance is cheap.
 \begin{figure}[t]
 \centering
 \includegraphics[width=\textwidth]{fig_main.png}
-\caption{(a) Share of citation events by category, 95\% Wilson intervals.
-(b) Mean compound sentiment of surrounding discussion, 95\% confidence
-intervals \emph{of the mean}. The three news categories cluster at left,
-separated from the four non-news categories at right, and overlap one another.}
+\caption{(a) Share of citation events by category with 95\% Wilson intervals;
+news categories in red. (b) Lorenz curve of the citation distribution over
+1{,}408 domains.}
 \label{fig:main}
 \end{figure}
 
 \begin{table}[t]
 \centering
 \small
-\begin{tabular}{lrrrrr}
+\begin{tabular}{lrrr}
 \toprule
-Category & $n$ & Share & 95\% CI & Mean sent. & Neg. ratio \\
+Category & $n$ & Share & 95\% CI \\
 \midrule
-Social platform      & 4{,}407 & 43.7\% & [42.8, 44.7] & $-0.173$ & 39.0\% \\
-Unclassified         & 2{,}381 & 23.6\% & [22.8, 24.5] & $-0.197$ & 41.9\% \\
-Archive / file host  & 1{,}111 & 11.0\% & [10.4, 11.7] & $-0.161$ & 45.6\% \\
-Institutional        & 889     & 8.8\%  & [8.3, 9.4]   & $-0.228$ & 45.6\% \\
+Social platform      & 4{,}407 & 43.7\% & [42.8, 44.7] \\
+Unclassified         & 2{,}381 & 23.6\% & [22.8, 24.5] \\
+Archive / file host  & 1{,}111 & 11.0\% & [10.4, 11.7] \\
+Institutional        & 889     & 8.8\%  & [8.3, 9.4]   \\
 \midrule
-Mainstream           & 834     & 8.3\%  & [7.8, 8.8]   & $-0.348$ & 66.2\% \\
-State-controlled     & 271     & 2.7\%  & [2.4, 3.0]   & $-0.364$ & 71.6\% \\
-Alternative          & 185     & 1.8\%  & [1.6, 2.1]   & $-0.304$ & 57.8\% \\
+Mainstream           & 834     & 8.3\%  & [7.8, 8.8]   \\
+State-controlled     & 271     & 2.7\%  & [2.4, 3.0]   \\
+Alternative          & 185     & 1.8\%  & [1.6, 2.1]   \\
+\midrule
+\textit{All news media} & \textit{1{,}290} & \textit{12.8\%} & \textit{[12.2, 13.5]} \\
 \bottomrule
 \end{tabular}
 \caption{Citation events by category. The rule separates news (below) from
-non-news (above). ``Neg.\ ratio'' is the share of citations whose surrounding
-post scores below $-0.2$.}
+non-news (above).}
 \label{tab:shares}
 \end{table}
 
-News media account for 12.8\% of citation events, platforms for 43.7\%, and
-archives and file hosts for 11.0\%---the latter cited more often than any single
-news category. Proportions are stable across the window and show no trend:
-across the 24 daily captures, mainstream share ranges 3.6--12.8\% (median
-8.7\%), platform share 37.2--53.7\% (median 43.3\%), and archive share
-6.2--14.4\% (median 11.0\%).
+News media account for 12.8\% of citation events; platforms for 43.7\%; archives
+and file hosts for 11.0\%, more than any single news category. Only 2.55\% of
+posts carry an external link at all.
+
+Proportions are stable across the window with no trend: over the 24 captures,
+mainstream share ranges 3.6--12.8\% (median 8.7\%), platform share 37.2--53.7\%
+(median 43.3\%) and archive share 6.2--14.4\% (median 11.0\%).
 
 \subsection{Concentration}
 
@@ -273,135 +275,56 @@ The diet is narrow. The domain distribution has Gini $0.821$ and normalised HHI
 $0.091$. YouTube alone supplies \textbf{28.9\%} of citations; the top ten supply
 49.1\% and the top fifty 69.0\%. Twelve domains account for half of all
 citations, while 989 of 1{,}408 domains (70.2\%) appear exactly once
-(Figure~\ref{fig:lorenz}).
+(Figure~\ref{fig:main}b).
 
-\begin{figure}[t]
-\centering
-\includegraphics[width=0.52\textwidth]{fig3_lorenz.png}
-\caption{Lorenz curve of the citation distribution over 1{,}408 domains.}
-\label{fig:lorenz}
-\end{figure}
+\subsection{No alternative-media cluster}
+\label{sec:network}
 
-\subsection{The mainstream--alternative contrast is null}
+If /pol/ maintained a counter-canon, alternative outlets should travel together:
+cited in the same threads as one another rather than alongside the established
+press. They do not.
 
-Tone differs across categories overall (Kruskal--Wallis $H=278.0$,
-$p=4.2\times10^{-57}$), at $\varepsilon^2=0.028$; the adjusted model reaches
-$R^2=0.073$.
+The co-citation graph has 286 nodes and 1{,}846 edges (density $0.045$), with
+Louvain modularity $0.429$ over six communities. Assortativity by category over
+the full graph is $+0.054$---domains co-occur with little regard to what kind of
+source they are.
 
-The contrast the literature's framing predicts is absent. Mainstream against
-alternative gives $z=-1.03$, $p_{\text{Holm}}=1.0$, $\delta=-0.045$. The
-adjusted model agrees: relative to platforms, mainstream carries $-0.104$
-($p=4.8\times10^{-9}$) and alternative $-0.055$ ($p=0.075$), and their
-difference is not distinguishable.
+Restricting to news domains sharpens the test. The news subgraph has 100 nodes
+(68 mainstream, 20 alternative, 12 state-controlled) and 97 edges. Assortativity
+by orientation is $\mathbf{-0.042}$: if anything slightly disassortative, and
+indistinguishable from no sorting. Alternative outlets share exactly one edge
+with another alternative outlet, against $0.81$ expected under a
+degree-preserving null ($p=0.62$). They are also peripheral: mean degree $0.9$,
+against $2.2$ for mainstream and $2.1$ for state-controlled. Most alternative
+citations appear in threads where no other news source is cited at all.
 
-The strength of this null rests on how it behaved under added power. Before
-manual recoding, alternative held 69 citations and $\delta$ was $-0.121$; that
-result was properly reported as underpowered. Recoding raised alternative to 185
-citations---a 2.7-fold increase---and $\delta$ fell to $-0.045$. An effect that
-\emph{shrinks} as $n$ grows is not an effect awaiting detection.
-
-\subsection{What separates instead: journalism from everything else}
-
-The three news categories are statistically homogeneous: Kruskal--Wallis
-restricted to mainstream, alternative and state-controlled gives $H=2.97$,
-$p=0.23$. None of their three pairwise contrasts survives correction
-(all $p_{\text{Holm}}\geq 0.88$).
-
-Pooled against the rest of the corpus, the separation is the largest in the
-study:
-
-\begin{table}[h]
-\centering
-\small
-\begin{tabular}{lrrrr}
-\toprule
-& $n$ & Mean & Median & Neg.\ ratio \\
-\midrule
-News media (any kind)   & 1{,}290 & $-0.345$ & $-0.374$ & 66.1\% \\
-Everything else         & 8{,}788 & $-0.183$ & $-0.054$ & 41.3\% \\
-\midrule
-\multicolumn{5}{l}{Mann--Whitney $p=3.6\times10^{-54}$; Cliff's $\delta=-0.267$ (small); mean gap $-0.162$}\\
-\bottomrule
-\end{tabular}
-\caption{News against non-news citations.}
-\label{tab:newsblock}
-\end{table}
-
-Two thirds of news citations sit in negative-scoring posts against two fifths of
-everything else. The medians are more striking than the means: the typical
-non-news citation sits in a post scoring $-0.054$, essentially neutral, while
-the typical news citation sits at $-0.374$.
-
-Table~\ref{tab:posthoc} gives the post-hoc structure that produces this. Every
-significant contrast involving a news category pits it against a non-news one;
-every contrast \emph{within} the news block is null.
-
-\begin{table}[t]
-\centering
-\small
-\begin{tabular}{lrrrl}
-\toprule
-Contrast & $z$ & $p_{\text{Holm}}$ & $\delta$ & Magnitude \\
-\midrule
-Social platform vs.\ Mainstream        & 13.55 & $<10^{-15}$ & 0.269 & small \\
-Archive vs.\ Mainstream                & 11.34 & $<10^{-15}$ & 0.305 & small \\
-Unclassified vs.\ Mainstream           & 9.70  & $<10^{-15}$ & 0.276 & small \\
-Social platform vs.\ State-controlled  & 8.91  & $<10^{-15}$ & 0.285 & small \\
-Archive vs.\ State-controlled          & 8.34  & $<10^{-15}$ & 0.331 & medium \\
-Institutional vs.\ Mainstream          & 7.48  & $1.2\times10^{-12}$ & 0.204 & small \\
-Social platform vs.\ Alternative       & 5.70  & $1.5\times10^{-7}$  & 0.226 & small \\
-Archive vs.\ Alternative               & 5.49  & $4.9\times10^{-7}$  & 0.236 & small \\
-Institutional vs.\ Alternative         & 3.42  & 0.0037 & 0.157 & small \\
-\midrule
-\textbf{Mainstream vs.\ Alternative}   & $-1.03$ & \textbf{1.00} & $-0.045$ & negligible \\
-\textbf{Mainstream vs.\ State-contr.}  & $-0.65$ & \textbf{1.00} & $-0.052$ & negligible \\
-\textbf{State-contr.\ vs.\ Alternative}& $-1.36$ & \textbf{0.88} & $-0.086$ & negligible \\
-\bottomrule
-\end{tabular}
-\caption{Dunn contrasts with Holm correction. Above the rule: news against
-non-news, all significant. Below: the three within-news contrasts, all null.
-Non-news-versus-non-news contrasts omitted for space.}
-\label{tab:posthoc}
-\end{table}
-
-\subsection{Robustness to the contestable coding choice}
-\label{sec:robust}
-
-Our most consequential coding decision---defining state-controlled by ownership
-rather than editorial independence, which moves the BBC out of mainstream---is
-defensible but arguable. It does not threaten the central finding. Because the
-three news categories are statistically indistinguishable, any reallocation
-\emph{among} them leaves the news/non-news partition, and therefore
-Table~\ref{tab:newsblock}, unchanged. The finding is insensitive to precisely
-the boundary a reviewer is most likely to contest.
+The communities that do exist are topical. The largest (198 domains) is
+general-purpose, anchored on YouTube, Wikipedia, the BBC and the Guardian, and
+holds 59 mainstream, 14 alternative and 10 state-controlled domains
+\emph{together in the same community}. The smaller ones are a war-tracking
+cluster (\texttt{marinetraffic}, \texttt{flightradar24}, \texttt{flightaware},
+\texttt{oilprice}), a US-politics platform cluster (\texttt{twitter},
+\texttt{truthsocial}, \texttt{rumble}, \texttt{tiktok}), and a file-sharing
+cluster (\texttt{files.catbox.moe}, \texttt{t.me}, \texttt{archive.today}).
+Sourcing organises by subject matter and platform affordance, not by editorial
+orientation.
 
 \subsection{Archives and OSINT trackers}
 
-Two behaviours emerge that a news-centric coding scheme would hide. Archives and
-file hosts (\texttt{files.catbox.moe}, \texttt{rentry.org},
-\texttt{archive.4plebs.org}, \texttt{archive.today}) take 11.0\% of citations,
-more than any single news category: hosting media outside platform moderation
-and preserving content, including 4chan's own deleted threads, against removal.
+Two behaviours emerge that a news-centric scheme would hide. Archives and file
+hosts (\texttt{files.catbox.moe}, \texttt{rentry.org},
+\texttt{archive.4plebs.org}, \texttt{archive.today}) take 11.0\% of citations:
+hosting media outside platform moderation, and preserving content---including
+4chan's own deleted threads, via 4plebs---against removal.
 
-Within the remaining unclassified bucket, 571 citations (5.7\% of the corpus,
-24.0\% of that bucket) across 14 domains are live war-mapping and vehicle
-tracking services---\texttt{liveuamap}, \texttt{deepstatemap.live},
-\texttt{marinetraffic}, \texttt{flightradar24}, \texttt{adsbexchange}. On a
-board whose largest thread topic is armed conflict, primary-source OSINT tooling
-is cited about half as often as all news media combined.
+Within the unclassified remainder, 571 citations (5.7\% of the corpus, 24.0\% of
+that bucket) across 14 domains are live war-mapping and vehicle-tracking
+services: \texttt{liveuamap}, \texttt{deepstatemap.live}, \texttt{marinetraffic},
+\texttt{flightradar24}, \texttt{adsbexchange}. On a board whose largest
+identifiable thread topic is armed conflict, primary-source OSINT tooling is
+cited about half as often as all news media combined.
 
-\subsection{Co-citation structure}
-
-Domains co-occurring within a thread form a weighted graph (edges of weight
-$\geq 2$): 286 nodes, 1{,}846 edges, density $0.045$, Louvain modularity
-$0.429$ over six communities. The largest (198 domains) is general-purpose,
-anchored on YouTube, Wikipedia and mainstream outlets. Smaller ones are
-topical---a war-tracking cluster, a US-politics platform cluster
-(\texttt{twitter}, \texttt{truthsocial}, \texttt{rumble}), a German-language
-cluster. Sourcing ecosystems organise by topic and platform affordance, not by
-editorial orientation---consistent with the main result.
-
-\subsection{A measured bound on survivorship}
+\subsection{A measured floor on survivorship}
 \label{sec:deletion}
 
 Sixty-two pairs of repeated captures of the same thread let us measure what is
@@ -412,123 +335,103 @@ This must be read for what it is. It measures post-level deletion \emph{within
 threads that survived to be captured twice}. It says nothing about threads
 deleted entirely, nor about threads born and dying between two daily
 captures---which, at a daily cadence on a board with /pol/'s velocity, is the
-larger loss channel. It is a \textbf{floor on content loss}, from a
-self-selected sample, not an estimate of it. We report it because a measured
-floor is more useful than an unmeasured caveat.
+larger loss channel. It is a \textbf{floor on content loss} from a self-selected
+sample, not an estimate of it. We report it because a measured floor is more
+useful than an unmeasured caveat.
 
 \section{Discussion}
 
-\paragraph{The axis is occupational, not partisan.}
-/pol/ does not sort sources into trusted counter-media and distrusted legacy
-media. It sorts them into journalism and not-journalism, and treats the first
-with uniform coldness. Breitbart-style outlets, the supposed counter-canon,
-attract the same reception as the BBC; state broadcasters attract the same
-reception as both. Whatever generates hostility, it is not tracking the
-partisan position of the outlet.
-
-Two readings are consistent with this. Under the first, the hostility is toward
-professional gatekeeping as such---an anti-institutional disposition that does
-not discriminate between institutions. Under the second, it is not about outlets
-at all: news links are the ones that carry contested political events, and the
-tone belongs to the event rather than the source. Our construct
-(Section~\ref{sec:limits}) cannot separate these, and the adjusted model, which
-controls only for coarse thread topic, does not settle it. We regard
-disentangling them as the most valuable next step, and stance detection
-\citep{mohammad2016,pontiki2016} as the instrument for it.
+\paragraph{The counter-canon is not there to be found.}
+On this board, in this window, alternative outlets are neither numerous (1.8\% of
+citations) nor connected to one another (one co-citation edge among twenty
+domains) nor central (mean degree below one). They appear as isolated citations
+inside threads organised around topics, next to the mainstream outlets they are
+supposed to displace. Whatever /pol/'s relationship to the legacy press,
+``replaced by an alternative ecosystem'' does not describe the citation
+structure.
 
 \paragraph{The frame is also mis-scaled.}
 A literature asking whether /pol/ prefers alternative to mainstream media is
-asking about 10.1\% of what /pol/ circulates, and about a distinction the board
-does not appear to draw. Platforms supply four times as many citations as all
-news combined; archives alone outnumber any single news category. Treating this
-as a \emph{news} ecosystem imports a category the object does not honour.
-
-\paragraph{Significance is not magnitude.}
-Category explains under 3\% of sentiment variance ($\varepsilon^2=0.028$;
-adjusted $R^2=0.073$). Even the news/non-news split, the strongest contrast we
-find, is a small effect by conventional thresholds. Post length predicts tone
-about as reliably as category does. These are real regularities in a noisy
-process, not determinants of it.
+asking about 10.1\% of what /pol/ circulates. Platforms supply more than three
+times as many citations as all news combined; archives alone outnumber any
+single news category. The board's characteristic act is not passing along an
+article but passing along a video, a screenshot, a mirror, or a map.
 
 \paragraph{A cautionary note on automated source lists.}
-Our first pass, using curated lists derived from US-centric rating databases,
-put news at 4.6\% of citations. Hand-coding put it at 12.8\%. The error was not
+Our first pass, using curated lists derived from US-centric rating databases, put
+news at 4.6\% of citations. Hand-coding put it at 12.8\%. The error was not
 random: it removed British, Australian, Israeli and Ukrainian outlets from a
 corpus whose dominant subject is war outside the United States. Any audit
 applying American media-bias taxonomies to an internationally-sourced corpus
 should expect an undercount of this order and check for it directly.
 
+\paragraph{What we cannot say.}
+Nothing here speaks to how /pol/ \emph{treats} the sources it cites. Citation is
+not endorsement, and on a board whose characteristic mode is derision it may
+often be the opposite. Establishing that would require the stance measurement
+this paper declines to fake (Section~\ref{sec:nosentiment}), and it remains the
+obvious next study.
+
 \section{Limitations}
 \label{sec:limits}
 
-\paragraph{Sentiment measurement is unvalidated on this domain.}
-The model was trained on Twitter; /pol/'s irony, slang and toxicity are
-out-of-distribution, and we have \emph{not} performed the human-annotated
-validation that would quantify the resulting measurement error. All tone results
-should be treated as provisional pending a hand-coded sample with reported
-model--human agreement. The descriptive, concentration and coding results do not
-depend on the sentiment model.
-
 \paragraph{The codebook is single-coder.}
-The 203 domains were coded by one author against fixed written rules, with
-uncertain cases flagged (12 of 203). No second coder annotated independently, so
-no Cohen's $\kappa$ or Krippendorff's $\alpha$ is reported. The structural
+The 203 domains were coded by one author against fixed written rules, with 12
+uncertain cases flagged. No second coder annotated independently, so no Cohen's
+$\kappa$ or Krippendorff's $\alpha$ is reported. Structural
 categories---platform, archive, institutional---rest on deterministic rules and
-are robust; the news subdivisions rest on that single-coder judgment. The
-central finding pools those subdivisions and is correspondingly less exposed
-(Section~\ref{sec:robust}).
+are robust; the news subdivisions rest on that single judgment.
+
+\paragraph{The network test is small.}
+Twenty alternative domains and 97 news-subgraph edges is a thin basis. The
+absence of clustering is consistent with the descriptive picture and with the
+community structure, but a larger corpus could reveal structure this one cannot
+resolve. We report it as evidence against the counter-canon claim, not as proof
+of its impossibility.
 
 \paragraph{Coding is single-axis.}
 A fuller design codes each domain on three orthogonal axes---medium type,
-editorial orientation, ownership---against external databases (AllSides, MBFC,
-Ad Fontes, RSF), since forcing them into one label is what makes Fox News, BBC
-and France 24 irreconcilable. We code medium type only, with ownership folded
-into the state-controlled category by rule.
+editorial orientation, ownership---against external databases, since forcing
+them into one label is what makes Fox News, BBC and France 24 irreconcilable. We
+code medium type only, with ownership folded into the state-controlled category
+by rule. Our orientation test inherits that coarseness: it asks whether
+mainstream, alternative and state-controlled outlets cluster, not whether a
+finer left--right gradient does.
 
 \paragraph{A quarter of citations remain unclassified.}
-23.6\% of citations fall outside all categories, concentrated in a long tail:
-904 of the residual domains are cited exactly once. Hand-coding covered 74.9\%
-of the original unclassified bucket; the remainder is reported as-is and could
-contain further news outlets, which would raise the 12.8\% figure again without
-affecting the news/non-news contrast's direction.
+23.6\% fall outside all categories, concentrated in a long tail of which 904
+domains are cited exactly once. Hand-coding covered 74.9\% of the original
+unclassified bucket; the remainder could contain further news outlets, which
+would raise the 12.8\% figure again.
 
 \paragraph{Survivorship bias is bounded below, not corrected.}
 See Section~\ref{sec:deletion}. Moderation removes the most extreme content
 preferentially, so the surviving corpus is filtered in the direction of the
-phenomenon measured. Source-distribution estimates are relatively robust, since
-deletion would need to correlate with cited-source category. Tone estimates are
-directly exposed.
-
-\paragraph{Topic classification is weak.}
-Thread topics come from keyword matching over the opening post's subject and
-slug, and 76.2\% of posts fall into ``Other / Misc''. The topic covariate is a
-coarse control, not a topical analysis---which matters for the second reading in
-the Discussion, since a better topic control is what would test it.
+phenomenon studied. Source-distribution estimates are relatively robust, since
+deletion would need to correlate with cited-source category.
 
 \paragraph{Scope.}
 One board, 24 daily captures, 45 days. Results describe the surviving, publicly
-visible discourse of /pol/ during that window. They do not generalise across
-time or to other imageboards.
+visible discourse of /pol/ during that window, and do not generalise across time
+or to other imageboards.
 
 \section{Conclusion}
 
-The question the field asks of /pol/---does it prefer alternative media to
-mainstream media?---has an answer, and the answer is that the board does not
-appear to make the distinction. Mainstream, alternative and state-controlled
-citations attract statistically indistinguishable hostility, and the null
-strengthened when we tripled the power available to detect a difference. What
-does separate is journalism from everything else: news citations of any kind sit
-in markedly more negative discussion than platform, archive, institutional or
-unclassified ones.
+/pol/'s information diet is not a media diet. News outlets of every political
+description together supply an eighth of its citations, while platforms supply
+more than four in ten and archives more than one in ten. The alternative press
+that the board is supposed to have adopted in place of the legacy press is
+rare, peripheral, and unclustered: its outlets do not travel together, they
+travel beside the mainstream outlets they were supposed to replace, inside
+threads organised by subject matter.
 
-That reframing has a methodological consequence and a substantive one. The
-methodological one is that source taxonomies built for the American media market
-misdescribe an internationally-sourced corpus badly enough to invert a headline
-figure. The substantive one is that studying /pol/'s ``media diet'' along a
-left--right axis measures a distinction the board does not use. The productive
-next steps are target-dependent stance detection, to separate hostility toward
-outlets from hostility toward events, and a topic model good enough to make that
-separation testable.
+Two methodological results follow the substantive one. Source taxonomies built
+for the American media market misdescribe an internationally-sourced corpus
+badly enough to invert a headline figure. And a measure that cannot be validated
+on its target domain is better excluded than caveated---a narrower paper is
+worth more than a broader one resting on an uncalibrated instrument. The
+productive next step is the stance measurement this paper declines to attempt:
+what /pol/ does with the sources it cites, as opposed to which ones it cites.
 
 \section*{Data and code availability}
 
@@ -551,51 +454,29 @@ Bozarth, L., Saraf, A., \& Budak, C. (2020). Higher Ground? How Groundtruth
 Labeling Impacts Our Understanding of Fake News about the 2016 U.S.
 Presidential Nominees. \emph{ICWSM 2020}.
 
-\bibitem[Cliff(1993)]{cliff1993}
-Cliff, N. (1993). Dominance statistics: Ordinal analyses to answer ordinal
-questions. \emph{Psychological Bulletin}, 114(3), 494--509.
-
 \bibitem[Hine et al.(2017)]{hine2017}
 Hine, G. E., Onaolapo, J., De Cristofaro, E., Kourtellis, N., Leontiadis, I.,
 Samaras, R., Stringhini, G., \& Blackburn, J. (2017). Kek, Cucks, and God
 Emperor Machine Learning: A Measurement Study of 4chan's Politically Incorrect
 Board. \emph{ICWSM 2017}.
 
-\bibitem[Holm(1979)]{holm1979}
-Holm, S. (1979). A simple sequentially rejective multiple test procedure.
-\emph{Scandinavian Journal of Statistics}, 6(2), 65--70.
-
-\bibitem[Kruskal \& Wallis(1952)]{kruskal1952}
-Kruskal, W. H., \& Wallis, W. A. (1952). Use of ranks in one-criterion variance
-analysis. \emph{Journal of the American Statistical Association}, 47(260),
-583--621.
-
 \bibitem[Loureiro et al.(2022)]{loureiro2022}
 Loureiro, D., Barbieri, F., Neves, L., Espinosa-Anke, L., \& Camacho-Collados,
 J. (2022). TimeLMs: Diachronic Language Models from Twitter. \emph{ACL 2022,
 System Demonstrations}.
 
-\bibitem[Mohammad et al.(2016)]{mohammad2016}
-Mohammad, S., Kiritchenko, S., Sobhani, P., Zhu, X., \& Cherry, C. (2016).
-SemEval-2016 Task 6: Detecting Stance in Tweets. \emph{SemEval 2016}.
+\bibitem[Newman(2003)]{newman2003}
+Newman, M. E. J. (2003). Mixing patterns in networks. \emph{Physical Review E},
+67(2), 026126.
 
 \bibitem[Papasavva et al.(2020)]{papasavva2020}
 Papasavva, A., Zannettou, S., De Cristofaro, E., Stringhini, G., \& Blackburn,
 J. (2020). Raiders of the Lost Kek: 3.5 Years of Augmented 4chan Posts from the
 Politically Incorrect Board. \emph{ICWSM 2020}.
 
-\bibitem[Pontiki et al.(2016)]{pontiki2016}
-Pontiki, M., Galanis, D., Papageorgiou, H., et al. (2016). SemEval-2016 Task 5:
-Aspect-Based Sentiment Analysis. \emph{SemEval 2016}.
-
 \bibitem[Robertson et al.(2018)]{robertson2018}
 Robertson, R. E., Jiang, S., Joseph, K., Friedland, L., Lazer, D., \& Wilson, C.
 (2018). Auditing Partisan Audience Bias within Google Search. \emph{CSCW 2018}.
-
-\bibitem[Romano et al.(2006)]{romano2006}
-Romano, J., Kromrey, J. D., Coraggio, J., \& Skowronek, J. (2006). Appropriate
-statistics for ordinal level data. \emph{Annual Meeting of the Florida
-Association of Institutional Research}.
 
 \bibitem[Wilson(1927)]{wilson1927}
 Wilson, E. B. (1927). Probable inference, the law of succession, and statistical

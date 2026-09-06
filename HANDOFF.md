@@ -240,3 +240,27 @@ Bonus : la règle de financement (le choix le plus contestable du codage) **ne p
 ### Limites déclarées dans l'article
 
 Le codage est **mono-codeur** (un seul annotateur contre des règles écrites, 12 cas marqués incertains, aucun κ de Cohen calculé). Les catégories structurelles — plateforme, archive, institutionnel — reposent sur des règles déterministes et sont robustes ; les subdivisions médias reposent sur ce jugement unique, mais le résultat central les agrège et y est donc peu exposé. Il reste 23,6 % de citations non classées, dont 904 domaines cités une seule fois.
+
+## Retrait du sentiment de l'analyse publiée (6 septembre 2026)
+
+**Décision : la métrique de sentiment est exclue de l'analyse finale.** Elle n'a jamais été validée sur du texte /pol/, et trois problèmes se cumulent :
+
+1. **Construit.** Le score porte sur le post entier, pas sur l'attitude envers la source. Vérifié sur des exemples réels : un post citant `india.com` note −0,82 parce qu'il est raciste, alors que la source y est citée **en appui**. Un post citant `militarnyi.com` note −0,84 pour une remarque désabusée sur les délais de livraison de la DCA ukrainienne, rien sur le média.
+2. **Décalage de domaine.** Le modèle vient de Twitter. L'ironie est lue au premier degré — le post médiatique le mieux noté du corpus (+0,90, *New York Times*) est un sarcasme sur une carte d'ascendance. Et les insultes que /pol/ emploie comme registre ordinaire sont comptées comme de l'hostilité : un post citant `dailymail.com` note −0,81 alors que son auteur partage des liens et dit y avoir travaillé.
+3. **Troncature.** 128 tokens, alors que **42,3 %** des posts cités dépassent cette limite (90e centile ≈ 452 tokens).
+
+Le code reste en place derrière `analysis.py --with-sentiment`, pour qui reprendrait après une validation annotée. `sentiment_db.py` et les colonnes de `citations` restent inchangés. Les deux figures de sentiment (`fig2_sentiment_scatter.png`, `fig2b_category_sentiment.png`) sont retirées de `figures_real/` pour ne pas contredire l'article ; `viz.py` les régénère si besoin. Les colonnes `compound`/`neg`/`neu`/`pos` subsistent dans `pol_results_posts.csv`.
+
+### La thèse de remplacement
+
+Un test structurel remplace le sentiment sans dépendre d'aucun modèle : **le réseau de co-citation ne trie pas les sources par orientation.** Sur le sous-graphe des médias (100 nœuds, 97 arêtes), l'assortativité par orientation vaut **−0,042**. Les 20 domaines alternatifs partagent **une seule** arête entre eux, contre 0,81 attendue sous un nul préservant le degré (p = 0,62), et leur degré moyen est de 0,9 contre 2,2 pour le mainstream. La plus grande communauté (198 domaines) contient 59 mainstream, 14 alternatifs et 10 étatiques **ensemble**.
+
+Attention au piège : une permutation naïve des étiquettes donnait p = 0,98 en sens inverse, parce qu'elle prête aux domaines alternatifs une connectivité qu'ils n'ont pas. Le nul doit préserver le degré.
+
+Autrement dit : le contre-canon alternatif n'existe pas dans la structure de citation. Les sources s'organisent par sujet et par affordance de plateforme, pas sur un axe éditorial.
+
+### L'article
+
+Réécrit une seconde fois, **8 pages**. Titre : *What /pol/ Actually Cites*. Il repose désormais uniquement sur la structure de citation : parts (médias 12,8 %), concentration (Gini 0,821), absence de cluster alternatif, archives (11,0 %) et OSINT (5,7 %), plancher de suppression mesuré (0,68 %), et les deux résultats méthodologiques (sous-comptage 2,8× des taxonomies américaines, bug de comptage un-domaine-par-post).
+
+Une section entière (§3.4) justifie le retrait du sentiment. C'est un argument, pas une omission : mieux vaut un article étroit qu'un article large adossé à un instrument non calibré.

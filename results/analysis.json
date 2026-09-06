@@ -20,10 +20,7 @@
         "n": 4407,
         "share": 0.4372891446715618,
         "ci_low": 0.4276299392897071,
-        "ci_high": 0.4469961409296053,
-        "mean_sentiment": -0.17281455188036127,
-        "sd_sentiment": 0.42969852754669374,
-        "negativity_ratio": 0.38983435443612435
+        "ci_high": 0.4469961409296053
       },
       {
         "category": "other",
@@ -31,10 +28,7 @@
         "n": 2381,
         "share": 0.23625719388767613,
         "ci_low": 0.22806521684096295,
-        "ci_high": 0.24465016484089178,
-        "mean_sentiment": -0.19683087909893798,
-        "sd_sentiment": 0.3330747861992458,
-        "negativity_ratio": 0.4191516169676606
+        "ci_high": 0.24465016484089178
       },
       {
         "category": "archive",
@@ -42,10 +36,7 @@
         "n": 1111,
         "share": 0.11024012700932724,
         "ci_low": 0.10427330312955464,
-        "ci_high": 0.11650398025882948,
-        "mean_sentiment": -0.1607342932044682,
-        "sd_sentiment": 0.38424783142436986,
-        "negativity_ratio": 0.45634563456345634
+        "ci_high": 0.11650398025882948
       },
       {
         "category": "institutional",
@@ -53,10 +44,7 @@
         "n": 889,
         "share": 0.08821194681484422,
         "ci_low": 0.0828306229375121,
-        "ci_high": 0.093907087363352,
-        "mean_sentiment": -0.2278359309215983,
-        "sd_sentiment": 0.37586441562748535,
-        "negativity_ratio": 0.45556805399325084
+        "ci_high": 0.093907087363352
       },
       {
         "category": "mainstream",
@@ -64,10 +52,7 @@
         "n": 834,
         "share": 0.0827545147846795,
         "ci_low": 0.07753310384886164,
-        "ci_high": 0.08829390140779703,
-        "mean_sentiment": -0.34815679059075794,
-        "sd_sentiment": 0.327760563995929,
-        "negativity_ratio": 0.6618705035971223
+        "ci_high": 0.08829390140779703
       },
       {
         "category": "state_funded",
@@ -75,10 +60,7 @@
         "n": 271,
         "share": 0.026890256003175232,
         "ci_low": 0.023907734767296095,
-        "ci_high": 0.030233326127768953,
-        "mean_sentiment": -0.3638572212982222,
-        "sd_sentiment": 0.3630874337991736,
-        "negativity_ratio": 0.7158671586715867
+        "ci_high": 0.030233326127768953
       },
       {
         "category": "alternative",
@@ -86,10 +68,7 @@
         "n": 185,
         "share": 0.01835681682873586,
         "ci_low": 0.01591355963473093,
-        "ci_high": 0.021167126100303836,
-        "mean_sentiment": -0.3038044825800367,
-        "sd_sentiment": 0.39540530133891555,
-        "negativity_ratio": 0.5783783783783784
+        "ci_high": 0.021167126100303836
       }
     ]
   },
@@ -186,306 +165,23 @@
       }
     ]
   },
-  "sentiment": {
-    "kruskal_h": 278.01444221533274,
-    "kruskal_p": 4.18045890968987e-57,
-    "epsilon_squared": 0.027589008853362382,
-    "n": 10078,
-    "k_groups": 7,
-    "posthoc": [
-      {
-        "a": "social_media",
-        "b": "state_funded",
-        "z": 8.905020814930461,
-        "p_raw": 0.0,
-        "delta": 0.2848906092873045,
-        "p_holm": 0.0,
-        "significant": true,
-        "magnitude": "small"
-      },
-      {
-        "a": "social_media",
-        "b": "mainstream",
-        "z": 13.553135821148247,
-        "p_raw": 0.0,
-        "delta": 0.26934830624268447,
-        "p_holm": 0.0,
-        "significant": true,
-        "magnitude": "small"
-      },
-      {
-        "a": "other",
-        "b": "mainstream",
-        "z": 9.696551404705218,
-        "p_raw": 0.0,
-        "delta": 0.27577081551894134,
-        "p_holm": 0.0,
-        "significant": true,
-        "magnitude": "small"
-      },
-      {
-        "a": "archive",
-        "b": "state_funded",
-        "z": 8.340451878989398,
-        "p_raw": 0.0,
-        "delta": 0.3312563728697593,
-        "p_holm": 0.0,
-        "significant": true,
-        "magnitude": "medium"
-      },
-      {
-        "a": "archive",
-        "b": "mainstream",
-        "z": 11.33952464037134,
-        "p_raw": 0.0,
-        "delta": 0.3051564149220678,
-        "p_holm": 0.0,
-        "significant": true,
-        "magnitude": "small"
-      },
-      {
-        "a": "institutional",
-        "b": "mainstream",
-        "z": 7.477444606632921,
-        "p_raw": 7.571721027943568e-14,
-        "delta": 0.20423211487053328,
-        "p_holm": 1.2114753644709708e-12,
-        "significant": true,
-        "magnitude": "small"
-      },
-      {
-        "a": "other",
-        "b": "state_funded",
-        "z": 6.796136269796685,
-        "p_raw": 1.074629274455674e-11,
-        "delta": 0.3087682157795959,
-        "p_holm": 1.611943911683511e-10,
-        "significant": true,
-        "magnitude": "small"
-      },
-      {
-        "a": "state_funded",
-        "b": "institutional",
-        "z": -5.851016912484891,
-        "p_raw": 4.885765347850679e-09,
-        "delta": -0.23126029910467838,
-        "p_holm": 6.840071486990951e-08,
-        "significant": true,
-        "magnitude": "small"
-      },
-      {
-        "a": "social_media",
-        "b": "alternative",
-        "z": 5.703310662223363,
-        "p_raw": 1.1750254547138184e-08,
-        "delta": 0.22578330542932323,
-        "p_holm": 1.527533091127964e-07,
-        "significant": true,
-        "magnitude": "small"
-      },
-      {
-        "a": "archive",
-        "b": "alternative",
-        "z": 5.487799917356398,
-        "p_raw": 4.069706571740994e-08,
-        "delta": 0.23631498284963626,
-        "p_holm": 4.883647886089193e-07,
-        "significant": true,
-        "magnitude": "small"
-      },
-      {
-        "a": "social_media",
-        "b": "other",
-        "z": 4.782068059160952,
-        "p_raw": 1.7350091181533855e-06,
-        "delta": 0.08697533333199914,
-        "p_holm": 1.908510029968724e-05,
-        "significant": true,
-        "magnitude": "negligible"
-      },
-      {
-        "a": "social_media",
-        "b": "institutional",
-        "z": 4.115888941864432,
-        "p_raw": 3.856899981191653e-05,
-        "delta": 0.08414545526941875,
-        "p_holm": 0.00038568999811916527,
-        "significant": true,
-        "magnitude": "negligible"
-      },
-      {
-        "a": "other",
-        "b": "alternative",
-        "z": 4.014421901161989,
-        "p_raw": 5.959167080149541e-05,
-        "delta": 0.2244979965265559,
-        "p_holm": 0.0005363250372134587,
-        "significant": true,
-        "magnitude": "small"
-      },
-      {
-        "a": "other",
-        "b": "archive",
-        "z": -3.560755040106421,
-        "p_raw": 0.00036978994194258874,
-        "delta": -0.0738803405750067,
-        "p_holm": 0.00295831953554071,
-        "significant": true,
-        "magnitude": "negligible"
-      },
-      {
-        "a": "archive",
-        "b": "institutional",
-        "z": 3.5349488727490903,
-        "p_raw": 0.0004078540646204054,
-        "delta": 0.08477248174761232,
-        "p_holm": 0.00295831953554071,
-        "significant": true,
-        "magnitude": "negligible"
-      },
-      {
-        "a": "institutional",
-        "b": "alternative",
-        "z": 3.4240768849912064,
-        "p_raw": 0.0006168916518720646,
-        "delta": 0.15680539932508442,
-        "p_holm": 0.0037013499112323878,
-        "significant": true,
-        "magnitude": "small"
-      },
-      {
-        "a": "state_funded",
-        "b": "alternative",
-        "z": -1.3557616830853034,
-        "p_raw": 0.17517500636178585,
-        "delta": -0.08562880223396829,
-        "p_holm": 0.8758750318089292,
-        "significant": false,
-        "magnitude": "negligible"
-      },
-      {
-        "a": "social_media",
-        "b": "archive",
-        "z": -0.23068013152438355,
-        "p_raw": 0.8175633100133568,
-        "delta": -0.00567238480144816,
-        "p_holm": 1.0,
-        "significant": false,
-        "magnitude": "negligible"
-      },
-      {
-        "a": "other",
-        "b": "institutional",
-        "z": 0.755587473243149,
-        "p_raw": 0.4498965687810945,
-        "delta": 0.024453999108994262,
-        "p_holm": 1.0,
-        "significant": false,
-        "magnitude": "negligible"
-      },
-      {
-        "a": "state_funded",
-        "b": "mainstream",
-        "z": -0.6512238458621079,
-        "p_raw": 0.5149019993896111,
-        "delta": -0.051810949764173886,
-        "p_holm": 1.0,
-        "significant": false,
-        "magnitude": "negligible"
-      },
-      {
-        "a": "mainstream",
-        "b": "alternative",
-        "z": -1.0307188525941158,
-        "p_raw": 0.30267268130556135,
-        "delta": -0.0446172791496533,
-        "p_holm": 1.0,
-        "significant": false,
-        "magnitude": "negligible"
-      }
-    ]
-  },
-  "news_block": {
-    "news_n": 1290,
-    "news_mean": -0.3450944958153621,
-    "news_median": -0.37439264357089996,
-    "news_negativity": 0.6612403100775194,
-    "rest_n": 8788,
-    "rest_mean": -0.18336026349690357,
-    "rest_median": -0.05400201678276062,
-    "rest_negativity": 0.41283568502503415,
-    "mannwhitney_p": 3.6266376541684564e-54,
-    "cliffs_delta": -0.26674976094956826,
-    "mean_gap": -0.16173423231845854,
-    "within_news_kruskal_h": 2.9691308072665703,
-    "within_news_p": 0.22660079916408,
-    "within_news_homogeneous": true
-  },
-  "adjusted_model": {
-    "r_squared": 0.07331544005375557,
-    "n_obs": 10078,
-    "n_clusters": 2642,
-    "coefficients": {
-      "Intercept": {
-        "beta": 0.021405916259121888,
-        "se": 0.08640859324064402,
-        "p": 0.804344075665602
-      },
-      "C(category)[T.other]": {
-        "beta": 0.014166431519727928,
-        "se": 0.012683071687175543,
-        "p": 0.26401318931696494
-      },
-      "C(category)[T.archive]": {
-        "beta": 0.036670643784262706,
-        "se": 0.015629839858785487,
-        "p": 0.018966208993320122
-      },
-      "C(category)[T.state_funded]": {
-        "beta": -0.11332896300242633,
-        "se": 0.024669138825948397,
-        "p": 4.349190350130065e-06
-      },
-      "C(category)[T.institutional]": {
-        "beta": -0.022281563822651604,
-        "se": 0.014607201571291759,
-        "p": 0.12716382053068342
-      },
-      "C(category)[T.mainstream]": {
-        "beta": -0.1039904838249834,
-        "se": 0.01775978885462597,
-        "p": 4.7589292606237416e-09
-      },
-      "C(category)[T.alternative]": {
-        "beta": -0.054940954174201084,
-        "se": 0.030884528700169337,
-        "p": 0.07525368363945384
-      },
-      "C(topic)[T.Elections / Politics]": {
-        "beta": 0.23206622610012764,
-        "se": 0.08388089683318227,
-        "p": 0.005664144039292608
-      },
-      "C(topic)[T.Geopolitics / War]": {
-        "beta": 0.06650158928837012,
-        "se": 0.08301638948681173,
-        "p": 0.42309356210195015
-      },
-      "C(topic)[T.Identity / Society]": {
-        "beta": -0.08094103197273546,
-        "se": 0.09063008409944079,
-        "p": 0.37180773601475536
-      },
-      "C(topic)[T.Other / Misc]": {
-        "beta": -0.05393154283104101,
-        "se": 0.08205280276644955,
-        "p": 0.5110018605843273
-      },
-      "log_len": {
-        "beta": -0.03913012542011653,
-        "se": 0.005474294852291337,
-        "p": 8.806703220499996e-13
-      }
+  "network_orientation": {
+    "full_assortativity": 0.05369370063942874,
+    "news_nodes": 100,
+    "news_edges": 97,
+    "news_composition": {
+      "mainstream": 68,
+      "alternative": 20,
+      "state_funded": 12
+    },
+    "news_assortativity": -0.041978798586572226,
+    "alt_alt_observed": 1,
+    "alt_alt_expected": 0.7292,
+    "alt_alt_p": 0.592,
+    "mean_degree": {
+      "mainstream": 2.2058823529411766,
+      "alternative": 0.95,
+      "state_funded": 2.0833333333333335
     }
   },
   "other_breakdown": {
@@ -548,6 +244,15 @@
     "communities": [
       {
         "size": 198,
+        "composition": {
+          "mainstream": 59,
+          "other": 55,
+          "institutional": 31,
+          "social_media": 15,
+          "alternative": 14,
+          "archive": 14,
+          "state_funded": 10
+        },
         "members": [
           "youtube.com",
           "en.wikipedia.org",
@@ -556,24 +261,40 @@
           "archive.ph",
           "dailymail.com",
           "express.co.uk",
-          "independent.co.uk"
+          "itv.com"
         ]
       },
       {
         "size": 30,
+        "composition": {
+          "other": 19,
+          "mainstream": 4,
+          "archive": 3,
+          "institutional": 2,
+          "state_funded": 1,
+          "social_media": 1
+        },
         "members": [
           "files.catbox.moe",
           "t.me",
           "google.com",
           "archive.today",
           "lostarmour.info",
+          "scribblemaps.com",
           "liveuamap.com",
-          "firms.modaps.eosdis.nasa.gov",
-          "scribblemaps.com"
+          "divgen.ru"
         ]
       },
       {
         "size": 29,
+        "composition": {
+          "social_media": 8,
+          "other": 7,
+          "archive": 5,
+          "alternative": 4,
+          "institutional": 4,
+          "mainstream": 1
+        },
         "members": [
           "twitter.com",
           "pastebin.com",
@@ -581,41 +302,57 @@
           "truthsocial.com",
           "tiktok.com",
           "whitehouse.gov",
-          "trumplibrary.gov",
-          "thetrumparchive.com"
+          "donaldjtrump.com",
+          "trumplibrary.gov"
         ]
       },
       {
         "size": 16,
+        "composition": {
+          "other": 8,
+          "mainstream": 4,
+          "archive": 2,
+          "social_media": 1,
+          "state_funded": 1
+        },
         "members": [
           "rentry.org",
           "marinetraffic.com",
           "oilprice.com",
-          "lebanon.liveuamap.com",
+          "globe.adsbexchange.com",
           "flightaware.com",
           "tzevaadom.co.il",
-          "vesselfinder.com",
-          "globe.adsbexchange.com"
+          "lebanon.liveuamap.com",
+          "flightradar24.com"
         ]
       },
       {
         "size": 11,
+        "composition": {
+          "other": 7,
+          "alternative": 2,
+          "social_media": 1,
+          "institutional": 1
+        },
         "members": [
           "odysee.com",
           "einprozent.de",
-          "podcast.einprozent.de",
           "schiebt-sie-ab.de",
+          "linke-gewalt.info",
+          "podcast.einprozent.de",
           "wahlrecht.de",
-          "kvltgames.com",
           "solifonds.me",
-          "linke-gewalt.info"
+          "protestkarte.de"
         ]
       },
       {
         "size": 2,
+        "composition": {
+          "institutional": 2
+        },
         "members": [
-          "eia.gov",
-          "energy.gov"
+          "energy.gov",
+          "eia.gov"
         ]
       }
     ]

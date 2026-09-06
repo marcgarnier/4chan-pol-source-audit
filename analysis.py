@@ -1,16 +1,23 @@
 """Analyses statistiques du corpus /pol/, telles que spécifiées dans METHODOLOGY.md.
 
 Produit tous les chiffres cités dans l'article : parts de catégories avec
-intervalles de Wilson (§3.1), concentration HHI/Gini (§3.1), Kruskal-Wallis +
-Dunn/Holm + tailles d'effet (§3.2), modèle ajusté (§3.2), décomposition du
-bucket "Other" (§4.4), réseau de co-citation (§3.3) et mesure du taux de
-disparition des posts (§5.1).
+intervalles de Wilson (§3.1), concentration HHI/Gini (§3.1), structure du réseau
+de co-citation et assortativité par orientation (§3.3), sous-analyse du cluster
+OSINT, et mesure du taux de disparition des posts (§5.1).
 
-Lit `pol.db` — la base est la source de vérité, `sentiment_db.py` doit avoir
-tourné au préalable.
+**Le sentiment est exclu de l'analyse publiée.** Le modèle n'a jamais été validé
+sur du texte /pol/ : l'ironie y est lue au premier degré, les insultes de
+registre sont comptées comme de l'hostilité, 42 % des posts cités dépassent la
+troncature à 128 tokens, et le score porte sur le post entier plutôt que sur
+l'attitude envers la source citée. Publier une mesure invalidée aurait fondé la
+conclusion sur un instrument non calibré. Le code reste accessible derrière
+`--with-sentiment` pour qui reprendrait le travail après validation annotée.
 
-    python analysis.py                  # tables + results/analysis.json
-    python analysis.py --no-figures     # sans la courbe de Lorenz
+Lit `pol.db` — la base est la source de vérité.
+
+    python analysis.py                    # tables + results/analysis.json
+    python analysis.py --no-figures       # sans les figures
+    python analysis.py --with-sentiment   # rejoue les tests exclus
 """
 import argparse
 import json
@@ -149,7 +156,6 @@ def load(db_path: str):
           JOIN domains d USING(domain)
           JOIN posts   p ON p.post_no = ci.post_no
      LEFT JOIN threads t ON t.thread_no = p.thread_no
-         WHERE ci.compound IS NOT NULL
     """).fetchall()
     meta = {
         "threads": conn.execute("SELECT COUNT(*) FROM threads").fetchone()[0],
@@ -176,13 +182,9 @@ def category_shares(rows, meta):
     out = []
     for cat, k in counts.most_common():
         lo, hi = wilson_ci(k, n)
-        vals = np.array([r[2] for r in rows if r[1] == cat])
         out.append({
             "category": cat, "label": CATEGORY_LABELS.get(cat, cat),
             "n": k, "share": k / n, "ci_low": lo, "ci_high": hi,
-            "mean_sentiment": float(vals.mean()),
-            "sd_sentiment": float(vals.std(ddof=1)) if len(vals) > 1 else 0.0,
-            "negativity_ratio": float((vals < -0.2).mean()),
         })
     return {"total_citations": n, "categories": out}
 
@@ -310,10 +312,78 @@ def other_breakdown(rows):
     }
 
 
+def network_orientation(rows, min_weight=2):
+    """Le réseau de co-citation trie-t-il les médias par orientation ?
+
+    Remplace, sans modèle de langue, la question que le sentiment adressait :
+    si /pol/ entretenait un « écosystème alternatif » distinct, les domaines
+    alternatifs devraient se co-citer entre eux plutôt qu'avec la presse
+    établie. Le test de regroupement préserve le degré : les domaines
+    alternatifs étant peu cités, une permutation naïve des étiquettes leur
+    prêterait une connectivité qu'ils n'ont pas.
+    """
+    import networkx as nx
+
+    rng = np.random.default_rng(0)
+    cat = {r[0]: r[1] for r in rows}
+    by_thread = defaultdict(set)
+    for domain, _, _, _, thread_no, _, _ in rows:
+        by_thread[thread_no].add(domain)
+
+    w = Counter()
+    for domains in by_thread.values():
+        if 2 <= len(domains) <= 40:
+            for a, b in combinations(sorted(domains), 2):
+                w[(a, b)] += 1
+    g = nx.Graph()
+    for (a, b), weight in w.items():
+        if weight >= min_weight:
+            g.add_edge(a, b, weight=weight)
+    if g.number_of_nodes() == 0:
+        return {}
+
+    nx.set_node_attributes(g, {d: cat.get(d, "?") for d in g}, "category")
+    sub = g.subgraph([n for n in g if cat.get(n) in NEWS_CATEGORIES]).copy()
+
+    deg = dict(sub.degree())
+    order = sorted(sub.nodes(), key=lambda n: deg[n])
+    labels = [cat[n] for n in order]
+
+    def alt_alt(lbl):
+        m = dict(zip(order, lbl))
+        return sum(1 for a, b in sub.edges() if m[a] == m[b] == "alternative")
+
+    observed = alt_alt(labels)
+    block = 5  # ne permuter qu'entre voisins de degré comparable
+    null = []
+    for _ in range(5000):
+        perm = labels[:]
+        for i in range(0, len(perm), block):
+            chunk = perm[i : i + block]
+            rng.shuffle(chunk)
+            perm[i : i + block] = chunk
+        null.append(alt_alt(perm))
+    null = np.array(null)
+
+    return {
+        "full_assortativity": float(nx.attribute_assortativity_coefficient(g, "category")),
+        "news_nodes": sub.number_of_nodes(),
+        "news_edges": sub.number_of_edges(),
+        "news_composition": dict(Counter(cat[n] for n in sub)),
+        "news_assortativity": float(nx.attribute_assortativity_coefficient(sub, "category")),
+        "alt_alt_observed": int(observed),
+        "alt_alt_expected": float(null.mean()),
+        "alt_alt_p": float((null >= observed).mean()),
+        "mean_degree": {k: float(np.mean([deg[n] for n in sub if cat[n] == k]))
+                        for k in NEWS_CATEGORIES if any(cat[n] == k for n in sub)},
+    }
+
+
 def cocitation(rows, min_weight=2):
     """§3.3 : graphe de co-occurrence des domaines dans un même thread + Louvain."""
     import networkx as nx
 
+    cat = {r[0]: r[1] for r in rows}
     by_thread = defaultdict(set)
     for domain, _, _, _, thread_no, _, _ in rows:
         by_thread[thread_no].add(domain)
@@ -342,6 +412,7 @@ def cocitation(rows, min_weight=2):
         "n_communities": len(comms),
         "communities": [
             {"size": len(c),
+             "composition": dict(Counter(cat.get(d, "?") for d in c).most_common()),
              "members": sorted(c, key=lambda d: -deg[d])[:8]}
             for c in comms[:6]
         ],
@@ -393,12 +464,11 @@ def deletion_rate(saves_dir="4TCT/data/saves"):
     }
 
 
-def paper_figure(res, path):
-    """Figure principale de l'article : parts (IC de Wilson) et tonalité (IC 95% de la moyenne).
+def paper_figure(res, rows, path):
+    """Figure principale : parts de citations (IC de Wilson) et concentration.
 
-    Les barres d'erreur sont des IC de la moyenne, pas des écarts-types : c'est
-    la précision de l'estimation qui est en jeu, et c'est elle qui montre
-    pourquoi Alternative et State-controlled ne permettent aucune inférence.
+    Les deux panneaux portent le résultat descriptif de l'article — ce que /pol/
+    cite, et à quel point c'est concentré — sans dépendre d'aucun modèle.
     """
     import matplotlib
     matplotlib.use("Agg")
@@ -407,33 +477,40 @@ def paper_figure(res, path):
     cats = sorted(res["shares"]["categories"], key=lambda r: -r["n"])
     labels = [c["label"] for c in cats]
     y = np.arange(len(cats))[::-1]
+    news = {"mainstream", "alternative", "state_funded"}
+    colors = ["#8c2d04" if c["category"] in news else "#1f4e79" for c in cats]
 
-    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 3.6))
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 3.8))
 
     share = np.array([c["share"] for c in cats]) * 100
     lo = share - np.array([c["ci_low"] for c in cats]) * 100
     hi = np.array([c["ci_high"] for c in cats]) * 100 - share
-    ax1.barh(y, share, color="#1f4e79", height=0.6)
+    ax1.barh(y, share, color=colors, height=0.62)
     ax1.errorbar(share, y, xerr=[lo, hi], fmt="none", ecolor="#333", capsize=3, lw=1)
     for yi, c in zip(y, cats):
         ax1.text(c["share"] * 100 + 1.5, yi, f"n={c['n']:,}", va="center", fontsize=8)
+    ax1.set_yticks(y)
+    ax1.set_yticklabels(labels, fontsize=9)
     ax1.set_xlabel("Share of citation events (%, 95% Wilson CI)")
     ax1.set_xlim(0, 58)
     ax1.set_title("(a) What /pol/ cites", loc="left", fontsize=10)
+    ax1.text(0.97, 0.06, "news outlets in red\n(12.8% combined)", transform=ax1.transAxes,
+             ha="right", fontsize=8, color="#8c2d04")
 
-    mean = np.array([c["mean_sentiment"] for c in cats])
-    err = np.array([1.96 * c["sd_sentiment"] / math.sqrt(c["n"]) for c in cats])
-    ax2.errorbar(mean, y, xerr=err, fmt="o", color="#8c2d04", ecolor="#8c2d04",
-                 capsize=3, lw=1.2, markersize=5)
-    ax2.axvline(0, color="#999", lw=0.8)
-    ax2.set_xlabel("Mean compound sentiment (95% CI of the mean)")
-    ax2.set_title("(b) Tone of the surrounding discussion", loc="left", fontsize=10)
+    counts = np.sort(np.array(list(Counter(r[0] for r in rows).values()), dtype=float))
+    cum = np.concatenate([[0], np.cumsum(counts) / counts.sum()])
+    x = np.linspace(0, 1, len(cum))
+    ax2.plot([0, 1], [0, 1], "--", color="#999", lw=1, label="Perfect equality")
+    ax2.plot(x, cum, color="#1f4e79", lw=2,
+             label=f"Domains (Gini = {res['concentration']['gini']:.3f})")
+    ax2.fill_between(x, cum, x, color="#1f4e79", alpha=0.12)
+    ax2.set_xlabel("Cumulative share of unique domains")
+    ax2.set_ylabel("Cumulative share of citations")
+    ax2.legend(loc="upper left", frameon=False, fontsize=8)
+    ax2.set_title("(b) How concentrated", loc="left", fontsize=10)
 
     for ax in (ax1, ax2):
-        ax.set_yticks(y)
-        ax.set_yticklabels(labels, fontsize=9)
         ax.spines[["top", "right"]].set_visible(False)
-    ax2.set_yticklabels([])
 
     fig.tight_layout()
     Path(path).parent.mkdir(parents=True, exist_ok=True)
@@ -469,33 +546,43 @@ def lorenz_figure(rows, path):
 
 # --------------------------------------------------------------------------
 
-def main(db, out_json, make_figures):
+def main(db, out_json, make_figures, with_sentiment=False):
     rows, meta = load(db)
     if not rows:
-        raise SystemExit("Aucune citation avec sentiment : lancer sentiment_db.py d'abord.")
+        raise SystemExit("Aucune citation en base : lancer build_db.py d'abord.")
 
     res = {
         "corpus": meta,
         "shares": category_shares(rows, meta),
         "concentration": concentration(rows),
-        "sentiment": sentiment_tests(rows),
-        "news_block": news_block_test(rows),
-        "adjusted_model": adjusted_model(rows),
+        "network_orientation": network_orientation(rows),
         "other_breakdown": other_breakdown(rows),
         "cocitation": cocitation(rows),
         "deletion": deletion_rate(),
     }
 
-    c, s, k = res["corpus"], res["shares"], res["sentiment"]
+    # Le sentiment est exclu de l'analyse publiée : le modèle n'a jamais été
+    # validé sur du texte /pol/ (ironie lue au premier degré, insultes de
+    # registre comptées comme hostilité, 42 % des posts tronqués à 128 tokens)
+    # et le score porte sur le post entier, pas sur l'attitude envers la source.
+    # Le code reste disponible derrière --with-sentiment pour qui voudrait le
+    # reprendre après une validation annotée.
+    if with_sentiment:
+        scored = [r for r in rows if r[2] is not None]
+        if scored:
+            res["sentiment"] = sentiment_tests(scored)
+            res["news_block"] = news_block_test(scored)
+            res["adjusted_model"] = adjusted_model(scored)
+
+    c, s = res["corpus"], res["shares"]
     print(f"\nCorpus : {c['posts']:,} posts / {c['threads']:,} threads / "
           f"{c['citations']:,} citations / {c['domains']:,} domaines "
           f"/ {c['days']} jours ({c['window'][0]} -> {c['window'][1]})")
 
-    print(f"\n{'Catégorie':18}{'n':>7}{'part':>9}{'IC 95%':>18}{'sentiment':>12}")
+    print(f"\n{'Catégorie':22}{'n':>7}{'part':>9}{'IC 95% (Wilson)':>20}")
     for r in s["categories"]:
-        ci = f"[{r['ci_low']*100:.1f},{r['ci_high']*100:.1f}]"
-        print(f"{r['label']:18}{r['n']:>7,}{r['share']*100:>8.1f}%{ci:>18}"
-              f"{r['mean_sentiment']:>12.3f}")
+        ci = f"[{r['ci_low']*100:.1f}, {r['ci_high']*100:.1f}]"
+        print(f"{r['label']:22}{r['n']:>7,}{r['share']*100:>8.1f}%{ci:>20}")
 
     cc = res["concentration"]
     print(f"\nConcentration : Gini={cc['gini']:.3f}  HHI*={cc['hhi_normalized']:.3f}  "
@@ -503,21 +590,21 @@ def main(db, out_json, make_figures):
           f"top-10={cc['top10_share']*100:.1f}%  "
           f"{cc['domains_for_half']} domaines = 50% des citations")
 
-    print(f"\nKruskal-Wallis : H={k['kruskal_h']:.1f}, p={k['kruskal_p']:.3g}, "
-          f"epsilon^2={k['epsilon_squared']:.4f}")
-    print(f"{'paire':34}{'z':>8}{'p (Holm)':>12}{'delta':>9}  magnitude")
-    for r in k["posthoc"][:8]:
-        pair = f"{CATEGORY_LABELS.get(r['a'],r['a'])} vs {CATEGORY_LABELS.get(r['b'],r['b'])}"
-        print(f"{pair:34}{r['z']:>8.2f}{r['p_holm']:>12.3g}{r['delta']:>9.3f}  {r['magnitude']}")
+    no = res["network_orientation"]
+    if no:
+        print(f"\nOrientation dans le réseau de co-citation :")
+        print(f"  sous-graphe médias : {no['news_nodes']} noeuds, {no['news_edges']} arêtes")
+        print(f"  assortativité par orientation : {no['news_assortativity']:+.4f} "
+              f"(graphe complet : {no['full_assortativity']:+.4f})")
+        print(f"  arêtes alternative--alternative : observé={no['alt_alt_observed']}, "
+              f"attendu={no['alt_alt_expected']:.2f} (degré préservé), "
+              f"p={no['alt_alt_p']:.3f}")
+        print("  degré moyen : " + ", ".join(f"{k}={v:.1f}" for k, v in no['mean_degree'].items()))
 
-    nb = res["news_block"]
-    print(f"\nMédias ({nb['news_n']:,}) vs non-médias ({nb['rest_n']:,}) : "
-          f"{nb['news_mean']:+.3f} contre {nb['rest_mean']:+.3f}, "
-          f"p={nb['mannwhitney_p']:.3g}, delta={nb['cliffs_delta']:+.3f} "
-          f"({interpret_delta(nb['cliffs_delta'])})")
-    print(f"  homogénéité interne du bloc médias : H={nb['within_news_kruskal_h']:.2f}, "
-          f"p={nb['within_news_p']:.3f} -> "
-          f"{'homogène' if nb['within_news_homogeneous'] else 'hétérogène'}")
+    if with_sentiment and "news_block" in res:
+        nb = res["news_block"]
+        print(f"\n[--with-sentiment, hors analyse publiée] médias {nb['news_mean']:+.3f} "
+              f"vs {nb['rest_mean']:+.3f}, delta={nb['cliffs_delta']:+.3f}")
 
     ob, dl = res["other_breakdown"], res["deletion"]
     print(f"\nCluster OSINT : {ob['osint_citations']:,} citations "
@@ -535,14 +622,15 @@ def main(db, out_json, make_figures):
 
     Path(out_json).parent.mkdir(parents=True, exist_ok=True)
     serializable = {k2: v for k2, v in res.items()}
-    serializable["adjusted_model"] = {k2: v for k2, v in res["adjusted_model"].items()
-                                      if k2 != "summary_text"}
+    if "adjusted_model" in res:
+        serializable["adjusted_model"] = {k2: v for k2, v in res["adjusted_model"].items()
+                                          if k2 != "summary_text"}
     with open(out_json, "w", encoding="utf-8") as f:
         json.dump(serializable, f, indent=2, ensure_ascii=False)
     print(f"\nRésultats complets : {out_json}")
 
     if make_figures:
-        paper_figure(res, "figures_real/fig_main.png")
+        paper_figure(res, rows, "figures_real/fig_main.png")
         lorenz_figure(rows, "figures_real/fig3_lorenz.png")
 
 
@@ -551,5 +639,7 @@ if __name__ == "__main__":
     ap.add_argument("--db", default="pol.db")
     ap.add_argument("--out", default="results/analysis.json")
     ap.add_argument("--no-figures", action="store_true")
+    ap.add_argument("--with-sentiment", action="store_true",
+                    help="Rejoue les tests de sentiment exclus de l'analyse publiée")
     args = ap.parse_args()
-    main(args.db, args.out, not args.no_figures)
+    main(args.db, args.out, not args.no_figures, args.with_sentiment)
