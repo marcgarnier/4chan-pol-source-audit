@@ -7,9 +7,10 @@ Source LaTeX de l'article, prêt pour soumission arXiv.
 | Fichier | Rôle |
 |---|---|
 | `main.tex` | Source complet, autonome |
-| `fig_main.png` | Figure 1 — parts de citations (IC de Wilson) et tonalité (IC 95 % de la moyenne) |
-| `fig3_lorenz.png` | Figure 2 — courbe de Lorenz de la concentration |
-| `main.pdf` | Rendu compilé (9 pages) |
+| `fig_main.png` | Figure 1 — parts de citations (IC de Wilson) et courbe de Lorenz |
+| `main.pdf` | Rendu compilé (10 pages) |
+| `main.docx` | Version Word, pour relecture ou soumission en .docx |
+| `make_docx.py` | Convertisseur LaTeX vers Word |
 
 ## Compilation
 
@@ -49,9 +50,27 @@ Information Networks) en croisée.
 Tous les nombres de l'article sortent de `analysis.py`, à la racine du dépôt :
 
 ```
-python sentiment_db.py    # remplit le sentiment dans pol.db
 python analysis.py        # tables, results/analysis.json, figures
 ```
 
+Le sentiment ne fait pas partie de l'analyse publiée (voir §3.4 de l'article).
+`sentiment_db.py` et `analysis.py --with-sentiment` restent disponibles pour qui
+reprendrait ce volet après une validation annotée.
+
 Les figures produites dans `figures_real/` sont à recopier ici si elles
 changent.
+
+## Version Word
+
+```
+python make_docx.py
+```
+
+Le lecteur LaTeX de pandoc ignore `\citet` et `\citep` faute de base
+bibliographique, ce qui **supprime silencieusement les appels de citation** et
+laisse des phrases amputées. `make_docx.py` lit les `\bibitem[Auteurs(Année)]`
+du document et développe les appels en texte avant de passer la main à pandoc,
+de sorte que la bibliographie de `main.tex` reste la source unique. Ne pas
+convertir avec `pandoc` seul.
+
+Requiert pandoc (`winget install --id JohnMacFarlane.Pandoc`).
