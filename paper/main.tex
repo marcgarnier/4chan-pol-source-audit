@@ -76,18 +76,17 @@ displacing the legacy press.
 
 Testing the claim requires knowing what /pol/ cites, in what proportion, and
 whether its sources organise along a partisan axis. This paper supplies that
-measurement for a bounded window. Our contributions:
-
-\begin{enumerate}
-\item \textbf{A citation-level audit} of 10{,}078 citation events with
-proportions as Wilson score intervals, showing news of any kind at 12.8\%.
-\item \textbf{A concentration analysis} quantifying how narrow the diet is.
-\item \textbf{A structural test} of the counter-canon claim: co-citation
-assortativity by editorial orientation, which finds none.
-\item \textbf{A published codebook} of 203 manually coded domains, and evidence
-that US-centric source taxonomies undercount news 2.8-fold here.
-\item \textbf{A measured floor on survivorship bias} from repeated captures.
-\end{enumerate}
+measurement for a bounded window, and makes five contributions. The first is a
+\textbf{citation-level audit} of 10{,}078 citation events, with proportions
+reported as Wilson score intervals, which places news of any kind at 12.8\% of
+the total. The second is a \textbf{concentration analysis} quantifying how
+narrow the resulting diet is. The third is a \textbf{structural test} of the
+counter-canon claim, measuring co-citation assortativity by editorial
+orientation, which finds none. The fourth is a \textbf{published codebook} of
+203 manually coded domains, together with evidence that US-centric source
+taxonomies undercount news on this corpus by a factor of 2.8. The fifth is a
+\textbf{measured floor on survivorship bias}, derived from repeated captures of
+the same threads.
 
 \section{Theoretical framework and prior literature}
 \label{sec:theory}
@@ -197,21 +196,18 @@ with consequences we quantify in Section~\ref{sec:coding}.
 
 The framework yields three propositions, each stated so that it can fail.
 
-\begin{description}
-\item[\textnormal{\textbf{H1 (counter-canon).}}] If /pol/ maintains an
-alternative media ecosystem, alternative outlets will be numerically
-substantial, mutually co-cited and structurally central in the citation network.
+\textbf{H1 (counter-canon)} holds that if /pol/ maintains an alternative media
+ecosystem, alternative outlets will be numerically substantial, mutually
+co-cited and structurally central in the citation network.
 Sections~\ref{sec:shares} and \ref{sec:network} test all three implications.
-\item[\textnormal{\textbf{H2 (infrastructure).}}] If circulation is organised by
-platform affordance and preservation need, platform and archive hosts will
-dominate the citation supply, and co-citation communities will partition by
-subject matter in place of editorial orientation.
-Sections~\ref{sec:shares} and \ref{sec:network} test both parts.
-\item[\textnormal{\textbf{H3 (instrument dependence).}}] If source taxonomies
-built for the American media market are applied to an internationally sourced
-corpus, measured news share will be biased downward by an amount large enough to
-alter substantive conclusions. Section~\ref{sec:coding} quantifies it.
-\end{description}
+\textbf{H2 (infrastructure)} holds that if circulation is organised by platform
+affordance and preservation need, platform and archive hosts will dominate the
+citation supply, and co-citation communities will partition by subject matter in
+place of editorial orientation. The same two sections test both parts.
+\textbf{H3 (instrument dependence)} holds that if source taxonomies built for
+the American media market are applied to an internationally sourced corpus,
+measured news share will be biased downward by an amount large enough to alter
+substantive conclusions, which Section~\ref{sec:coding} quantifies.
 
 H1 and H2 are rivals over the same evidence, which is what makes the test
 informative. H3 conditions both, since any estimate of news share is a joint
@@ -279,19 +275,16 @@ ongoing wars.
 
 We therefore hand-coded the 200 most-cited unclassified domains, covering 74.9\%
 of that bucket, and publish the result as a versioned codebook of 203 domains.
-Four rules were fixed in advance and applied uniformly:
-
-\begin{enumerate}
-\item \textbf{Aggregators} (\texttt{msn.com}, \texttt{yahoo.com}) are coded by
-what they redistribute; search engines and link shorteners are not news.
-\item \textbf{State-controlled} is defined by ownership and funding, not
-editorial independence. This groups Al Jazeera with the BBC, ABC (Australia),
-PBS, NHK, Deutsche Welle, Anadolu, Channel News Asia and Minnesota Public Radio,
-and moves the BBC (135 citations) out of mainstream.
-\item \textbf{Opinion Substacks and blogs} count as alternative media.
-\item \textbf{Campaign sites} stay unclassified; state media outlets remain
-state-controlled.
-\end{enumerate}
+Four rules were fixed in advance and applied uniformly. \textbf{Aggregators}
+such as \texttt{msn.com} and \texttt{yahoo.com} are coded by what they
+redistribute, while search engines and link shorteners fall outside the news
+categories altogether. \textbf{State-controlled} status takes ownership and
+funding as its criterion, setting editorial independence aside, which groups Al
+Jazeera with the BBC, ABC (Australia), PBS, NHK, Deutsche Welle, Anadolu,
+Channel News Asia and Minnesota Public Radio, and moves the BBC (135 citations)
+out of mainstream. \textbf{Opinion Substacks and blogs} count as alternative
+media, since they produce editorial content of their own. \textbf{Campaign
+sites} remain unclassified, while state media outlets stay state-controlled.
 
 Manual coding raised news media from 4.6\% to \textbf{12.8\%} of citations, a
 2.8-fold undercount by the automated pass, and cut the unclassified bucket from
