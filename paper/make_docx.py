@@ -53,16 +53,32 @@ def expand_citations(tex: str, entries: dict[str, tuple[str, str]]) -> tuple[str
                 out.append(entries[key])
         return out
 
+    def link(key, text):
+        """Lien interne vers l'entrée de bibliographie (signet Word, ancre PDF)."""
+        return f"\\hyperlink{{ref-{key}}}{{{text}}}"
+
+    def keys_of(group):
+        return [k.strip() for k in group.split(",")]
+
     def do_citet(m):
-        parts = resolve(m.group(1))
-        return "; ".join(f"{a} ({y})" if y else a for a, y in parts)
+        parts, keys = resolve(m.group(1)), keys_of(m.group(1))
+        return "; ".join(link(k, f"{a} ({y})" if y else a)
+                         for k, (a, y) in zip(keys, parts))
 
     def do_citep(m):
-        parts = resolve(m.group(1))
-        return "(" + "; ".join(f"{a}, {y}" if y else a for a, y in parts) + ")"
+        parts, keys = resolve(m.group(1)), keys_of(m.group(1))
+        inner = "; ".join(link(k, f"{a}, {y}" if y else a)
+                          for k, (a, y) in zip(keys, parts))
+        return f"({inner})"
 
     tex = re.sub(r"\\citet\{([^}]+)\}", do_citet, tex)
     tex = re.sub(r"\\citep\{([^}]+)\}", do_citep, tex)
+
+    # Pose l'ancre au début de chaque entrée de bibliographie.
+    tex = BIBITEM.sub(
+        lambda m: f"\\bibitem[{m.group(1)}]{{{m.group(2)}}}\\hypertarget{{ref-{m.group(2)}}}{{}}",
+        tex,
+    )
     return tex, missing
 
 

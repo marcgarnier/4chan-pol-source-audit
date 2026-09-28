@@ -14,6 +14,10 @@
 
 \captionsetup{font=small,labelfont=bf}
 
+% Pas d'alinéa : paragraphes au fer à gauche, séparés par un blanc vertical.
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.7em plus 0.2em minus 0.1em}
+
 \title{\textbf{What /pol/ Actually Cites}\\[0.3em]
 \large A citation-level audit of 278{,}706 posts on 4chan's\\
 Politically Incorrect board}
@@ -93,17 +97,17 @@ the same threads.
 
 \subsection{Fringe platforms as objects of political measurement}
 
-Research on /pol/ began as a measurement problem. \citet{hine2017} assembled
-roughly 8M posts over two and a half months and produced the first systematic
+Research on /pol/ began as a measurement problem. A corpus of roughly 8M posts
+gathered over two and a half months yielded the first systematic
 characterisation of the board, covering posting dynamics, the prevalence of hate
 speech (12\% of /pol/ posts contained a term from a crowdsourced hate lexicon,
 against 2.2\% of a comparison sample of tweets), and the board's role in
-coordinating harassment campaigns against other platforms.
-\citet{papasavva2020} extended the empirical base to 134.5M posts across 3.5
-years, adding toxicity scores and named-entity annotations, and establishing
-dataset conventions that much later work inherits. They report that 37\% of
-posts carry a Perspective \textsc{toxicity} score above $0.5$ and that threads
-average 39.6 posts.
+coordinating harassment campaigns against other platforms \citep{hine2017}. The
+empirical base was later extended to 134.5M posts across 3.5 years, with
+toxicity scores and named-entity annotations attached and dataset conventions
+established that much subsequent work inherits \citep{papasavva2020}. That
+corpus places 37\% of posts above a Perspective \textsc{toxicity} score of $0.5$
+and puts the average thread at 39.6 posts.
 
 Both studies treat the board as politically significant for what it produces,
 meaning memes, vocabulary and coordinated aggression, and for how it behaves,
@@ -113,12 +117,13 @@ external sources the board circulates. That gap matters, because claims made
 about /pol/ in political communication typically concern its information supply
 rather than its output.
 
-\citet{hine2017} come closest. Their media analysis ranks external domains
-posted to /pol/ and finds YouTube an order of magnitude ahead of the next two
-sites, Wikipedia and Twitter, followed by Archive.is, Wikileaks, pastebin and
-DonaldJTrump.com, with the Daily Mail and Breitbart the first news outlets to
-appear. They read the absence of CNN, the BBC and the Guardian from the leading
-ranks as an indication of how polarised opinion on the board has become. That
+The 2016 measurement comes closest \citep{hine2017}. Its media analysis ranks
+external domains posted to /pol/ and finds YouTube an order of magnitude ahead
+of the next two sites, Wikipedia and Twitter, followed by Archive.is, Wikileaks,
+pastebin and DonaldJTrump.com, with the Daily Mail and Breitbart the first news
+outlets to appear. That study reads the absence of CNN, the BBC and the Guardian
+from the leading ranks as an indication of how polarised opinion on the board
+has become. That
 inference rests on rank position within an undifferentiated domain list, a
 quantity sensitive to how many non-news domains crowd the upper ranks, and it
 leaves the share of citations going to established outlets distinct from the
@@ -149,14 +154,14 @@ without recourse to any model of what participants think.
 \subsection{Circulation, platforms and the archive}
 
 A parallel literature treats fringe communities as nodes in a cross-platform
-circulation system. \citet{zannettou2018memes} trace the propagation of images
-and links between fringe communities such as 4chan and Gab and mainstream
-networks such as Twitter and Reddit, establishing that the relevant object of
-study is the movement of artefacts across platform boundaries rather than the
-editorial content of any one source. \citet{zannettou2019web} survey the
-measurement of rumours, hoaxes and unreliable sourcing within online
-communities, and situate source-sharing as one observable trace of
-disinformation dynamics.
+circulation system. The propagation of images and links between fringe
+communities such as 4chan and Gab and mainstream networks such as Twitter and
+Reddit has been traced in detail, establishing that the relevant object of study
+is the movement of artefacts across platform boundaries rather than the
+editorial content of any one source \citep{zannettou2018memes}. A companion
+survey of rumours, hoaxes and unreliable sourcing within online communities
+situates source-sharing as one observable trace of disinformation dynamics
+\citep{zannettou2019web}.
 
 This literature suggests a rival account of what organises a fringe community's
 information supply. Circulation may follow platform affordance, meaning what a
@@ -169,22 +174,22 @@ participants a standing incentive to mirror and archive. And the board's
 dominant subject matter during our window is armed conflict, a domain in which
 primary-source tooling substitutes for reporting.
 
-The second feature connects to crisis informatics. \citet{starbird2014} examine
-how participants in online discussion assemble accounts of unfolding events from
-primary sources, live tracking tools and archived material, a practice that
-operates largely outside the institutional press. Live war mapping, vessel
+The second feature connects to crisis informatics. Participants in online
+discussion have been shown to assemble accounts of unfolding events from primary
+sources, live tracking tools and archived material, a practice that operates
+largely outside the institutional press \citep{starbird2014}. Live war mapping, vessel
 tracking and flight tracking belong to that repertoire, and any audit that codes
 sources only as news or not-news will record them as residue.
 
 \subsection{Source taxonomies as instruments}
 
 A final literature bears on the instrument rather than the object.
-\citet{bozarth2020} demonstrate that substantive conclusions about the
-circulation of fake news depend materially on which groundtruth labelling scheme
-a researcher adopts, comparing AllSides, Ad Fontes and Media Bias/Fact Check and
-showing that the choice shifts findings. \citet{robertson2018} rely on
-comparable third-party labels when auditing partisan bias in search results,
-which illustrates how widely the practice has been adopted.
+Substantive conclusions about the circulation of fake news depend materially on
+which groundtruth labelling scheme a researcher adopts, as a comparison of
+AllSides, Ad Fontes and Media Bias/Fact Check demonstrates \citep{bozarth2020}.
+Comparable third-party labels anchor audits of partisan bias in search results
+\citep{robertson2018}, which illustrates how widely the practice has been
+adopted.
 
 We take the point one step further. The rating databases that anchor this
 practice are built around the American media market, and their coverage thins
@@ -449,79 +454,75 @@ useful than an unmeasured caveat.
 
 \section{Discussion}
 
-\paragraph{The counter-canon is not there to be found.}
-On this board, in this window, alternative outlets are neither numerous (1.8\% of
-citations) nor connected to one another (one co-citation edge among twenty
-domains) nor central (mean degree below one). They appear as isolated citations
-inside threads organised around topics, next to the mainstream outlets they are
-supposed to displace. Whatever /pol/'s relationship to the legacy press,
-``replaced by an alternative ecosystem'' does not describe the citation
-structure.
+The counter-canon is not there to be found. On this board, in this window,
+alternative outlets are neither numerous (1.8\% of citations) nor connected to
+one another (one co-citation edge among twenty domains) nor central (mean degree
+below one). They appear as isolated citations inside threads organised around
+topics, beside the mainstream outlets they are supposed to displace. Whatever
+/pol/'s relationship to the legacy press, ``replaced by an alternative
+ecosystem'' does not describe the citation structure.
 
-\paragraph{The frame is also mis-scaled.}
-A literature asking whether /pol/ prefers alternative to mainstream media is
-asking about 10.1\% of what /pol/ circulates. Platforms supply more than three
-times as many citations as all news combined; archives alone outnumber any
-single news category. The board's characteristic act is not passing along an
-article but passing along a video, a screenshot, a mirror, or a map.
+The framing is also mis-scaled. A literature asking whether /pol/ prefers
+alternative to mainstream media is asking about 10.1\% of what /pol/ circulates.
+Platforms supply more than three times as many citations as all news combined,
+and archives alone outnumber any single news category. The characteristic act on
+this board is passing along a video, a screenshot, a mirror or a map, with the
+article a comparatively rare object.
 
-\paragraph{A cautionary note on automated source lists.}
-Our first pass, using curated lists derived from US-centric rating databases, put
-news at 4.6\% of citations. Hand-coding put it at 12.8\%. The error was not
-random: it removed British, Australian, Israeli and Ukrainian outlets from a
-corpus whose dominant subject is war outside the United States. Any audit
-applying American media-bias taxonomies to an internationally-sourced corpus
-should expect an undercount of this order and check for it directly.
+The measurement history carries its own lesson. Our first pass, using curated
+lists derived from US-centric rating databases, put news at 4.6\% of citations,
+and hand-coding put it at 12.8\%. The error had a direction, since it removed
+British, Australian, Israeli and Ukrainian outlets from a corpus whose dominant
+subject is war outside the United States. Any audit applying American media-bias
+taxonomies to an internationally sourced corpus should expect an undercount of
+this order and check for it directly.
 
-\paragraph{What we cannot say.}
-Nothing here speaks to how /pol/ \emph{treats} the sources it cites. Citation is
-not endorsement, and on a board whose characteristic mode is derision it may
-often be the opposite. Establishing that would require the stance measurement
-this paper declines to fake (Section~\ref{sec:nosentiment}), and it remains the
-obvious next study.
+A final word is owed on what these results do not reach. Nothing here speaks to
+how /pol/ \emph{treats} the sources it cites. Citation is not endorsement, and on
+a board whose characteristic mode is derision it may often be the opposite.
+Establishing that would require the stance measurement this paper declines to
+fake (Section~\ref{sec:nosentiment}), and it remains the obvious next study.
 
 \section{Limitations}
 \label{sec:limits}
 
-\paragraph{The codebook is single-coder.}
-The 203 domains were coded by one author against fixed written rules, with 12
-uncertain cases flagged. No second coder annotated independently, so no Cohen's
-$\kappa$ or Krippendorff's $\alpha$ is reported. Structural
-categories (platform, archive, institutional) rest on deterministic rules and
-are robust; the news subdivisions rest on that single judgment.
+The codebook is the work of a single coder. The 203 domains were coded by one
+author against fixed written rules, with 12 uncertain cases flagged. No second
+coder annotated independently, so no Cohen's $\kappa$ or Krippendorff's $\alpha$
+is reported. Structural categories (platform, archive, institutional) rest on
+deterministic rules and are robust, while the news subdivisions rest on that
+single judgment.
 
-\paragraph{The network test is small.}
-Twenty alternative domains and 97 news-subgraph edges is a thin basis. The
-absence of clustering is consistent with the descriptive picture and with the
-community structure, but a larger corpus could reveal structure this one cannot
-resolve. We report it as evidence against the counter-canon claim, not as proof
-of its impossibility.
+The network test is small. Twenty alternative domains and 97 news-subgraph edges
+make a thin basis. The absence of clustering is consistent with the descriptive
+picture and with the community structure, though a larger corpus could reveal
+structure this one cannot resolve. We report it as evidence against the
+counter-canon claim, stopping short of any proof that such clustering is
+impossible.
 
-\paragraph{Coding is single-axis.}
-A fuller design codes each domain on three orthogonal axes (medium type,
-editorial orientation, ownership) against external databases, since forcing
-them into one label is what makes Fox News, BBC and France 24 irreconcilable. We
-code medium type only, with ownership folded into the state-controlled category
-by rule. Our orientation test inherits that coarseness: it asks whether
-mainstream, alternative and state-controlled outlets cluster, not whether a
-finer left--right gradient does.
+Coding runs on a single axis. A fuller design codes each domain on three
+orthogonal axes (medium type, editorial orientation, ownership) against external
+databases, since forcing them into one label is what makes Fox News, BBC and
+France 24 irreconcilable. We code medium type only, with ownership folded into
+the state-controlled category by rule. The orientation test inherits that
+coarseness, asking whether mainstream, alternative and state-controlled outlets
+cluster, and leaving a finer left-right gradient untested.
 
-\paragraph{A quarter of citations remain unclassified.}
-23.6\% fall outside all categories, concentrated in a long tail of which 904
-domains are cited exactly once. Hand-coding covered 74.9\% of the original
-unclassified bucket; the remainder could contain further news outlets, which
-would raise the 12.8\% figure again.
+A quarter of citations remain unclassified. Some 23.6\% fall outside all
+categories, concentrated in a long tail of which 904 domains are cited exactly
+once. Hand-coding covered 74.9\% of the original unclassified bucket, and the
+remainder could contain further news outlets, which would raise the 12.8\%
+figure again.
 
-\paragraph{Survivorship bias is bounded below, not corrected.}
-See Section~\ref{sec:deletion}. Moderation removes the most extreme content
+Survivorship bias is bounded below rather than corrected, as
+Section~\ref{sec:deletion} sets out. Moderation removes the most extreme content
 preferentially, so the surviving corpus is filtered in the direction of the
 phenomenon studied. Source-distribution estimates are relatively robust, since
 deletion would need to correlate with cited-source category.
 
-\paragraph{Scope.}
-One board, 24 daily captures, 45 days. Results describe the surviving, publicly
-visible discourse of /pol/ during that window, and do not generalise across time
-or to other imageboards.
+The scope is one board, 24 daily captures and 45 days. Results describe the
+surviving, publicly visible discourse of /pol/ during that window, and do not
+generalise across time or to other imageboards.
 
 \section{Conclusion}
 
